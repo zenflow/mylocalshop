@@ -1,0 +1,5 @@
+# This file is used by the `hasura` cli
+
+endpoint: http://docker-machine:8080
+# IMPORTANT: You must add an entry to the network `hosts` file making
+# `docker-machine` an alias for your docker-machine ip address

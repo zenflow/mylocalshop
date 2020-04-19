@@ -1,8 +1,5 @@
 FROM hasura/graphql-engine:v1.1.1
 
-# Enable the console
-ENV HASURA_GRAPHQL_ENABLE_CONSOLE=true
-
 CMD graphql-engine \
     --database-url $DATABASE_URL \
     serve \
