@@ -4,7 +4,7 @@
     "clean": "docker-compose down --volumes",
     "start": "docker-compose up --build",
     "apply-migrations": "hasura migrate apply",
-    "edit-database": "hasura console",
+    "console": "hasura console",
     "apply-migrations-to-prod": "hasura migrate apply --admin-secret SECRET --endpoint http://mylocalshop.herokuapp.com"
   },
   "devDependencies": {

@@ -21,5 +21,5 @@ To install this app on Heroku:
     https://hasura.io/docs/1.0/graphql/manual/migrations/auto-apply-migrations.html#auto-apply-migrations
 
 ## TODO
-merge in a next.js app
+web app linting
 handle auth
