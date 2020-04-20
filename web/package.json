@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "fix": "zenflow-lint-js **/*.{ts,tsx,js,jsx} --fix",
+    "lint": "zenflow-lint-js **/*.{ts,tsx,js,jsx}",
+    "test": "npm run lint"
+  },
+  "dependencies": {
+    "next": "^9.3.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@types/node": "^13.13.0",
+    "@types/react": "^16.9.34",
+    "typescript": "^3.8.3",
+    "zenflow-lint-js": "^2.0.0"
+  }
+}
