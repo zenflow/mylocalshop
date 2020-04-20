@@ -3,8 +3,8 @@
   "scripts": {
     "clean": "docker-compose down --volumes",
     "start": "docker-compose up --build",
-    "apply-migrations": "hasura migrate apply",
-    "console": "hasura console",
+    "apply-migrations": "hasura migrate apply --admin-secret admin_secret",
+    "console": "hasura console --admin-secret admin_secret",
     "apply-migrations-to-prod": "hasura migrate apply --admin-secret SECRET --endpoint http://mylocalshop.herokuapp.com"
   },
   "devDependencies": {
