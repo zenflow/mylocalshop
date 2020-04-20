@@ -5,7 +5,8 @@
     "deploy-to-prod": "now deploy --prod"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pg": "^8.0.2"
   },
   "devDependencies": {
     "now": "^18.0.0"
