@@ -1,7 +1,13 @@
 {
   "private": true,
+  "scripts": {
+    "deploy": "now deploy",
+    "deploy-to-prod": "now deploy --prod"
+  },
   "dependencies": {
     "express": "^4.17.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "now": "^18.0.0"
+  }
 }
