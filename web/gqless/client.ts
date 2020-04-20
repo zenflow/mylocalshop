@@ -9,6 +9,7 @@ const fetchQuery: QueryFetcher = async (query, variables) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': 'yes',
     },
     body: JSON.stringify({
       query,

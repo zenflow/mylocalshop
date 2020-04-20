@@ -3,9 +3,10 @@
   "scripts": {
     "clean": "docker-compose down --volumes",
     "start": "docker-compose up --build",
-    "apply-migrations": "hasura migrate apply --admin-secret admin_secret",
-    "console": "hasura console --admin-secret admin_secret",
-    "apply-migrations-to-prod": "hasura migrate apply --admin-secret SECRET --endpoint http://mylocalshop.herokuapp.com"
+    "hasura": "hasura --project engine",
+    "apply-migrations": "yarn hasura migrate apply --admin-secret admin_secret",
+    "console": "yarn hasura console --admin-secret admin_secret",
+    "apply-migrations-to-prod": "yarn hasura migrate apply --admin-secret SECRET --endpoint http://mylocalshop.herokuapp.com"
   },
   "devDependencies": {
     "hasura-cli": "^1.1.1"

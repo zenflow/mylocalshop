@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "lib/server.js",
+      "use": "@now/node",
+      "config": {
+        "includeFiles": [
+          "lib/**"
+        ]
+      }
+    }
+  ],
+  "routes": [
+    { "src": "/.*", "dest": "lib/server.js" }
+  ]
+}
