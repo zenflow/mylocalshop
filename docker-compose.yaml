@@ -7,27 +7,28 @@ services:
     - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgrespassword
-  support:
-    build: ./support
+  hasura-support:
+    build: ./hasura-support
     depends_on:
     - "postgres"
     restart: always
     environment:
       PORT: 8081
       DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
-  engine:
-    build: ./engine
+  hasura-engine:
+    build: ./hasura-engine
     ports:
     - "8080:8080"
     depends_on:
     - "postgres"
-    - "support"
+    - "hasura-support"
     restart: always
     environment:
       PORT: 8080
       DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
-      HASURA_GRAPHQL_ADMIN_SECRET: admin_secret
-      HASURA_GRAPHQL_AUTH_HOOK: http://support:8081/auth-hook
+      HASURA_GRAPHQL_ADMIN_SECRET: admin_secret # here to parallel prod; same value hard-coded in hasura-engine scripts
+      HASURA_SUPPORT_ENDPOINT: http://hasura-support:8081
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      # TODO: what log types? enable them all everywhere
 volumes:
   db_data:

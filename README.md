@@ -27,7 +27,7 @@ Set up `hasura/support`
   - In which directory is your code located? **press enter to use default `./`**
 4. In now.sh Admin, add DATABASE_URL environment variable with same value as found in Heroku admin
 5. Locally, run `yarn deploy-to-prod`
-5. Go back to Config Vars in Heroku Admin and add HASURA_GRAPHQL_AUTH_HOOK=https://<support app name>.now.sh/auth-hook
+5. Go back to Config Vars in Heroku Admin and set `HASURA_SUPPORT_ENDPOINT` to `https://<support app name>.now.sh`
 
 ---
 
