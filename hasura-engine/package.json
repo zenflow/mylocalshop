@@ -3,7 +3,8 @@
   "scripts": {
     "apply-migrations": "hasura migrate apply --admin-secret admin_secret",
     "console": "hasura console --admin-secret admin_secret",
-    "apply-migrations-to-prod": "hasura migrate apply --admin-secret SECRET --endpoint http://mylocalshop.herokuapp.com"
+    "prod-console": "hasura console --admin-secret SECRET --endpoint https://mylocalshop-hasura-engine.herokuapp.com",
+    "prod-apply-migrations": "hasura migrate apply --admin-secret SECRET --endpoint https://mylocalshop-hasura-engine.herokuapp.com"
   },
   "devDependencies": {
     "hasura-cli": "^1.1.1"

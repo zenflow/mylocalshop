@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "clean": "docker-compose down --volumes",
-    "start": "docker-compose up --build"
+    "clean-hasura": "docker-compose down --volumes",
+    "start-hasura": "docker-compose up --build"
   }
 }
