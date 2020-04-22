@@ -12,9 +12,24 @@ Shop local, from home
 
 ## TODO
 
-- handle auth
+- snake_case to camelCase
+- redirect away from protected pages, to login, then back to the requested page
+- error page
+
+- add `me` to remote schema
+- deploy
+- dump production data to migrations
+- create `shops` `products` `shop_products` `categories` `shop_sections` `bundles` & `orders`
+
 - linting
 - testing
+
+- facebook auth provider
+- delete sessions from database both (1) on logout, and (2) when `now > created_at + ttl`
+- fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
+- enable cache control for http://hasura-support/auth-hook
+- use nodemon to develop hasura-support
+- port to typescript
 
 - Simplify deployment and improve production performance by deploying all 3 processes in same way
   - Either

@@ -300,6 +300,20 @@ export const schema = {
   get mutation_root() {
     return new ObjectNode(
       {
+        get delete_sessions() {
+          return new FieldNode(
+            schema.sessions_mutation_response,
+            new Arguments(
+              {
+                get where() {
+                  return new ArgumentsField(schema.sessions_bool_exp, false);
+                }
+              },
+              true
+            ),
+            true
+          );
+        },
         get delete_users() {
           return new FieldNode(
             schema.users_mutation_response,
@@ -311,6 +325,23 @@ export const schema = {
               },
               true
             ),
+            true
+          );
+        },
+        get insert_sessions() {
+          return new FieldNode(
+            schema.sessions_mutation_response,
+            new Arguments({
+              get objects() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.sessions_insert_input, false),
+                  false
+                );
+              },
+              get on_conflict() {
+                return new ArgumentsField(schema.sessions_on_conflict, true);
+              }
+            }),
             true
           );
         },
@@ -326,6 +357,20 @@ export const schema = {
               },
               get on_conflict() {
                 return new ArgumentsField(schema.users_on_conflict, true);
+              }
+            }),
+            true
+          );
+        },
+        get update_sessions() {
+          return new FieldNode(
+            schema.sessions_mutation_response,
+            new Arguments({
+              get _set() {
+                return new ArgumentsField(schema.sessions_set_input, true);
+              },
+              get where() {
+                return new ArgumentsField(schema.sessions_bool_exp, false);
               }
             }),
             true
@@ -358,6 +403,78 @@ export const schema = {
   get query_root() {
     return new ObjectNode(
       {
+        get sessions() {
+          return new FieldNode(
+            new ArrayNode(schema.sessions, false),
+            new Arguments({
+              get distinct_on() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.sessions_select_column, true),
+                  true
+                );
+              },
+              get limit() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get offset() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get order_by() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.sessions_order_by, true),
+                  true
+                );
+              },
+              get where() {
+                return new ArgumentsField(schema.sessions_bool_exp, true);
+              }
+            }),
+            false
+          );
+        },
+        get sessions_aggregate() {
+          return new FieldNode(
+            schema.sessions_aggregate,
+            new Arguments({
+              get distinct_on() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.sessions_select_column, true),
+                  true
+                );
+              },
+              get limit() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get offset() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get order_by() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.sessions_order_by, true),
+                  true
+                );
+              },
+              get where() {
+                return new ArgumentsField(schema.sessions_bool_exp, true);
+              }
+            }),
+            false
+          );
+        },
+        get sessions_by_pk() {
+          return new FieldNode(
+            schema.sessions,
+            new Arguments(
+              {
+                get id() {
+                  return new ArgumentsField(schema.uuid, false);
+                }
+              },
+              true
+            ),
+            true
+          );
+        },
         get users() {
           return new FieldNode(
             new ArrayNode(schema.users, false),
@@ -434,9 +551,438 @@ export const schema = {
       { name: "query_root", extension: ((extensions as any) || {}).query_root }
     );
   },
+  get sessions() {
+    return new ObjectNode(
+      {
+        get created_at() {
+          return new FieldNode(schema.timestamptz, undefined, false);
+        },
+        get id() {
+          return new FieldNode(schema.uuid, undefined, false);
+        },
+        get provider() {
+          return new FieldNode(schema.String, undefined, false);
+        },
+        get token() {
+          return new FieldNode(schema.String, undefined, false);
+        },
+        get user() {
+          return new FieldNode(schema.users, undefined, false);
+        },
+        get user_id() {
+          return new FieldNode(schema.uuid, undefined, false);
+        }
+      },
+      { name: "sessions", extension: ((extensions as any) || {}).sessions }
+    );
+  },
+  get sessions_aggregate() {
+    return new ObjectNode(
+      {
+        get aggregate() {
+          return new FieldNode(
+            schema.sessions_aggregate_fields,
+            undefined,
+            true
+          );
+        },
+        get nodes() {
+          return new FieldNode(
+            new ArrayNode(schema.sessions, false),
+            undefined,
+            false
+          );
+        }
+      },
+      {
+        name: "sessions_aggregate",
+        extension: ((extensions as any) || {}).sessions_aggregate
+      }
+    );
+  },
+  get sessions_aggregate_fields() {
+    return new ObjectNode(
+      {
+        get count() {
+          return new FieldNode(
+            schema.Int,
+            new Arguments({
+              get columns() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.sessions_select_column, true),
+                  true
+                );
+              },
+              get distinct() {
+                return new ArgumentsField(schema.Boolean, true);
+              }
+            }),
+            true
+          );
+        },
+        get max() {
+          return new FieldNode(schema.sessions_max_fields, undefined, true);
+        },
+        get min() {
+          return new FieldNode(schema.sessions_min_fields, undefined, true);
+        }
+      },
+      {
+        name: "sessions_aggregate_fields",
+        extension: ((extensions as any) || {}).sessions_aggregate_fields
+      }
+    );
+  },
+  get sessions_aggregate_order_by() {
+    return new InputNode(
+      {
+        get count() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get max() {
+          return new InputNodeField(schema.sessions_max_order_by, true);
+        },
+        get min() {
+          return new InputNodeField(schema.sessions_min_order_by, true);
+        }
+      },
+      { name: "sessions_aggregate_order_by" }
+    );
+  },
+  get sessions_arr_rel_insert_input() {
+    return new InputNode(
+      {
+        get data() {
+          return new InputNodeField(
+            new ArrayNode(schema.sessions_insert_input, false),
+            false
+          );
+        },
+        get on_conflict() {
+          return new InputNodeField(schema.sessions_on_conflict, true);
+        }
+      },
+      { name: "sessions_arr_rel_insert_input" }
+    );
+  },
+  get sessions_bool_exp() {
+    return new InputNode(
+      {
+        get _and() {
+          return new InputNodeField(
+            new ArrayNode(schema.sessions_bool_exp, true),
+            true
+          );
+        },
+        get _not() {
+          return new InputNodeField(schema.sessions_bool_exp, true);
+        },
+        get _or() {
+          return new InputNodeField(
+            new ArrayNode(schema.sessions_bool_exp, true),
+            true
+          );
+        },
+        get created_at() {
+          return new InputNodeField(schema.timestamptz_comparison_exp, true);
+        },
+        get id() {
+          return new InputNodeField(schema.uuid_comparison_exp, true);
+        },
+        get provider() {
+          return new InputNodeField(schema.String_comparison_exp, true);
+        },
+        get token() {
+          return new InputNodeField(schema.String_comparison_exp, true);
+        },
+        get user() {
+          return new InputNodeField(schema.users_bool_exp, true);
+        },
+        get user_id() {
+          return new InputNodeField(schema.uuid_comparison_exp, true);
+        }
+      },
+      { name: "sessions_bool_exp" }
+    );
+  },
+  get sessions_constraint() {
+    return new EnumNode({ name: "sessions_constraint" });
+  },
+  get sessions_insert_input() {
+    return new InputNode(
+      {
+        get created_at() {
+          return new InputNodeField(schema.timestamptz, true);
+        },
+        get id() {
+          return new InputNodeField(schema.uuid, true);
+        },
+        get provider() {
+          return new InputNodeField(schema.String, true);
+        },
+        get token() {
+          return new InputNodeField(schema.String, true);
+        },
+        get user() {
+          return new InputNodeField(schema.users_obj_rel_insert_input, true);
+        },
+        get user_id() {
+          return new InputNodeField(schema.uuid, true);
+        }
+      },
+      { name: "sessions_insert_input" }
+    );
+  },
+  get sessions_max_fields() {
+    return new ObjectNode(
+      {
+        get created_at() {
+          return new FieldNode(schema.timestamptz, undefined, true);
+        },
+        get provider() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get token() {
+          return new FieldNode(schema.String, undefined, true);
+        }
+      },
+      {
+        name: "sessions_max_fields",
+        extension: ((extensions as any) || {}).sessions_max_fields
+      }
+    );
+  },
+  get sessions_max_order_by() {
+    return new InputNode(
+      {
+        get created_at() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get provider() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get token() {
+          return new InputNodeField(schema.order_by, true);
+        }
+      },
+      { name: "sessions_max_order_by" }
+    );
+  },
+  get sessions_min_fields() {
+    return new ObjectNode(
+      {
+        get created_at() {
+          return new FieldNode(schema.timestamptz, undefined, true);
+        },
+        get provider() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get token() {
+          return new FieldNode(schema.String, undefined, true);
+        }
+      },
+      {
+        name: "sessions_min_fields",
+        extension: ((extensions as any) || {}).sessions_min_fields
+      }
+    );
+  },
+  get sessions_min_order_by() {
+    return new InputNode(
+      {
+        get created_at() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get provider() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get token() {
+          return new InputNodeField(schema.order_by, true);
+        }
+      },
+      { name: "sessions_min_order_by" }
+    );
+  },
+  get sessions_mutation_response() {
+    return new ObjectNode(
+      {
+        get affected_rows() {
+          return new FieldNode(schema.Int, undefined, false);
+        },
+        get returning() {
+          return new FieldNode(
+            new ArrayNode(schema.sessions, false),
+            undefined,
+            false
+          );
+        }
+      },
+      {
+        name: "sessions_mutation_response",
+        extension: ((extensions as any) || {}).sessions_mutation_response
+      }
+    );
+  },
+  get sessions_obj_rel_insert_input() {
+    return new InputNode(
+      {
+        get data() {
+          return new InputNodeField(schema.sessions_insert_input, false);
+        },
+        get on_conflict() {
+          return new InputNodeField(schema.sessions_on_conflict, true);
+        }
+      },
+      { name: "sessions_obj_rel_insert_input" }
+    );
+  },
+  get sessions_on_conflict() {
+    return new InputNode(
+      {
+        get constraint() {
+          return new InputNodeField(schema.sessions_constraint, false);
+        },
+        get update_columns() {
+          return new InputNodeField(
+            new ArrayNode(schema.sessions_update_column, false),
+            false
+          );
+        },
+        get where() {
+          return new InputNodeField(schema.sessions_bool_exp, true);
+        }
+      },
+      { name: "sessions_on_conflict" }
+    );
+  },
+  get sessions_order_by() {
+    return new InputNode(
+      {
+        get created_at() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get id() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get provider() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get token() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get user() {
+          return new InputNodeField(schema.users_order_by, true);
+        },
+        get user_id() {
+          return new InputNodeField(schema.order_by, true);
+        }
+      },
+      { name: "sessions_order_by" }
+    );
+  },
+  get sessions_select_column() {
+    return new EnumNode({ name: "sessions_select_column" });
+  },
+  get sessions_set_input() {
+    return new InputNode(
+      {
+        get created_at() {
+          return new InputNodeField(schema.timestamptz, true);
+        },
+        get id() {
+          return new InputNodeField(schema.uuid, true);
+        },
+        get provider() {
+          return new InputNodeField(schema.String, true);
+        },
+        get token() {
+          return new InputNodeField(schema.String, true);
+        },
+        get user_id() {
+          return new InputNodeField(schema.uuid, true);
+        }
+      },
+      { name: "sessions_set_input" }
+    );
+  },
+  get sessions_update_column() {
+    return new EnumNode({ name: "sessions_update_column" });
+  },
   get subscription_root() {
     return new ObjectNode(
       {
+        get sessions() {
+          return new FieldNode(
+            new ArrayNode(schema.sessions, false),
+            new Arguments({
+              get distinct_on() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.sessions_select_column, true),
+                  true
+                );
+              },
+              get limit() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get offset() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get order_by() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.sessions_order_by, true),
+                  true
+                );
+              },
+              get where() {
+                return new ArgumentsField(schema.sessions_bool_exp, true);
+              }
+            }),
+            false
+          );
+        },
+        get sessions_aggregate() {
+          return new FieldNode(
+            schema.sessions_aggregate,
+            new Arguments({
+              get distinct_on() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.sessions_select_column, true),
+                  true
+                );
+              },
+              get limit() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get offset() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get order_by() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.sessions_order_by, true),
+                  true
+                );
+              },
+              get where() {
+                return new ArgumentsField(schema.sessions_bool_exp, true);
+              }
+            }),
+            false
+          );
+        },
+        get sessions_by_pk() {
+          return new FieldNode(
+            schema.sessions,
+            new Arguments(
+              {
+                get id() {
+                  return new ArgumentsField(schema.uuid, false);
+                }
+              },
+              true
+            ),
+            true
+          );
+        },
         get users() {
           return new FieldNode(
             new ArrayNode(schema.users, false),
@@ -571,8 +1117,81 @@ export const schema = {
         get email() {
           return new FieldNode(schema.String, undefined, false);
         },
+        get first_name() {
+          return new FieldNode(schema.String, undefined, false);
+        },
+        get google_id() {
+          return new FieldNode(schema.String, undefined, true);
+        },
         get id() {
           return new FieldNode(schema.uuid, undefined, false);
+        },
+        get last_name() {
+          return new FieldNode(schema.String, undefined, false);
+        },
+        get locale() {
+          return new FieldNode(schema.String, undefined, false);
+        },
+        get picture() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get sessions() {
+          return new FieldNode(
+            new ArrayNode(schema.sessions, false),
+            new Arguments({
+              get distinct_on() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.sessions_select_column, true),
+                  true
+                );
+              },
+              get limit() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get offset() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get order_by() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.sessions_order_by, true),
+                  true
+                );
+              },
+              get where() {
+                return new ArgumentsField(schema.sessions_bool_exp, true);
+              }
+            }),
+            false
+          );
+        },
+        get sessions_aggregate() {
+          return new FieldNode(
+            schema.sessions_aggregate,
+            new Arguments({
+              get distinct_on() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.sessions_select_column, true),
+                  true
+                );
+              },
+              get limit() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get offset() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get order_by() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.sessions_order_by, true),
+                  true
+                );
+              },
+              get where() {
+                return new ArgumentsField(schema.sessions_bool_exp, true);
+              }
+            }),
+            false
+          );
         },
         get updated_at() {
           return new FieldNode(schema.timestamptz, undefined, false);
@@ -690,8 +1309,26 @@ export const schema = {
         get email() {
           return new InputNodeField(schema.String_comparison_exp, true);
         },
+        get first_name() {
+          return new InputNodeField(schema.String_comparison_exp, true);
+        },
+        get google_id() {
+          return new InputNodeField(schema.String_comparison_exp, true);
+        },
         get id() {
           return new InputNodeField(schema.uuid_comparison_exp, true);
+        },
+        get last_name() {
+          return new InputNodeField(schema.String_comparison_exp, true);
+        },
+        get locale() {
+          return new InputNodeField(schema.String_comparison_exp, true);
+        },
+        get picture() {
+          return new InputNodeField(schema.String_comparison_exp, true);
+        },
+        get sessions() {
+          return new InputNodeField(schema.sessions_bool_exp, true);
         },
         get updated_at() {
           return new InputNodeField(schema.timestamptz_comparison_exp, true);
@@ -712,8 +1349,26 @@ export const schema = {
         get email() {
           return new InputNodeField(schema.String, true);
         },
+        get first_name() {
+          return new InputNodeField(schema.String, true);
+        },
+        get google_id() {
+          return new InputNodeField(schema.String, true);
+        },
         get id() {
           return new InputNodeField(schema.uuid, true);
+        },
+        get last_name() {
+          return new InputNodeField(schema.String, true);
+        },
+        get locale() {
+          return new InputNodeField(schema.String, true);
+        },
+        get picture() {
+          return new InputNodeField(schema.String, true);
+        },
+        get sessions() {
+          return new InputNodeField(schema.sessions_arr_rel_insert_input, true);
         },
         get updated_at() {
           return new InputNodeField(schema.timestamptz, true);
@@ -729,6 +1384,21 @@ export const schema = {
           return new FieldNode(schema.timestamptz, undefined, true);
         },
         get email() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get first_name() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get google_id() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get last_name() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get locale() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get picture() {
           return new FieldNode(schema.String, undefined, true);
         },
         get updated_at() {
@@ -750,6 +1420,21 @@ export const schema = {
         get email() {
           return new InputNodeField(schema.order_by, true);
         },
+        get first_name() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get google_id() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get last_name() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get locale() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get picture() {
+          return new InputNodeField(schema.order_by, true);
+        },
         get updated_at() {
           return new InputNodeField(schema.order_by, true);
         }
@@ -764,6 +1449,21 @@ export const schema = {
           return new FieldNode(schema.timestamptz, undefined, true);
         },
         get email() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get first_name() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get google_id() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get last_name() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get locale() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get picture() {
           return new FieldNode(schema.String, undefined, true);
         },
         get updated_at() {
@@ -783,6 +1483,21 @@ export const schema = {
           return new InputNodeField(schema.order_by, true);
         },
         get email() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get first_name() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get google_id() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get last_name() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get locale() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get picture() {
           return new InputNodeField(schema.order_by, true);
         },
         get updated_at() {
@@ -853,8 +1568,26 @@ export const schema = {
         get email() {
           return new InputNodeField(schema.order_by, true);
         },
+        get first_name() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get google_id() {
+          return new InputNodeField(schema.order_by, true);
+        },
         get id() {
           return new InputNodeField(schema.order_by, true);
+        },
+        get last_name() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get locale() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get picture() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get sessions_aggregate() {
+          return new InputNodeField(schema.sessions_aggregate_order_by, true);
         },
         get updated_at() {
           return new InputNodeField(schema.order_by, true);
@@ -875,8 +1608,23 @@ export const schema = {
         get email() {
           return new InputNodeField(schema.String, true);
         },
+        get first_name() {
+          return new InputNodeField(schema.String, true);
+        },
+        get google_id() {
+          return new InputNodeField(schema.String, true);
+        },
         get id() {
           return new InputNodeField(schema.uuid, true);
+        },
+        get last_name() {
+          return new InputNodeField(schema.String, true);
+        },
+        get locale() {
+          return new InputNodeField(schema.String, true);
+        },
+        get picture() {
+          return new InputNodeField(schema.String, true);
         },
         get updated_at() {
           return new InputNodeField(schema.timestamptz, true);

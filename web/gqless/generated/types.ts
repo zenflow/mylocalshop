@@ -219,6 +219,14 @@ type t_mutation_root = FieldsType<
     __typename: t_String<"mutation_root">;
 
     /**
+     * delete data from the table: "sessions"
+     */
+    delete_sessions?: FieldsTypeArg<
+      { where: sessions_bool_exp },
+      t_sessions_mutation_response | null
+    >;
+
+    /**
      * delete data from the table: "users"
      */
     delete_users?: FieldsTypeArg<
@@ -227,11 +235,30 @@ type t_mutation_root = FieldsType<
     >;
 
     /**
+     * insert data into the table: "sessions"
+     */
+    insert_sessions?: FieldsTypeArg<
+      {
+        objects: sessions_insert_input[];
+        on_conflict?: sessions_on_conflict | null;
+      },
+      t_sessions_mutation_response | null
+    >;
+
+    /**
      * insert data into the table: "users"
      */
     insert_users?: FieldsTypeArg<
       { objects: users_insert_input[]; on_conflict?: users_on_conflict | null },
       t_users_mutation_response | null
+    >;
+
+    /**
+     * update data of the table: "sessions"
+     */
+    update_sessions?: FieldsTypeArg<
+      { _set?: sessions_set_input | null; where: sessions_bool_exp },
+      t_sessions_mutation_response | null
     >;
 
     /**
@@ -265,6 +292,39 @@ type t_order_by = EnumType<
 type t_query_root = FieldsType<
   {
     __typename: t_String<"query_root">;
+
+    /**
+     * fetch data from the table: "sessions"
+     */
+    sessions: FieldsTypeArg<
+      {
+        distinct_on?: sessions_select_column[] | null;
+        limit?: number | null;
+        offset?: number | null;
+        order_by?: sessions_order_by[] | null;
+        where?: sessions_bool_exp | null;
+      },
+      t_sessions[]
+    >;
+
+    /**
+     * fetch aggregated fields from the table: "sessions"
+     */
+    sessions_aggregate: FieldsTypeArg<
+      {
+        distinct_on?: sessions_select_column[] | null;
+        limit?: number | null;
+        offset?: number | null;
+        order_by?: sessions_order_by[] | null;
+        where?: sessions_bool_exp | null;
+      },
+      t_sessions_aggregate
+    >;
+
+    /**
+     * fetch data from the table: "sessions" using primary key columns
+     */
+    sessions_by_pk?: FieldsTypeArg<{ id: any }, t_sessions | null>;
 
     /**
      * fetch data from the table: "users"
@@ -303,12 +363,279 @@ type t_query_root = FieldsType<
 >;
 
 /**
+ * @name sessions
+ * @type OBJECT
+ */
+type t_sessions = FieldsType<
+  {
+    __typename: t_String<"sessions">;
+    created_at: t_timestamptz;
+    id: t_uuid;
+    provider: t_String;
+    token: t_String;
+
+    /**
+     * An object relationship
+     */
+    user: t_users;
+    user_id: t_uuid;
+  },
+  Extension<"sessions">
+>;
+
+/**
+ * @name sessions_aggregate
+ * @type OBJECT
+ */
+type t_sessions_aggregate = FieldsType<
+  {
+    __typename: t_String<"sessions_aggregate">;
+    aggregate?: t_sessions_aggregate_fields | null;
+    nodes: t_sessions[];
+  },
+  Extension<"sessions_aggregate">
+>;
+
+/**
+ * @name sessions_aggregate_fields
+ * @type OBJECT
+ */
+type t_sessions_aggregate_fields = FieldsType<
+  {
+    __typename: t_String<"sessions_aggregate_fields">;
+    count?: FieldsTypeArg<
+      { columns?: sessions_select_column[] | null; distinct?: boolean | null },
+      t_Int | null
+    >;
+    max?: t_sessions_max_fields | null;
+    min?: t_sessions_min_fields | null;
+  },
+  Extension<"sessions_aggregate_fields">
+>;
+
+/**
+ * @name sessions_aggregate_order_by
+ * @type INPUT_OBJECT
+ */
+export type sessions_aggregate_order_by = {
+  count?: order_by | null;
+  max?: sessions_max_order_by | null;
+  min?: sessions_min_order_by | null;
+};
+
+/**
+ * @name sessions_arr_rel_insert_input
+ * @type INPUT_OBJECT
+ */
+export type sessions_arr_rel_insert_input = {
+  data: sessions_insert_input[];
+  on_conflict?: sessions_on_conflict | null;
+};
+
+/**
+ * @name sessions_bool_exp
+ * @type INPUT_OBJECT
+ */
+export type sessions_bool_exp = {
+  _and?: (sessions_bool_exp | null)[] | null;
+  _not?: sessions_bool_exp | null;
+  _or?: (sessions_bool_exp | null)[] | null;
+  created_at?: timestamptz_comparison_exp | null;
+  id?: uuid_comparison_exp | null;
+  provider?: String_comparison_exp | null;
+  token?: String_comparison_exp | null;
+  user?: users_bool_exp | null;
+  user_id?: uuid_comparison_exp | null;
+};
+
+/**
+ * @name sessions_constraint
+ * @type ENUM
+ */
+type t_sessions_constraint = EnumType<"sessions_pkey">;
+
+/**
+ * @name sessions_insert_input
+ * @type INPUT_OBJECT
+ */
+export type sessions_insert_input = {
+  created_at?: any | null;
+  id?: any | null;
+  provider?: string | null;
+  token?: string | null;
+  user?: users_obj_rel_insert_input | null;
+  user_id?: any | null;
+};
+
+/**
+ * @name sessions_max_fields
+ * @type OBJECT
+ */
+type t_sessions_max_fields = FieldsType<
+  {
+    __typename: t_String<"sessions_max_fields">;
+    created_at?: t_timestamptz | null;
+    provider?: t_String | null;
+    token?: t_String | null;
+  },
+  Extension<"sessions_max_fields">
+>;
+
+/**
+ * @name sessions_max_order_by
+ * @type INPUT_OBJECT
+ */
+export type sessions_max_order_by = {
+  created_at?: order_by | null;
+  provider?: order_by | null;
+  token?: order_by | null;
+};
+
+/**
+ * @name sessions_min_fields
+ * @type OBJECT
+ */
+type t_sessions_min_fields = FieldsType<
+  {
+    __typename: t_String<"sessions_min_fields">;
+    created_at?: t_timestamptz | null;
+    provider?: t_String | null;
+    token?: t_String | null;
+  },
+  Extension<"sessions_min_fields">
+>;
+
+/**
+ * @name sessions_min_order_by
+ * @type INPUT_OBJECT
+ */
+export type sessions_min_order_by = {
+  created_at?: order_by | null;
+  provider?: order_by | null;
+  token?: order_by | null;
+};
+
+/**
+ * @name sessions_mutation_response
+ * @type OBJECT
+ */
+type t_sessions_mutation_response = FieldsType<
+  {
+    __typename: t_String<"sessions_mutation_response">;
+
+    /**
+     * number of affected rows by the mutation
+     */
+    affected_rows: t_Int;
+
+    /**
+     * data of the affected rows by the mutation
+     */
+    returning: t_sessions[];
+  },
+  Extension<"sessions_mutation_response">
+>;
+
+/**
+ * @name sessions_obj_rel_insert_input
+ * @type INPUT_OBJECT
+ */
+export type sessions_obj_rel_insert_input = {
+  data: sessions_insert_input;
+  on_conflict?: sessions_on_conflict | null;
+};
+
+/**
+ * @name sessions_on_conflict
+ * @type INPUT_OBJECT
+ */
+export type sessions_on_conflict = {
+  constraint: sessions_constraint;
+  update_columns: sessions_update_column[];
+  where?: sessions_bool_exp | null;
+};
+
+/**
+ * @name sessions_order_by
+ * @type INPUT_OBJECT
+ */
+export type sessions_order_by = {
+  created_at?: order_by | null;
+  id?: order_by | null;
+  provider?: order_by | null;
+  token?: order_by | null;
+  user?: users_order_by | null;
+  user_id?: order_by | null;
+};
+
+/**
+ * @name sessions_select_column
+ * @type ENUM
+ */
+type t_sessions_select_column = EnumType<
+  "created_at" | "id" | "provider" | "token" | "user_id"
+>;
+
+/**
+ * @name sessions_set_input
+ * @type INPUT_OBJECT
+ */
+export type sessions_set_input = {
+  created_at?: any | null;
+  id?: any | null;
+  provider?: string | null;
+  token?: string | null;
+  user_id?: any | null;
+};
+
+/**
+ * @name sessions_update_column
+ * @type ENUM
+ */
+type t_sessions_update_column = EnumType<
+  "created_at" | "id" | "provider" | "token" | "user_id"
+>;
+
+/**
  * @name subscription_root
  * @type OBJECT
  */
 type t_subscription_root = FieldsType<
   {
     __typename: t_String<"subscription_root">;
+
+    /**
+     * fetch data from the table: "sessions"
+     */
+    sessions: FieldsTypeArg<
+      {
+        distinct_on?: sessions_select_column[] | null;
+        limit?: number | null;
+        offset?: number | null;
+        order_by?: sessions_order_by[] | null;
+        where?: sessions_bool_exp | null;
+      },
+      t_sessions[]
+    >;
+
+    /**
+     * fetch aggregated fields from the table: "sessions"
+     */
+    sessions_aggregate: FieldsTypeArg<
+      {
+        distinct_on?: sessions_select_column[] | null;
+        limit?: number | null;
+        offset?: number | null;
+        order_by?: sessions_order_by[] | null;
+        where?: sessions_bool_exp | null;
+      },
+      t_sessions_aggregate
+    >;
+
+    /**
+     * fetch data from the table: "sessions" using primary key columns
+     */
+    sessions_by_pk?: FieldsTypeArg<{ id: any }, t_sessions | null>;
 
     /**
      * fetch data from the table: "users"
@@ -380,7 +707,40 @@ type t_users = FieldsType<
     __typename: t_String<"users">;
     created_at: t_timestamptz;
     email: t_String;
+    first_name: t_String;
+    google_id?: t_String | null;
     id: t_uuid;
+    last_name: t_String;
+    locale: t_String;
+    picture?: t_String | null;
+
+    /**
+     * An array relationship
+     */
+    sessions: FieldsTypeArg<
+      {
+        distinct_on?: sessions_select_column[] | null;
+        limit?: number | null;
+        offset?: number | null;
+        order_by?: sessions_order_by[] | null;
+        where?: sessions_bool_exp | null;
+      },
+      t_sessions[]
+    >;
+
+    /**
+     * An aggregated array relationship
+     */
+    sessions_aggregate: FieldsTypeArg<
+      {
+        distinct_on?: sessions_select_column[] | null;
+        limit?: number | null;
+        offset?: number | null;
+        order_by?: sessions_order_by[] | null;
+        where?: sessions_bool_exp | null;
+      },
+      t_sessions_aggregate
+    >;
     updated_at: t_timestamptz;
   },
   Extension<"users">
@@ -445,7 +805,13 @@ export type users_bool_exp = {
   _or?: (users_bool_exp | null)[] | null;
   created_at?: timestamptz_comparison_exp | null;
   email?: String_comparison_exp | null;
+  first_name?: String_comparison_exp | null;
+  google_id?: String_comparison_exp | null;
   id?: uuid_comparison_exp | null;
+  last_name?: String_comparison_exp | null;
+  locale?: String_comparison_exp | null;
+  picture?: String_comparison_exp | null;
+  sessions?: sessions_bool_exp | null;
   updated_at?: timestamptz_comparison_exp | null;
 };
 
@@ -453,7 +819,9 @@ export type users_bool_exp = {
  * @name users_constraint
  * @type ENUM
  */
-type t_users_constraint = EnumType<"users_email_key" | "users_pkey">;
+type t_users_constraint = EnumType<
+  "users_email_key" | "users_google_id_key" | "users_pkey"
+>;
 
 /**
  * @name users_insert_input
@@ -462,7 +830,13 @@ type t_users_constraint = EnumType<"users_email_key" | "users_pkey">;
 export type users_insert_input = {
   created_at?: any | null;
   email?: string | null;
+  first_name?: string | null;
+  google_id?: string | null;
   id?: any | null;
+  last_name?: string | null;
+  locale?: string | null;
+  picture?: string | null;
+  sessions?: sessions_arr_rel_insert_input | null;
   updated_at?: any | null;
 };
 
@@ -475,6 +849,11 @@ type t_users_max_fields = FieldsType<
     __typename: t_String<"users_max_fields">;
     created_at?: t_timestamptz | null;
     email?: t_String | null;
+    first_name?: t_String | null;
+    google_id?: t_String | null;
+    last_name?: t_String | null;
+    locale?: t_String | null;
+    picture?: t_String | null;
     updated_at?: t_timestamptz | null;
   },
   Extension<"users_max_fields">
@@ -487,6 +866,11 @@ type t_users_max_fields = FieldsType<
 export type users_max_order_by = {
   created_at?: order_by | null;
   email?: order_by | null;
+  first_name?: order_by | null;
+  google_id?: order_by | null;
+  last_name?: order_by | null;
+  locale?: order_by | null;
+  picture?: order_by | null;
   updated_at?: order_by | null;
 };
 
@@ -499,6 +883,11 @@ type t_users_min_fields = FieldsType<
     __typename: t_String<"users_min_fields">;
     created_at?: t_timestamptz | null;
     email?: t_String | null;
+    first_name?: t_String | null;
+    google_id?: t_String | null;
+    last_name?: t_String | null;
+    locale?: t_String | null;
+    picture?: t_String | null;
     updated_at?: t_timestamptz | null;
   },
   Extension<"users_min_fields">
@@ -511,6 +900,11 @@ type t_users_min_fields = FieldsType<
 export type users_min_order_by = {
   created_at?: order_by | null;
   email?: order_by | null;
+  first_name?: order_by | null;
+  google_id?: order_by | null;
+  last_name?: order_by | null;
+  locale?: order_by | null;
+  picture?: order_by | null;
   updated_at?: order_by | null;
 };
 
@@ -561,7 +955,13 @@ export type users_on_conflict = {
 export type users_order_by = {
   created_at?: order_by | null;
   email?: order_by | null;
+  first_name?: order_by | null;
+  google_id?: order_by | null;
   id?: order_by | null;
+  last_name?: order_by | null;
+  locale?: order_by | null;
+  picture?: order_by | null;
+  sessions_aggregate?: sessions_aggregate_order_by | null;
   updated_at?: order_by | null;
 };
 
@@ -570,7 +970,15 @@ export type users_order_by = {
  * @type ENUM
  */
 type t_users_select_column = EnumType<
-  "created_at" | "email" | "id" | "updated_at"
+  | "created_at"
+  | "email"
+  | "first_name"
+  | "google_id"
+  | "id"
+  | "last_name"
+  | "locale"
+  | "picture"
+  | "updated_at"
 >;
 
 /**
@@ -580,7 +988,12 @@ type t_users_select_column = EnumType<
 export type users_set_input = {
   created_at?: any | null;
   email?: string | null;
+  first_name?: string | null;
+  google_id?: string | null;
   id?: any | null;
+  last_name?: string | null;
+  locale?: string | null;
+  picture?: string | null;
   updated_at?: any | null;
 };
 
@@ -589,7 +1002,15 @@ export type users_set_input = {
  * @type ENUM
  */
 type t_users_update_column = EnumType<
-  "created_at" | "email" | "id" | "updated_at"
+  | "created_at"
+  | "email"
+  | "first_name"
+  | "google_id"
+  | "id"
+  | "last_name"
+  | "locale"
+  | "picture"
+  | "updated_at"
 >;
 
 /**
@@ -746,6 +1167,74 @@ export enum order_by {
 export type query_root = TypeData<t_query_root>;
 
 /**
+ * @name sessions
+ * @type OBJECT
+ */
+export type sessions = TypeData<t_sessions>;
+
+/**
+ * @name sessions_aggregate
+ * @type OBJECT
+ */
+export type sessions_aggregate = TypeData<t_sessions_aggregate>;
+
+/**
+ * @name sessions_aggregate_fields
+ * @type OBJECT
+ */
+export type sessions_aggregate_fields = TypeData<t_sessions_aggregate_fields>;
+
+/**
+ * @name sessions_constraint
+ * @type ENUM
+ */
+export enum sessions_constraint {
+  sessions_pkey = "sessions_pkey"
+}
+
+/**
+ * @name sessions_max_fields
+ * @type OBJECT
+ */
+export type sessions_max_fields = TypeData<t_sessions_max_fields>;
+
+/**
+ * @name sessions_min_fields
+ * @type OBJECT
+ */
+export type sessions_min_fields = TypeData<t_sessions_min_fields>;
+
+/**
+ * @name sessions_mutation_response
+ * @type OBJECT
+ */
+export type sessions_mutation_response = TypeData<t_sessions_mutation_response>;
+
+/**
+ * @name sessions_select_column
+ * @type ENUM
+ */
+export enum sessions_select_column {
+  created_at = "created_at",
+  id = "id",
+  provider = "provider",
+  token = "token",
+  user_id = "user_id"
+}
+
+/**
+ * @name sessions_update_column
+ * @type ENUM
+ */
+export enum sessions_update_column {
+  created_at = "created_at",
+  id = "id",
+  provider = "provider",
+  token = "token",
+  user_id = "user_id"
+}
+
+/**
  * @name subscription_root
  * @type OBJECT
  */
@@ -781,6 +1270,7 @@ export type users_aggregate_fields = TypeData<t_users_aggregate_fields>;
  */
 export enum users_constraint {
   users_email_key = "users_email_key",
+  users_google_id_key = "users_google_id_key",
   users_pkey = "users_pkey"
 }
 
@@ -809,7 +1299,12 @@ export type users_mutation_response = TypeData<t_users_mutation_response>;
 export enum users_select_column {
   created_at = "created_at",
   email = "email",
+  first_name = "first_name",
+  google_id = "google_id",
   id = "id",
+  last_name = "last_name",
+  locale = "locale",
+  picture = "picture",
   updated_at = "updated_at"
 }
 
@@ -820,7 +1315,12 @@ export enum users_select_column {
 export enum users_update_column {
   created_at = "created_at",
   email = "email",
+  first_name = "first_name",
+  google_id = "google_id",
   id = "id",
+  last_name = "last_name",
+  locale = "locale",
+  picture = "picture",
   updated_at = "updated_at"
 }
 

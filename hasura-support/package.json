@@ -5,7 +5,8 @@
     "deploy-to-prod": "now deploy --prod"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "isomorphic-unfetch": "^3.0.0"
   },
   "devDependencies": {
     "now": "^18.0.0"

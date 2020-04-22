@@ -2,7 +2,8 @@ import React from 'react'
 import App from 'next/app'
 import Head from 'next/head'
 import ssrPrepass from 'react-ssr-prepass'
-import { client, createClient } from '../gqless'
+import { createClient } from '../gqless'
+import { getSessionCookie } from './auth/session-cookie'
 
 /**
  * React hook to access the gqless client from context.
@@ -15,7 +16,7 @@ export const useGqless = () => {
   const { query } = client
   return { client, query }
 }
-export const GqlessContext = React.createContext(client)
+export const GqlessContext = React.createContext()
 
 // On the client, we store the client in the following variable.
 // This prevents the client from reinitializing between page transitions.
@@ -24,24 +25,23 @@ let globalClient = null
 /**
  * Always creates a new client on the server
  * Creates or reuses client in the browser.
- * @param  {NormalizedCacheObject} initialState
- * @param  {NextPageContext} ctx
  */
-const getClient = initialState => {
-  const withInitialState = client => {
+const getClient = (initialState, req) => {
+  const create = () => {
+    const sessionId = getSessionCookie(req)?.id
+    const client = createClient(sessionId)
     client.cache.merge(client.accessor, initialState)
     return client
   }
-
   // Make sure to create a new client for every server-side request so that data
   // isn't shared between connections (which would be bad)
   if (typeof window === 'undefined') {
-    return withInitialState(createClient())
+    return create()
   }
 
   // Reuse client on the client-side
   if (!globalClient) {
-    globalClient = withInitialState(client)
+    globalClient = create()
   }
   return globalClient
 }
@@ -59,15 +59,13 @@ const didActionTakeTime = action => {
  * Creates a withGqless HOC
  * that provides the apolloContext
  * to a next.js Page or AppTree.
- * @param  {Object} withGqlessOptions
- * @returns {(PageComponent: ReactNode) => ReactNode}
  */
-export const withGqless = ({} = {}) => PageComponent => {
+export const withGqless = AppComponent => {
   const WithGqless = ({ gqlessClient, gqlessState, ...pageProps }) => {
     const client = gqlessClient || getClient(gqlessState)
     return (
       <GqlessContext.Provider value={client}>
-        <PageComponent {...pageProps} />
+        <AppComponent {...pageProps} />
       </GqlessContext.Provider>
     )
   }
@@ -75,48 +73,35 @@ export const withGqless = ({} = {}) => PageComponent => {
   // Set the correct displayName in development
   if (process.env.NODE_ENV !== 'production') {
     const displayName =
-      PageComponent.displayName || PageComponent.name || 'Component'
+      AppComponent.displayName || AppComponent.name || 'Component'
     WithGqless.displayName = `withGqless(${displayName})`
   }
 
-  WithGqless.getInitialProps = async ctx => {
+  WithGqless.getInitialProps = async appContext => {
+    const pageContext = appContext.ctx
+
     // Get the client to use
-    const gqlessClient = getClient({})
+    const gqlessClient = getClient({}, pageContext.req)
 
     // Install the client on NextPageContext
-    const inAppContext = Boolean(ctx.ctx)
-    ctx.gqlessClient = gqlessClient
-    if (inAppContext) {
-      ctx.ctx.gqlessClient = gqlessClient
-    }
+    appContext.gqlessClient = gqlessClient
+    pageContext.gqlessClient = gqlessClient
 
     // Run wrapped getInitialProps methods
-    let pageProps = {}
-    if (PageComponent.getInitialProps) {
-      pageProps = await PageComponent.getInitialProps(ctx)
-    } else if (inAppContext) {
-      pageProps = await App.getInitialProps(ctx)
-    }
+    const appProps = AppComponent.getInitialProps
+      ? await AppComponent.getInitialProps(appContext)
+      : await App.getInitialProps(appContext)
 
     // When redirecting, the response is finished.
     // No point in continuing to render
-    if (ctx.res && ctx.res.finished) {
-      return pageProps
+    if (pageContext.res?.finished) {
+      return appProps
     }
 
     // Prefetch & serialize data if on the server
     if (!process.browser) {
-      const { AppTree } = ctx
-
-      // Since AppComponents and PageComponents have different context types
-      // we need to modify their props a little.
-      let props
-      if (inAppContext) {
-        props = { ...pageProps, gqlessClient }
-      } else {
-        props = { pageProps: { ...pageProps, gqlessClient } }
-      }
-
+      const { AppTree } = appContext
+      const props = { ...appProps, gqlessClient }
       const tree = <AppTree {...props} />
       try {
         let passes = 0
@@ -152,10 +137,10 @@ export const withGqless = ({} = {}) => PageComponent => {
       // We also send gqlessState as a prop to the component, so that when it renders on the browser,
       //   the gqless client can be initialized with the required data.
       const gqlessState = gqlessClient.cache.rootValue.toJSON()
-      return { ...pageProps, gqlessState, gqlessClient }
+      return { ...appProps, gqlessState, gqlessClient }
     }
 
-    return pageProps
+    return appProps
   }
 
   return WithGqless

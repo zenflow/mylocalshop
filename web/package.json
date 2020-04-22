@@ -8,10 +8,15 @@
   },
   "dependencies": {
     "@gqless/react": "^0.0.1-alpha.28",
+    "cookie": "^0.4.1",
     "dotenv": "^8.2.0",
     "gqless": "^0.0.1-alpha.29",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^9.3.5",
+    "next-connect": "^0.6.4",
+    "passport": "^0.4.1",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth20": "^2.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-ssr-prepass": "^1.2.0"
