@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useSession } from '../lib/auth/react'
 
-export default () => {
+const IndexPage = () => {
   const session = useSession()
   return (
     <div>
@@ -23,3 +23,5 @@ export default () => {
     </div>
   )
 }
+
+export default IndexPage

@@ -2,7 +2,7 @@ import { graphql } from '@gqless/react'
 import { useGqless } from '../lib/gqless'
 import Suspense from '../lib/SsrCompatibleSuspense'
 
-const ArrayTable = graphql(({array, fields}) => {
+const ArrayTable = graphql(({ array, fields }) => {
   return (
     <table>
       <thead>
@@ -21,13 +21,13 @@ const ArrayTable = graphql(({array, fields}) => {
           </tr>
         ))}
       </tbody>
-      <style jsx>{`table { width: 100%; }`}</style>
+      <style jsx>{'table { width: 100%; }'}</style>
     </table>
   )
 })
 
 const PrivatePage = () => {
-  const {query} = useGqless()
+  const { query } = useGqless()
   return (
     <div>
       <h1>Users</h1>
@@ -43,7 +43,7 @@ const PrivatePage = () => {
 
 PrivatePage.getInitialProps = ({ session, redirect, asPath }) => {
   if (!session) {
-    redirect(['/login', {redirect: asPath}], 'replace')
+    redirect(['/login', { redirect: asPath }], 'replace')
   }
   return {}
 }

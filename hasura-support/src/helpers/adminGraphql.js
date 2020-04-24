@@ -18,16 +18,16 @@ async function adminGraphql (query, variables) {
       variables,
     }),
     mode: 'cors',
-  });
+  })
 
   if (!response.ok) {
     throw new Error(`adminGraphql: Network error, received status code ${response.status}`)
   }
 
-  const result = await response.json();
+  const result = await response.json()
 
   if (result.errors && result.errors.length) {
-    console.error({query, variables, result})
+    console.error({ query, variables, result })
     throw new Error(`adminGraphql: ${result.errors[0].message}`)
   }
 

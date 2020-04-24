@@ -13,7 +13,6 @@ const callbackify = fn => (...args) => {
 export const googleStrategy = new GoogleStrategy(
   { clientID, clientSecret, callbackURL },
   callbackify(async (accessToken, refreshToken, profile) => {
-
     const userDataFromGoogle = {
       googleId: profile.id,
       email: profile._json.email,
@@ -44,7 +43,7 @@ export const googleStrategy = new GoogleStrategy(
     const session = await insertSession(sessionData, sessionQuery)
 
     return session
-  })
+  }),
 )
 
 async function queryUserIdFromGoogleId (googleId) {
@@ -55,7 +54,7 @@ async function queryUserIdFromGoogleId (googleId) {
       } 
     }
   `
-  const {data} = await adminGraphql(query, {googleId})
+  const { data } = await adminGraphql(query, { googleId })
   return data.users[0]?.id
 }
 
@@ -69,7 +68,7 @@ async function insertUser (userData, userQuery) {
       }
     }
   `
-  const {data} = await adminGraphql(query, {userData})
+  const { data } = await adminGraphql(query, { userData })
   return data.insert_users.returning[0]
 }
 
@@ -83,6 +82,6 @@ async function insertSession (sessionData, sessionQuery) {
       }
     }
   `
-  const {data} = await adminGraphql(query, {sessionData})
+  const { data } = await adminGraphql(query, { sessionData })
   return data.insert_sessions.returning[0]
 }

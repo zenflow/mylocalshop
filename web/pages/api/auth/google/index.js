@@ -7,7 +7,7 @@ export default nextConnect()
     passport.authenticate('google', {
       scope: ['email', 'profile'],
       state: JSON.stringify({
-        redirect: req.query.redirect
+        redirect: req.query.redirect,
       }),
     })(req, res)
   })

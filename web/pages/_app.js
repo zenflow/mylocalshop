@@ -3,7 +3,7 @@ import { withGqless } from '../lib/gqless'
 import { withSession } from '../lib/auth/react'
 import { withRedirect } from '../lib/withRedirect'
 
-function MyApp({ Component, pageProps }) {
+function MyApp ({ Component, pageProps }) {
   return <Component {...pageProps} />
 }
 

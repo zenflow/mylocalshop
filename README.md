@@ -12,23 +12,23 @@ Shop local, from home
 
 ## TODO
 
-- snake_case to camelCase
-- error page
+- linting
+- basic AppFrame for use while testing
 
-- add `me` to remote schema
 - deploy
 - dump production data to migrations
-- create `shops` `products` `shop_products` `categories` `shop_sections` `bundles` & `orders`
 
-- linting
-- testing
+- squash all
+
+- **** create `shops` `products` `shop_products`
+- auto react-admin using graphql introspection
+
+---
 
 - facebook auth provider
-- delete sessions from database both (1) on logout, and (2) when `now > created_at + ttl`
+- delete sessions from database when `now > created_at + ttl`
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
-- enable cache control for http://hasura-support/auth-hook
-- use nodemon to develop hasura-support
-- port to typescript
+- develop hasura-support normally (not in Docker) and use nodemon
 
 - Simplify deployment and improve production performance by deploying all 3 processes in same way
   - Either

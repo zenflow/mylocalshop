@@ -1,4 +1,4 @@
-const {adminGraphql} = require('../helpers/adminGraphql')
+const { adminGraphql } = require('../helpers/adminGraphql')
 
 module.exports = server => {
   server.get('/auth-hook', async (req, res) => {
@@ -20,7 +20,7 @@ module.exports = server => {
       }
 
       res.json(result)
-      console.log({user, result})
+      console.log({ user, result })
     } catch (error) {
       console.error(error)
       res.status(500).send(error.message)
@@ -38,11 +38,11 @@ async function queryUserBySessionId (sessionId, userQuery) {
       }
     }
   `
-  const {data} = await adminGraphql(query, {sessionId})
+  const { data } = await adminGraphql(query, { sessionId })
   return data.sessions_by_pk && data.sessions_by_pk.user
 }
 
-function getRole(user) {
+function getRole (user) {
   if (!user) {
     return 'anonymous'
   }

@@ -4,7 +4,7 @@ const COOKIE_NAME = 'session'
 const MAX_AGE = 60 * 60 * 8 // 8 hours
 
 // server-side only
-export function setSessionCookie(res, value) {
+export function setSessionCookie (res, value) {
   const cookie = serialize(COOKIE_NAME, JSON.stringify(value), {
     maxAge: MAX_AGE,
     expires: new Date(Date.now() + MAX_AGE * 1000),
@@ -15,7 +15,7 @@ export function setSessionCookie(res, value) {
 }
 
 // server-side only
-export function removeSessionCookie(res) {
+export function removeSessionCookie (res) {
   const cookie = serialize(COOKIE_NAME, '', {
     maxAge: -1,
     path: '/',
@@ -23,7 +23,7 @@ export function removeSessionCookie(res) {
   res.setHeader('Set-Cookie', cookie)
 }
 
-function parseCookies(req) {
+function parseCookies (req) {
   if (process.browser) {
     return parse(window.document.cookie || '')
   }
@@ -37,7 +37,7 @@ function parseCookies(req) {
 }
 
 // works on browser & server. ignores `req` on browser
-export function getSessionCookie(req) {
+export function getSessionCookie (req) {
   const cookies = parseCookies(req)
   const json = cookies[COOKIE_NAME]
   return json && JSON.parse(json)

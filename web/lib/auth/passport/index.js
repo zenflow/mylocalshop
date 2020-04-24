@@ -3,4 +3,4 @@ import { googleStrategy } from './google-strategy'
 
 passport.use(googleStrategy)
 
-export {passport}
+export { passport }

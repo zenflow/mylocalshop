@@ -40,7 +40,7 @@ export function withRedirect (AppComponent) {
       ? await AppComponent.getInitialProps(appContext)
       : await App.getInitialProps(appContext)
 
-    return {...appProps, redirectLocation, redirectMethod}
+    return { ...appProps, redirectLocation, redirectMethod }
   }
 
   return WithRedirect

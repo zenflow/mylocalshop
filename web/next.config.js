@@ -7,5 +7,5 @@ const {
 module.exports = {
   env: {
     HASURA_ENGINE_ENDPOINT,
-  }
+  },
 }

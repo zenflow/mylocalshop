@@ -1,4 +1,2 @@
-*.temp
 node_modules/
 web/.next/
-web/.env

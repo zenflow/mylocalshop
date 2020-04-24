@@ -31,7 +31,7 @@ export function withSession (AppComponent) {
       ? await AppComponent.getInitialProps(appContext)
       : await App.getInitialProps(appContext)
 
-    return {...appProps, session}
+    return { ...appProps, session }
   }
 
   return WithSession

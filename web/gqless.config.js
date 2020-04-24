@@ -5,5 +5,5 @@ module.exports = {
   outputDir: 'gqless',
   headers: {
     'X-Hasura-Admin-Secret': 'admin_secret',
-  }
+  },
 }
