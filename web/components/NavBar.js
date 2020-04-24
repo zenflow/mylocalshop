@@ -6,10 +6,10 @@ export const NavBar = () => {
   const session = useSession()
   return (
     <>
-      <div style={{height: '52px'}}/>
-      <div style={{position: 'fixed', top: 0, left: 0, width: '100%'}}>
+      <div style={{ height: '52px' }}/>
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%' }}>
         <Container>
-          <Menu style={{height: '50px', borderTop: 0, borderRadius: '0 0 8px 8px'}}>
+          <Menu style={{ height: '50px', borderTop: 0, borderRadius: '0 0 8px 8px' }}>
             <Link href="/">
               <Menu.Item header as='a' href='/'>
                 mylocalshop
@@ -20,19 +20,17 @@ export const NavBar = () => {
                 Home
               </Menu.Item>
             </Link>
-            <Dropdown item simple text='Collections'>
-              <Dropdown.Menu>
-                <Link href='/users'>
-                  <Dropdown.Item as='a' href='/users'>Users</Dropdown.Item>
-                </Link>
-              </Dropdown.Menu>
-            </Dropdown>
+            {(session?.user.role === 'admin') && (
+              <Link href='/users'>
+                <Menu.Item as='a' href='/users'>Users</Menu.Item>
+              </Link>
+            )}
             <Menu.Menu position='right'>
               {session && (
-                <Dropdown item icon='user' className='icon' direction='left'>
+                <Dropdown item icon='user circle outline' className='icon' direction='left'>
                   <Dropdown.Menu position='right'>
                     <Dropdown.Header content={`Logged in as ${session.user.email}`}/>
-                    <Dropdown.Item icon='user circle outline' content='Profile'/>
+                    {session.user.role === 'admin' && <Dropdown.Header icon='universal access' content='Admin user'/>}
                     <Dropdown.Divider/>
                     <Dropdown.Item as='a' href='/api/auth/logout' icon='sign-out' content='Log out'/>
                   </Dropdown.Menu>

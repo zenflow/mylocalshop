@@ -12,10 +12,7 @@ Shop local, from home
 
 ## TODO
 
-- linting
-- basic AppFrame for use while testing
-
-- deploy
+- deploy (clear db for sure)
 - dump production data to migrations
 
 - squash all
@@ -25,6 +22,7 @@ Shop local, from home
 
 ---
 
+- useSession can be standalone hook that doesn't need a context, or a withSession HOC
 - facebook auth provider
 - delete sessions from database when `now > created_at + ttl`
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`

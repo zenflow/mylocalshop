@@ -314,6 +314,20 @@ export const schema = {
             true
           );
         },
+        get delete_user_roles() {
+          return new FieldNode(
+            schema.user_roles_mutation_response,
+            new Arguments(
+              {
+                get where() {
+                  return new ArgumentsField(schema.user_roles_bool_exp, false);
+                }
+              },
+              true
+            ),
+            true
+          );
+        },
         get delete_users() {
           return new FieldNode(
             schema.users_mutation_response,
@@ -345,6 +359,23 @@ export const schema = {
             true
           );
         },
+        get insert_user_roles() {
+          return new FieldNode(
+            schema.user_roles_mutation_response,
+            new Arguments({
+              get objects() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.user_roles_insert_input, false),
+                  false
+                );
+              },
+              get on_conflict() {
+                return new ArgumentsField(schema.user_roles_on_conflict, true);
+              }
+            }),
+            true
+          );
+        },
         get insert_users() {
           return new FieldNode(
             schema.users_mutation_response,
@@ -371,6 +402,20 @@ export const schema = {
               },
               get where() {
                 return new ArgumentsField(schema.sessions_bool_exp, false);
+              }
+            }),
+            true
+          );
+        },
+        get update_user_roles() {
+          return new FieldNode(
+            schema.user_roles_mutation_response,
+            new Arguments({
+              get _set() {
+                return new ArgumentsField(schema.user_roles_set_input, true);
+              },
+              get where() {
+                return new ArgumentsField(schema.user_roles_bool_exp, false);
               }
             }),
             true
@@ -468,6 +513,78 @@ export const schema = {
               {
                 get id() {
                   return new ArgumentsField(schema.uuid, false);
+                }
+              },
+              true
+            ),
+            true
+          );
+        },
+        get user_roles() {
+          return new FieldNode(
+            new ArrayNode(schema.user_roles, false),
+            new Arguments({
+              get distinct_on() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.user_roles_select_column, true),
+                  true
+                );
+              },
+              get limit() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get offset() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get order_by() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.user_roles_order_by, true),
+                  true
+                );
+              },
+              get where() {
+                return new ArgumentsField(schema.user_roles_bool_exp, true);
+              }
+            }),
+            false
+          );
+        },
+        get user_roles_aggregate() {
+          return new FieldNode(
+            schema.user_roles_aggregate,
+            new Arguments({
+              get distinct_on() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.user_roles_select_column, true),
+                  true
+                );
+              },
+              get limit() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get offset() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get order_by() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.user_roles_order_by, true),
+                  true
+                );
+              },
+              get where() {
+                return new ArgumentsField(schema.user_roles_bool_exp, true);
+              }
+            }),
+            false
+          );
+        },
+        get user_roles_by_pk() {
+          return new FieldNode(
+            schema.user_roles,
+            new Arguments(
+              {
+                get value() {
+                  return new ArgumentsField(schema.String, false);
                 }
               },
               true
@@ -1010,6 +1127,78 @@ export const schema = {
             true
           );
         },
+        get user_roles() {
+          return new FieldNode(
+            new ArrayNode(schema.user_roles, false),
+            new Arguments({
+              get distinct_on() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.user_roles_select_column, true),
+                  true
+                );
+              },
+              get limit() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get offset() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get order_by() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.user_roles_order_by, true),
+                  true
+                );
+              },
+              get where() {
+                return new ArgumentsField(schema.user_roles_bool_exp, true);
+              }
+            }),
+            false
+          );
+        },
+        get user_roles_aggregate() {
+          return new FieldNode(
+            schema.user_roles_aggregate,
+            new Arguments({
+              get distinct_on() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.user_roles_select_column, true),
+                  true
+                );
+              },
+              get limit() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get offset() {
+                return new ArgumentsField(schema.Int, true);
+              },
+              get order_by() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.user_roles_order_by, true),
+                  true
+                );
+              },
+              get where() {
+                return new ArgumentsField(schema.user_roles_bool_exp, true);
+              }
+            }),
+            false
+          );
+        },
+        get user_roles_by_pk() {
+          return new FieldNode(
+            schema.user_roles,
+            new Arguments(
+              {
+                get value() {
+                  return new ArgumentsField(schema.String, false);
+                }
+              },
+              true
+            ),
+            true
+          );
+        },
         get users() {
           return new FieldNode(
             new ArrayNode(schema.users, false),
@@ -1135,6 +1324,325 @@ export const schema = {
       { name: "timestamptz_comparison_exp" }
     );
   },
+  get user_roles() {
+    return new ObjectNode(
+      {
+        get comment() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get value() {
+          return new FieldNode(schema.String, undefined, false);
+        }
+      },
+      { name: "user_roles", extension: ((extensions as any) || {}).user_roles }
+    );
+  },
+  get user_roles_aggregate() {
+    return new ObjectNode(
+      {
+        get aggregate() {
+          return new FieldNode(
+            schema.user_roles_aggregate_fields,
+            undefined,
+            true
+          );
+        },
+        get nodes() {
+          return new FieldNode(
+            new ArrayNode(schema.user_roles, false),
+            undefined,
+            false
+          );
+        }
+      },
+      {
+        name: "user_roles_aggregate",
+        extension: ((extensions as any) || {}).user_roles_aggregate
+      }
+    );
+  },
+  get user_roles_aggregate_fields() {
+    return new ObjectNode(
+      {
+        get count() {
+          return new FieldNode(
+            schema.Int,
+            new Arguments({
+              get columns() {
+                return new ArgumentsField(
+                  new ArrayNode(schema.user_roles_select_column, true),
+                  true
+                );
+              },
+              get distinct() {
+                return new ArgumentsField(schema.Boolean, true);
+              }
+            }),
+            true
+          );
+        },
+        get max() {
+          return new FieldNode(schema.user_roles_max_fields, undefined, true);
+        },
+        get min() {
+          return new FieldNode(schema.user_roles_min_fields, undefined, true);
+        }
+      },
+      {
+        name: "user_roles_aggregate_fields",
+        extension: ((extensions as any) || {}).user_roles_aggregate_fields
+      }
+    );
+  },
+  get user_roles_aggregate_order_by() {
+    return new InputNode(
+      {
+        get count() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get max() {
+          return new InputNodeField(schema.user_roles_max_order_by, true);
+        },
+        get min() {
+          return new InputNodeField(schema.user_roles_min_order_by, true);
+        }
+      },
+      { name: "user_roles_aggregate_order_by" }
+    );
+  },
+  get user_roles_arr_rel_insert_input() {
+    return new InputNode(
+      {
+        get data() {
+          return new InputNodeField(
+            new ArrayNode(schema.user_roles_insert_input, false),
+            false
+          );
+        },
+        get on_conflict() {
+          return new InputNodeField(schema.user_roles_on_conflict, true);
+        }
+      },
+      { name: "user_roles_arr_rel_insert_input" }
+    );
+  },
+  get user_roles_bool_exp() {
+    return new InputNode(
+      {
+        get _and() {
+          return new InputNodeField(
+            new ArrayNode(schema.user_roles_bool_exp, true),
+            true
+          );
+        },
+        get _not() {
+          return new InputNodeField(schema.user_roles_bool_exp, true);
+        },
+        get _or() {
+          return new InputNodeField(
+            new ArrayNode(schema.user_roles_bool_exp, true),
+            true
+          );
+        },
+        get comment() {
+          return new InputNodeField(schema.String_comparison_exp, true);
+        },
+        get value() {
+          return new InputNodeField(schema.String_comparison_exp, true);
+        }
+      },
+      { name: "user_roles_bool_exp" }
+    );
+  },
+  get user_roles_constraint() {
+    return new EnumNode({ name: "user_roles_constraint" });
+  },
+  get user_roles_enum() {
+    return new EnumNode({ name: "user_roles_enum" });
+  },
+  get user_roles_enum_comparison_exp() {
+    return new InputNode(
+      {
+        get _eq() {
+          return new InputNodeField(schema.user_roles_enum, true);
+        },
+        get _in() {
+          return new InputNodeField(
+            new ArrayNode(schema.user_roles_enum, true),
+            true
+          );
+        },
+        get _is_null() {
+          return new InputNodeField(schema.Boolean, true);
+        },
+        get _neq() {
+          return new InputNodeField(schema.user_roles_enum, true);
+        },
+        get _nin() {
+          return new InputNodeField(
+            new ArrayNode(schema.user_roles_enum, true),
+            true
+          );
+        }
+      },
+      { name: "user_roles_enum_comparison_exp" }
+    );
+  },
+  get user_roles_insert_input() {
+    return new InputNode(
+      {
+        get comment() {
+          return new InputNodeField(schema.String, true);
+        },
+        get value() {
+          return new InputNodeField(schema.String, true);
+        }
+      },
+      { name: "user_roles_insert_input" }
+    );
+  },
+  get user_roles_max_fields() {
+    return new ObjectNode(
+      {
+        get comment() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get value() {
+          return new FieldNode(schema.String, undefined, true);
+        }
+      },
+      {
+        name: "user_roles_max_fields",
+        extension: ((extensions as any) || {}).user_roles_max_fields
+      }
+    );
+  },
+  get user_roles_max_order_by() {
+    return new InputNode(
+      {
+        get comment() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get value() {
+          return new InputNodeField(schema.order_by, true);
+        }
+      },
+      { name: "user_roles_max_order_by" }
+    );
+  },
+  get user_roles_min_fields() {
+    return new ObjectNode(
+      {
+        get comment() {
+          return new FieldNode(schema.String, undefined, true);
+        },
+        get value() {
+          return new FieldNode(schema.String, undefined, true);
+        }
+      },
+      {
+        name: "user_roles_min_fields",
+        extension: ((extensions as any) || {}).user_roles_min_fields
+      }
+    );
+  },
+  get user_roles_min_order_by() {
+    return new InputNode(
+      {
+        get comment() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get value() {
+          return new InputNodeField(schema.order_by, true);
+        }
+      },
+      { name: "user_roles_min_order_by" }
+    );
+  },
+  get user_roles_mutation_response() {
+    return new ObjectNode(
+      {
+        get affected_rows() {
+          return new FieldNode(schema.Int, undefined, false);
+        },
+        get returning() {
+          return new FieldNode(
+            new ArrayNode(schema.user_roles, false),
+            undefined,
+            false
+          );
+        }
+      },
+      {
+        name: "user_roles_mutation_response",
+        extension: ((extensions as any) || {}).user_roles_mutation_response
+      }
+    );
+  },
+  get user_roles_obj_rel_insert_input() {
+    return new InputNode(
+      {
+        get data() {
+          return new InputNodeField(schema.user_roles_insert_input, false);
+        },
+        get on_conflict() {
+          return new InputNodeField(schema.user_roles_on_conflict, true);
+        }
+      },
+      { name: "user_roles_obj_rel_insert_input" }
+    );
+  },
+  get user_roles_on_conflict() {
+    return new InputNode(
+      {
+        get constraint() {
+          return new InputNodeField(schema.user_roles_constraint, false);
+        },
+        get update_columns() {
+          return new InputNodeField(
+            new ArrayNode(schema.user_roles_update_column, false),
+            false
+          );
+        },
+        get where() {
+          return new InputNodeField(schema.user_roles_bool_exp, true);
+        }
+      },
+      { name: "user_roles_on_conflict" }
+    );
+  },
+  get user_roles_order_by() {
+    return new InputNode(
+      {
+        get comment() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get value() {
+          return new InputNodeField(schema.order_by, true);
+        }
+      },
+      { name: "user_roles_order_by" }
+    );
+  },
+  get user_roles_select_column() {
+    return new EnumNode({ name: "user_roles_select_column" });
+  },
+  get user_roles_set_input() {
+    return new InputNode(
+      {
+        get comment() {
+          return new InputNodeField(schema.String, true);
+        },
+        get value() {
+          return new InputNodeField(schema.String, true);
+        }
+      },
+      { name: "user_roles_set_input" }
+    );
+  },
+  get user_roles_update_column() {
+    return new EnumNode({ name: "user_roles_update_column" });
+  },
   get users() {
     return new ObjectNode(
       {
@@ -1161,6 +1669,9 @@ export const schema = {
         },
         get picture() {
           return new FieldNode(schema.String, undefined, true);
+        },
+        get role() {
+          return new FieldNode(schema.user_roles_enum, undefined, false);
         },
         get sessions() {
           return new FieldNode(
@@ -1354,6 +1865,12 @@ export const schema = {
         get picture() {
           return new InputNodeField(schema.String_comparison_exp, true);
         },
+        get role() {
+          return new InputNodeField(
+            schema.user_roles_enum_comparison_exp,
+            true
+          );
+        },
         get sessions() {
           return new InputNodeField(schema.sessions_bool_exp, true);
         },
@@ -1393,6 +1910,9 @@ export const schema = {
         },
         get picture() {
           return new InputNodeField(schema.String, true);
+        },
+        get role() {
+          return new InputNodeField(schema.user_roles_enum, true);
         },
         get sessions() {
           return new InputNodeField(schema.sessions_arr_rel_insert_input, true);
@@ -1613,6 +2133,9 @@ export const schema = {
         get picture() {
           return new InputNodeField(schema.order_by, true);
         },
+        get role() {
+          return new InputNodeField(schema.order_by, true);
+        },
         get sessions_aggregate() {
           return new InputNodeField(schema.sessions_aggregate_order_by, true);
         },
@@ -1652,6 +2175,9 @@ export const schema = {
         },
         get picture() {
           return new InputNodeField(schema.String, true);
+        },
+        get role() {
+          return new InputNodeField(schema.user_roles_enum, true);
         },
         get updatedAt() {
           return new InputNodeField(schema.timestamptz, true);

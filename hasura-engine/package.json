@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "apply-migrations": "hasura migrate apply --admin-secret admin_secret",
-    "console": "hasura console --admin-secret admin_secret",
+    "dev-apply-migrations": "hasura migrate apply --admin-secret admin_secret",
+    "dev-console": "hasura console --admin-secret admin_secret",
     "prod-console": "hasura console --admin-secret SECRET --endpoint https://mylocalshop-hasura-engine.herokuapp.com",
     "prod-apply-migrations": "hasura migrate apply --admin-secret SECRET --endpoint https://mylocalshop-hasura-engine.herokuapp.com"
   },

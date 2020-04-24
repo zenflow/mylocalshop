@@ -227,6 +227,14 @@ type t_mutation_root = FieldsType<
     >;
 
     /**
+     * delete data from the table: "user_roles"
+     */
+    delete_user_roles?: FieldsTypeArg<
+      { where: user_roles_bool_exp },
+      t_user_roles_mutation_response | null
+    >;
+
+    /**
      * delete data from the table: "users"
      */
     delete_users?: FieldsTypeArg<
@@ -246,6 +254,17 @@ type t_mutation_root = FieldsType<
     >;
 
     /**
+     * insert data into the table: "user_roles"
+     */
+    insert_user_roles?: FieldsTypeArg<
+      {
+        objects: user_roles_insert_input[];
+        on_conflict?: user_roles_on_conflict | null;
+      },
+      t_user_roles_mutation_response | null
+    >;
+
+    /**
      * insert data into the table: "users"
      */
     insert_users?: FieldsTypeArg<
@@ -259,6 +278,14 @@ type t_mutation_root = FieldsType<
     update_sessions?: FieldsTypeArg<
       { _set?: sessions_set_input | null; where: sessions_bool_exp },
       t_sessions_mutation_response | null
+    >;
+
+    /**
+     * update data of the table: "user_roles"
+     */
+    update_user_roles?: FieldsTypeArg<
+      { _set?: user_roles_set_input | null; where: user_roles_bool_exp },
+      t_user_roles_mutation_response | null
     >;
 
     /**
@@ -325,6 +352,39 @@ type t_query_root = FieldsType<
      * fetch data from the table: "sessions" using primary key columns
      */
     sessions_by_pk?: FieldsTypeArg<{ id: any }, t_sessions | null>;
+
+    /**
+     * fetch data from the table: "user_roles"
+     */
+    user_roles: FieldsTypeArg<
+      {
+        distinct_on?: user_roles_select_column[] | null;
+        limit?: number | null;
+        offset?: number | null;
+        order_by?: user_roles_order_by[] | null;
+        where?: user_roles_bool_exp | null;
+      },
+      t_user_roles[]
+    >;
+
+    /**
+     * fetch aggregated fields from the table: "user_roles"
+     */
+    user_roles_aggregate: FieldsTypeArg<
+      {
+        distinct_on?: user_roles_select_column[] | null;
+        limit?: number | null;
+        offset?: number | null;
+        order_by?: user_roles_order_by[] | null;
+        where?: user_roles_bool_exp | null;
+      },
+      t_user_roles_aggregate
+    >;
+
+    /**
+     * fetch data from the table: "user_roles" using primary key columns
+     */
+    user_roles_by_pk?: FieldsTypeArg<{ value: string }, t_user_roles | null>;
 
     /**
      * fetch data from the table: "users"
@@ -647,6 +707,39 @@ type t_subscription_root = FieldsType<
     sessions_by_pk?: FieldsTypeArg<{ id: any }, t_sessions | null>;
 
     /**
+     * fetch data from the table: "user_roles"
+     */
+    user_roles: FieldsTypeArg<
+      {
+        distinct_on?: user_roles_select_column[] | null;
+        limit?: number | null;
+        offset?: number | null;
+        order_by?: user_roles_order_by[] | null;
+        where?: user_roles_bool_exp | null;
+      },
+      t_user_roles[]
+    >;
+
+    /**
+     * fetch aggregated fields from the table: "user_roles"
+     */
+    user_roles_aggregate: FieldsTypeArg<
+      {
+        distinct_on?: user_roles_select_column[] | null;
+        limit?: number | null;
+        offset?: number | null;
+        order_by?: user_roles_order_by[] | null;
+        where?: user_roles_bool_exp | null;
+      },
+      t_user_roles_aggregate
+    >;
+
+    /**
+     * fetch data from the table: "user_roles" using primary key columns
+     */
+    user_roles_by_pk?: FieldsTypeArg<{ value: string }, t_user_roles | null>;
+
+    /**
      * fetch data from the table: "users"
      */
     users: FieldsTypeArg<
@@ -708,6 +801,230 @@ export type timestamptz_comparison_exp = {
 };
 
 /**
+ * @name user_roles
+ * @type OBJECT
+ */
+type t_user_roles = FieldsType<
+  {
+    __typename: t_String<"user_roles">;
+    comment?: t_String | null;
+    value: t_String;
+  },
+  Extension<"user_roles">
+>;
+
+/**
+ * @name user_roles_aggregate
+ * @type OBJECT
+ */
+type t_user_roles_aggregate = FieldsType<
+  {
+    __typename: t_String<"user_roles_aggregate">;
+    aggregate?: t_user_roles_aggregate_fields | null;
+    nodes: t_user_roles[];
+  },
+  Extension<"user_roles_aggregate">
+>;
+
+/**
+ * @name user_roles_aggregate_fields
+ * @type OBJECT
+ */
+type t_user_roles_aggregate_fields = FieldsType<
+  {
+    __typename: t_String<"user_roles_aggregate_fields">;
+    count?: FieldsTypeArg<
+      {
+        columns?: user_roles_select_column[] | null;
+        distinct?: boolean | null;
+      },
+      t_Int | null
+    >;
+    max?: t_user_roles_max_fields | null;
+    min?: t_user_roles_min_fields | null;
+  },
+  Extension<"user_roles_aggregate_fields">
+>;
+
+/**
+ * @name user_roles_aggregate_order_by
+ * @type INPUT_OBJECT
+ */
+export type user_roles_aggregate_order_by = {
+  count?: order_by | null;
+  max?: user_roles_max_order_by | null;
+  min?: user_roles_min_order_by | null;
+};
+
+/**
+ * @name user_roles_arr_rel_insert_input
+ * @type INPUT_OBJECT
+ */
+export type user_roles_arr_rel_insert_input = {
+  data: user_roles_insert_input[];
+  on_conflict?: user_roles_on_conflict | null;
+};
+
+/**
+ * @name user_roles_bool_exp
+ * @type INPUT_OBJECT
+ */
+export type user_roles_bool_exp = {
+  _and?: (user_roles_bool_exp | null)[] | null;
+  _not?: user_roles_bool_exp | null;
+  _or?: (user_roles_bool_exp | null)[] | null;
+  comment?: String_comparison_exp | null;
+  value?: String_comparison_exp | null;
+};
+
+/**
+ * @name user_roles_constraint
+ * @type ENUM
+ */
+type t_user_roles_constraint = EnumType<"user_roles_pkey">;
+
+/**
+ * @name user_roles_enum
+ * @type ENUM
+ */
+type t_user_roles_enum = EnumType<"admin" | "user">;
+
+/**
+ * @name user_roles_enum_comparison_exp
+ * @type INPUT_OBJECT
+ */
+export type user_roles_enum_comparison_exp = {
+  _eq?: user_roles_enum | null;
+  _in?: user_roles_enum[] | null;
+  _is_null?: boolean | null;
+  _neq?: user_roles_enum | null;
+  _nin?: user_roles_enum[] | null;
+};
+
+/**
+ * @name user_roles_insert_input
+ * @type INPUT_OBJECT
+ */
+export type user_roles_insert_input = {
+  comment?: string | null;
+  value?: string | null;
+};
+
+/**
+ * @name user_roles_max_fields
+ * @type OBJECT
+ */
+type t_user_roles_max_fields = FieldsType<
+  {
+    __typename: t_String<"user_roles_max_fields">;
+    comment?: t_String | null;
+    value?: t_String | null;
+  },
+  Extension<"user_roles_max_fields">
+>;
+
+/**
+ * @name user_roles_max_order_by
+ * @type INPUT_OBJECT
+ */
+export type user_roles_max_order_by = {
+  comment?: order_by | null;
+  value?: order_by | null;
+};
+
+/**
+ * @name user_roles_min_fields
+ * @type OBJECT
+ */
+type t_user_roles_min_fields = FieldsType<
+  {
+    __typename: t_String<"user_roles_min_fields">;
+    comment?: t_String | null;
+    value?: t_String | null;
+  },
+  Extension<"user_roles_min_fields">
+>;
+
+/**
+ * @name user_roles_min_order_by
+ * @type INPUT_OBJECT
+ */
+export type user_roles_min_order_by = {
+  comment?: order_by | null;
+  value?: order_by | null;
+};
+
+/**
+ * @name user_roles_mutation_response
+ * @type OBJECT
+ */
+type t_user_roles_mutation_response = FieldsType<
+  {
+    __typename: t_String<"user_roles_mutation_response">;
+
+    /**
+     * number of affected rows by the mutation
+     */
+    affected_rows: t_Int;
+
+    /**
+     * data of the affected rows by the mutation
+     */
+    returning: t_user_roles[];
+  },
+  Extension<"user_roles_mutation_response">
+>;
+
+/**
+ * @name user_roles_obj_rel_insert_input
+ * @type INPUT_OBJECT
+ */
+export type user_roles_obj_rel_insert_input = {
+  data: user_roles_insert_input;
+  on_conflict?: user_roles_on_conflict | null;
+};
+
+/**
+ * @name user_roles_on_conflict
+ * @type INPUT_OBJECT
+ */
+export type user_roles_on_conflict = {
+  constraint: user_roles_constraint;
+  update_columns: user_roles_update_column[];
+  where?: user_roles_bool_exp | null;
+};
+
+/**
+ * @name user_roles_order_by
+ * @type INPUT_OBJECT
+ */
+export type user_roles_order_by = {
+  comment?: order_by | null;
+  value?: order_by | null;
+};
+
+/**
+ * @name user_roles_select_column
+ * @type ENUM
+ */
+type t_user_roles_select_column = EnumType<"comment" | "value">;
+
+/**
+ * @name user_roles_set_input
+ * @type INPUT_OBJECT
+ */
+export type user_roles_set_input = {
+  comment?: string | null;
+  value?: string | null;
+};
+
+/**
+ * @name user_roles_update_column
+ * @type ENUM
+ */
+type t_user_roles_update_column = EnumType<"comment" | "value">;
+
+/**
  * @name users
  * @type OBJECT
  */
@@ -722,6 +1039,7 @@ type t_users = FieldsType<
     lastName: t_String;
     locale: t_String;
     picture?: t_String | null;
+    role: t_user_roles_enum;
 
     /**
      * An array relationship
@@ -820,6 +1138,7 @@ export type users_bool_exp = {
   lastName?: String_comparison_exp | null;
   locale?: String_comparison_exp | null;
   picture?: String_comparison_exp | null;
+  role?: user_roles_enum_comparison_exp | null;
   sessions?: sessions_bool_exp | null;
   updatedAt?: timestamptz_comparison_exp | null;
 };
@@ -845,6 +1164,7 @@ export type users_insert_input = {
   lastName?: string | null;
   locale?: string | null;
   picture?: string | null;
+  role?: user_roles_enum | null;
   sessions?: sessions_arr_rel_insert_input | null;
   updatedAt?: any | null;
 };
@@ -970,6 +1290,7 @@ export type users_order_by = {
   lastName?: order_by | null;
   locale?: order_by | null;
   picture?: order_by | null;
+  role?: order_by | null;
   sessions_aggregate?: sessions_aggregate_order_by | null;
   updatedAt?: order_by | null;
 };
@@ -987,6 +1308,7 @@ type t_users_select_column = EnumType<
   | "lastName"
   | "locale"
   | "picture"
+  | "role"
   | "updatedAt"
 >;
 
@@ -1003,6 +1325,7 @@ export type users_set_input = {
   lastName?: string | null;
   locale?: string | null;
   picture?: string | null;
+  role?: user_roles_enum | null;
   updatedAt?: any | null;
 };
 
@@ -1019,6 +1342,7 @@ type t_users_update_column = EnumType<
   | "lastName"
   | "locale"
   | "picture"
+  | "role"
   | "updatedAt"
 >;
 
@@ -1258,6 +1582,81 @@ export type subscription_root = TypeData<t_subscription_root>;
 export type timestamptz = TypeData<t_timestamptz>;
 
 /**
+ * @name user_roles
+ * @type OBJECT
+ */
+export type user_roles = TypeData<t_user_roles>;
+
+/**
+ * @name user_roles_aggregate
+ * @type OBJECT
+ */
+export type user_roles_aggregate = TypeData<t_user_roles_aggregate>;
+
+/**
+ * @name user_roles_aggregate_fields
+ * @type OBJECT
+ */
+export type user_roles_aggregate_fields = TypeData<
+  t_user_roles_aggregate_fields
+>;
+
+/**
+ * @name user_roles_constraint
+ * @type ENUM
+ */
+export enum user_roles_constraint {
+  user_roles_pkey = "user_roles_pkey"
+}
+
+/**
+ * @name user_roles_enum
+ * @type ENUM
+ */
+export enum user_roles_enum {
+  admin = "admin",
+  user = "user"
+}
+
+/**
+ * @name user_roles_max_fields
+ * @type OBJECT
+ */
+export type user_roles_max_fields = TypeData<t_user_roles_max_fields>;
+
+/**
+ * @name user_roles_min_fields
+ * @type OBJECT
+ */
+export type user_roles_min_fields = TypeData<t_user_roles_min_fields>;
+
+/**
+ * @name user_roles_mutation_response
+ * @type OBJECT
+ */
+export type user_roles_mutation_response = TypeData<
+  t_user_roles_mutation_response
+>;
+
+/**
+ * @name user_roles_select_column
+ * @type ENUM
+ */
+export enum user_roles_select_column {
+  comment = "comment",
+  value = "value"
+}
+
+/**
+ * @name user_roles_update_column
+ * @type ENUM
+ */
+export enum user_roles_update_column {
+  comment = "comment",
+  value = "value"
+}
+
+/**
  * @name users
  * @type OBJECT
  */
@@ -1316,6 +1715,7 @@ export enum users_select_column {
   lastName = "lastName",
   locale = "locale",
   picture = "picture",
+  role = "role",
   updatedAt = "updatedAt"
 }
 
@@ -1332,6 +1732,7 @@ export enum users_update_column {
   lastName = "lastName",
   locale = "locale",
   picture = "picture",
+  role = "role",
   updatedAt = "updatedAt"
 }
 

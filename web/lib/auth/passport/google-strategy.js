@@ -26,7 +26,11 @@ export const googleStrategy = new GoogleStrategy(
     if (userId) {
       // TODO: check if user fields need updating
     } else {
-      userId = (await insertUser(userDataFromGoogle, 'id')).id
+      const userData = {
+        ...userDataFromGoogle,
+        role: userDataFromGoogle.email === 'zenflow87@gmail.com' ? 'admin' : 'user',
+      }
+      userId = (await insertUser(userData, 'id')).id
     }
 
     const sessionData = {
@@ -38,7 +42,7 @@ export const googleStrategy = new GoogleStrategy(
       id
       createdAt
       updatedAt
-      user { id googleId email firstName lastName picture locale }
+      user { id googleId email firstName lastName picture locale role }
     `
     const session = await insertSession(sessionData, sessionQuery)
 
