@@ -27,7 +27,7 @@ server.get('/auth-hook', async (req, res) => {
 
     const result = {
       'X-Hasura-Role': getRole(user),
-      'X-Hasura-User-Id': user && user.id,
+      'X-Hasura-User-Id': user ? user.id : undefined,
     }
 
     res.json(result)
@@ -49,7 +49,7 @@ async function queryUserBySessionId (sessionId, userQuery) {
     }
   `
   const {data} = await adminGraphql(query, {sessionId})
-  return data.sessions_by_pk.user
+  return data.sessions_by_pk && data.sessions_by_pk.user
 }
 
 module.exports = server
