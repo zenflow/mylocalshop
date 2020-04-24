@@ -1,16 +1,9 @@
 import { graphql } from '@gqless/react'
 import { useGqless } from '../lib/gqless'
-import { useSession} from '../lib/auth/react'
 import Suspense from '../lib/SsrCompatibleSuspense'
-
 
 const UsersView = graphql(() => {
   const {query} = useGqless()
-  const session = useSession()
-  if (!session) {
-    // TODO: redirect to login
-    return <h1>Access Denied</h1>
-  }
   return (
     <div>
       <h1>Users</h1>
@@ -44,12 +37,17 @@ const UsersView = graphql(() => {
   )
 })
 
-export default () => {
-  return (
-    <div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <UsersView/>
-      </Suspense>
-    </div>
-  )
+const PrivatePage = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <UsersView/>
+  </Suspense>
+)
+
+PrivatePage.getInitialProps = ({ session, redirect, asPath }) => {
+  if (!session) {
+    redirect(['/login', {redirect: asPath}], 'replace')
+  }
+  return {}
 }
+
+export default PrivatePage

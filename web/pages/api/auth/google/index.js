@@ -3,4 +3,11 @@ import { passport } from '../../../../lib/auth/passport'
 
 export default nextConnect()
   .use(passport.initialize())
-  .get(passport.authenticate('google', { scope: ['email', 'profile'] }))
+  .get((req, res) => {
+    passport.authenticate('google', {
+      scope: ['email', 'profile'],
+      state: JSON.stringify({
+        redirect: req.query.redirect
+      }),
+    })(req, res)
+  })

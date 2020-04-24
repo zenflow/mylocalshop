@@ -1,6 +1,7 @@
 // import App from 'next/app'
 import { withGqless } from '../lib/gqless'
 import { withSession } from '../lib/auth/react'
+import { withRedirect } from '../lib/withRedirect'
 
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />
@@ -13,4 +14,4 @@ MyApp.getInitialProps = async (appContext) => {
 }
 */
 
-export default withGqless(withSession(MyApp))
+export default withGqless(withSession(withRedirect(MyApp)))

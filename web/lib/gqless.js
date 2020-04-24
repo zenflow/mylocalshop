@@ -92,12 +92,6 @@ export const withGqless = AppComponent => {
       ? await AppComponent.getInitialProps(appContext)
       : await App.getInitialProps(appContext)
 
-    // When redirecting, the response is finished.
-    // No point in continuing to render
-    if (pageContext.res?.finished) {
-      return appProps
-    }
-
     // Prefetch & serialize data if on the server
     if (!process.browser) {
       const { AppTree } = appContext

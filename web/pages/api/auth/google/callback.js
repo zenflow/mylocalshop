@@ -14,14 +14,15 @@ export default nextConnect()
   .use(passport.initialize())
   .get(async (req, res) => {
     try {
-      // TODO: redirect failure somewhere that exists
-      const session = await authenticate('google', {failureRedirect: '/login'}, req, res)
+      const state = JSON.parse(req.query.state)
+      const session = await authenticate('google', {
+        failureRedirect: state.redirect || '/login',
+      }, req, res)
       setSessionCookie(res, session)
-      res.writeHead(302, { Location: '/' })
+      res.writeHead(302, { Location: state.redirect || '/' })
       res.end()
     } catch (error) {
       console.error(error)
-      // TODO: redirect to error page
       res.status(500).send(error.message)
     }
   })

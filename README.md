@@ -13,7 +13,6 @@ Shop local, from home
 ## TODO
 
 - snake_case to camelCase
-- redirect away from protected pages, to login, then back to the requested page
 - error page
 
 - add `me` to remote schema

@@ -7,7 +7,7 @@ export default () => {
     <div>
       <p>{session
         ? <a href="/api/auth/logout">Log out</a>
-        : <a href="/api/auth/google">Log in</a>
+        : <Link href="/login"><a>Log in</a></Link>
       }</p>
       <p>
         <Link href="/private">
