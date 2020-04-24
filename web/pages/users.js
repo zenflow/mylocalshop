@@ -1,7 +1,6 @@
 import { graphql } from '@gqless/react'
-import { Container, Header, Loader } from 'semantic-ui-react'
+import { Container, Header } from 'semantic-ui-react'
 import { useGqless } from '../lib/gqless'
-import Suspense from '../components/SsrCompatibleSuspense'
 
 const ArrayTable = graphql(({ array, fields }) => {
   return (
@@ -32,12 +31,10 @@ const PrivatePage = () => {
   return (
     <Container>
       <Header as="h1">Users</Header>
-      <Suspense fallback={<Loader active/>}>
-        <ArrayTable
-          array={query.users}
-          fields={'id createdAt updatedAt email firstName lastName'.split(' ')}
-        />
-      </Suspense>
+      <ArrayTable
+        array={query.users}
+        fields={'id createdAt updatedAt email firstName lastName'.split(' ')}
+      />
     </Container>
   )
 }

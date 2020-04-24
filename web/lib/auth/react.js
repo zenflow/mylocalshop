@@ -1,6 +1,17 @@
 import React from 'react'
 import { getSessionCookie } from './session-cookie'
 import App from 'next/app'
+import { useGqless } from '../gqless'
+
+export const useUser = () => {
+  const { query } = useGqless()
+  const session = useSession()
+  const userId = session?.userId
+  if (!userId) {
+    return null
+  }
+  return query.users_by_pk({ id: userId })
+}
 
 export const useSession = () => React.useContext(SessionContext)
 export const SessionContext = React.createContext()

@@ -1,9 +1,10 @@
+import { graphql } from '@gqless/react'
 import { Container, Dropdown, Menu, Button } from 'semantic-ui-react'
 import Link from 'next/link'
-import { useSession } from '../lib/auth/react'
+import { useUser } from '../lib/auth/react'
 
-export const NavBar = () => {
-  const session = useSession()
+export const NavBar = graphql(() => {
+  const user = useUser()
   return (
     <>
       <div style={{ height: '52px' }}/>
@@ -20,23 +21,23 @@ export const NavBar = () => {
                 Home
               </Menu.Item>
             </Link>
-            {(session?.user.role === 'admin') && (
+            {(user?.role === 'admin') && (
               <Link href='/users'>
                 <Menu.Item as='a' href='/users'>Users</Menu.Item>
               </Link>
             )}
             <Menu.Menu position='right'>
-              {session && (
+              {user && (
                 <Dropdown item icon='user circle outline' className='icon' direction='left'>
                   <Dropdown.Menu position='right'>
-                    <Dropdown.Header content={`Logged in as ${session.user.email}`}/>
-                    {session.user.role === 'admin' && <Dropdown.Header icon='universal access' content='Admin user'/>}
+                    <Dropdown.Header content={`Logged in as ${user.email}`}/>
+                    {user.role === 'admin' && <Dropdown.Header icon='universal access' content='Admin user'/>}
                     <Dropdown.Divider/>
                     <Dropdown.Item as='a' href='/api/auth/logout' icon='sign-out' content='Log out'/>
                   </Dropdown.Menu>
                 </Dropdown>
               )}
-              {!session && (
+              {!user && (
                 <Menu.Item>
                   <Link href="/login">
                     <Button primary as='a' href='/login' icon='sign-in' content='Log in'/>
@@ -50,4 +51,4 @@ export const NavBar = () => {
       </div>
     </>
   )
-}
+})

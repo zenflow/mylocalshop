@@ -12,13 +12,10 @@ Shop local, from home
 
 ## TODO
 
-- deploy (clear db for sure)
-- dump production data to migrations
-
-- squash all
-
-- **** create `shops` `products` `shop_products`
-- auto react-admin using graphql introspection
+- switch gql client
+- efficiently access gql data from app frame
+- react-admin for Users
+- create `shops`
 
 ---
 

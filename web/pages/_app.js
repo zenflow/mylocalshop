@@ -5,12 +5,18 @@ import { AppFrame } from '../components/AppFrame'
 import { withGqless } from '../lib/gqless'
 import { withSession } from '../lib/auth/react'
 import { withRedirect } from '../lib/withRedirect'
+import Suspense from '../components/SsrCompatibleSuspense'
+import { Loader } from 'semantic-ui-react'
 
 function MyApp ({ Component, pageProps }) {
   return (
-    <AppFrame>
-      <Component {...pageProps} />
-    </AppFrame>
+    <Suspense>
+      <AppFrame>
+        <Suspense fallback={<Loader active/>}>
+          <Component {...pageProps} />
+        </Suspense>
+      </AppFrame>
+    </Suspense>
   )
 }
 

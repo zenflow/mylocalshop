@@ -38,13 +38,7 @@ export const googleStrategy = new GoogleStrategy(
       token: accessToken,
       userId,
     }
-    const sessionQuery = `
-      id
-      createdAt
-      updatedAt
-      user { id googleId email firstName lastName picture locale role }
-    `
-    const session = await insertSession(sessionData, sessionQuery)
+    const session = await insertSession(sessionData, 'id createdAt updatedAt userId')
 
     return session
   }),
