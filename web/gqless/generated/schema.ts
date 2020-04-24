@@ -554,7 +554,7 @@ export const schema = {
   get sessions() {
     return new ObjectNode(
       {
-        get created_at() {
+        get createdAt() {
           return new FieldNode(schema.timestamptz, undefined, false);
         },
         get id() {
@@ -566,10 +566,13 @@ export const schema = {
         get token() {
           return new FieldNode(schema.String, undefined, false);
         },
+        get updatedAt() {
+          return new FieldNode(schema.timestamptz, undefined, false);
+        },
         get user() {
           return new FieldNode(schema.users, undefined, false);
         },
-        get user_id() {
+        get userId() {
           return new FieldNode(schema.uuid, undefined, false);
         }
       },
@@ -683,7 +686,7 @@ export const schema = {
             true
           );
         },
-        get created_at() {
+        get createdAt() {
           return new InputNodeField(schema.timestamptz_comparison_exp, true);
         },
         get id() {
@@ -695,10 +698,13 @@ export const schema = {
         get token() {
           return new InputNodeField(schema.String_comparison_exp, true);
         },
+        get updatedAt() {
+          return new InputNodeField(schema.timestamptz_comparison_exp, true);
+        },
         get user() {
           return new InputNodeField(schema.users_bool_exp, true);
         },
-        get user_id() {
+        get userId() {
           return new InputNodeField(schema.uuid_comparison_exp, true);
         }
       },
@@ -711,7 +717,7 @@ export const schema = {
   get sessions_insert_input() {
     return new InputNode(
       {
-        get created_at() {
+        get createdAt() {
           return new InputNodeField(schema.timestamptz, true);
         },
         get id() {
@@ -723,10 +729,13 @@ export const schema = {
         get token() {
           return new InputNodeField(schema.String, true);
         },
+        get updatedAt() {
+          return new InputNodeField(schema.timestamptz, true);
+        },
         get user() {
           return new InputNodeField(schema.users_obj_rel_insert_input, true);
         },
-        get user_id() {
+        get userId() {
           return new InputNodeField(schema.uuid, true);
         }
       },
@@ -736,7 +745,7 @@ export const schema = {
   get sessions_max_fields() {
     return new ObjectNode(
       {
-        get created_at() {
+        get createdAt() {
           return new FieldNode(schema.timestamptz, undefined, true);
         },
         get provider() {
@@ -744,6 +753,9 @@ export const schema = {
         },
         get token() {
           return new FieldNode(schema.String, undefined, true);
+        },
+        get updatedAt() {
+          return new FieldNode(schema.timestamptz, undefined, true);
         }
       },
       {
@@ -755,13 +767,16 @@ export const schema = {
   get sessions_max_order_by() {
     return new InputNode(
       {
-        get created_at() {
+        get createdAt() {
           return new InputNodeField(schema.order_by, true);
         },
         get provider() {
           return new InputNodeField(schema.order_by, true);
         },
         get token() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get updatedAt() {
           return new InputNodeField(schema.order_by, true);
         }
       },
@@ -771,7 +786,7 @@ export const schema = {
   get sessions_min_fields() {
     return new ObjectNode(
       {
-        get created_at() {
+        get createdAt() {
           return new FieldNode(schema.timestamptz, undefined, true);
         },
         get provider() {
@@ -779,6 +794,9 @@ export const schema = {
         },
         get token() {
           return new FieldNode(schema.String, undefined, true);
+        },
+        get updatedAt() {
+          return new FieldNode(schema.timestamptz, undefined, true);
         }
       },
       {
@@ -790,13 +808,16 @@ export const schema = {
   get sessions_min_order_by() {
     return new InputNode(
       {
-        get created_at() {
+        get createdAt() {
           return new InputNodeField(schema.order_by, true);
         },
         get provider() {
           return new InputNodeField(schema.order_by, true);
         },
         get token() {
+          return new InputNodeField(schema.order_by, true);
+        },
+        get updatedAt() {
           return new InputNodeField(schema.order_by, true);
         }
       },
@@ -858,7 +879,7 @@ export const schema = {
   get sessions_order_by() {
     return new InputNode(
       {
-        get created_at() {
+        get createdAt() {
           return new InputNodeField(schema.order_by, true);
         },
         get id() {
@@ -870,10 +891,13 @@ export const schema = {
         get token() {
           return new InputNodeField(schema.order_by, true);
         },
+        get updatedAt() {
+          return new InputNodeField(schema.order_by, true);
+        },
         get user() {
           return new InputNodeField(schema.users_order_by, true);
         },
-        get user_id() {
+        get userId() {
           return new InputNodeField(schema.order_by, true);
         }
       },
@@ -886,7 +910,7 @@ export const schema = {
   get sessions_set_input() {
     return new InputNode(
       {
-        get created_at() {
+        get createdAt() {
           return new InputNodeField(schema.timestamptz, true);
         },
         get id() {
@@ -898,7 +922,10 @@ export const schema = {
         get token() {
           return new InputNodeField(schema.String, true);
         },
-        get user_id() {
+        get updatedAt() {
+          return new InputNodeField(schema.timestamptz, true);
+        },
+        get userId() {
           return new InputNodeField(schema.uuid, true);
         }
       },
@@ -1111,22 +1138,22 @@ export const schema = {
   get users() {
     return new ObjectNode(
       {
-        get created_at() {
+        get createdAt() {
           return new FieldNode(schema.timestamptz, undefined, false);
         },
         get email() {
           return new FieldNode(schema.String, undefined, false);
         },
-        get first_name() {
+        get firstName() {
           return new FieldNode(schema.String, undefined, false);
         },
-        get google_id() {
+        get googleId() {
           return new FieldNode(schema.String, undefined, true);
         },
         get id() {
           return new FieldNode(schema.uuid, undefined, false);
         },
-        get last_name() {
+        get lastName() {
           return new FieldNode(schema.String, undefined, false);
         },
         get locale() {
@@ -1193,7 +1220,7 @@ export const schema = {
             false
           );
         },
-        get updated_at() {
+        get updatedAt() {
           return new FieldNode(schema.timestamptz, undefined, false);
         }
       },
@@ -1303,22 +1330,22 @@ export const schema = {
             true
           );
         },
-        get created_at() {
+        get createdAt() {
           return new InputNodeField(schema.timestamptz_comparison_exp, true);
         },
         get email() {
           return new InputNodeField(schema.String_comparison_exp, true);
         },
-        get first_name() {
+        get firstName() {
           return new InputNodeField(schema.String_comparison_exp, true);
         },
-        get google_id() {
+        get googleId() {
           return new InputNodeField(schema.String_comparison_exp, true);
         },
         get id() {
           return new InputNodeField(schema.uuid_comparison_exp, true);
         },
-        get last_name() {
+        get lastName() {
           return new InputNodeField(schema.String_comparison_exp, true);
         },
         get locale() {
@@ -1330,7 +1357,7 @@ export const schema = {
         get sessions() {
           return new InputNodeField(schema.sessions_bool_exp, true);
         },
-        get updated_at() {
+        get updatedAt() {
           return new InputNodeField(schema.timestamptz_comparison_exp, true);
         }
       },
@@ -1343,22 +1370,22 @@ export const schema = {
   get users_insert_input() {
     return new InputNode(
       {
-        get created_at() {
+        get createdAt() {
           return new InputNodeField(schema.timestamptz, true);
         },
         get email() {
           return new InputNodeField(schema.String, true);
         },
-        get first_name() {
+        get firstName() {
           return new InputNodeField(schema.String, true);
         },
-        get google_id() {
+        get googleId() {
           return new InputNodeField(schema.String, true);
         },
         get id() {
           return new InputNodeField(schema.uuid, true);
         },
-        get last_name() {
+        get lastName() {
           return new InputNodeField(schema.String, true);
         },
         get locale() {
@@ -1370,7 +1397,7 @@ export const schema = {
         get sessions() {
           return new InputNodeField(schema.sessions_arr_rel_insert_input, true);
         },
-        get updated_at() {
+        get updatedAt() {
           return new InputNodeField(schema.timestamptz, true);
         }
       },
@@ -1380,19 +1407,19 @@ export const schema = {
   get users_max_fields() {
     return new ObjectNode(
       {
-        get created_at() {
+        get createdAt() {
           return new FieldNode(schema.timestamptz, undefined, true);
         },
         get email() {
           return new FieldNode(schema.String, undefined, true);
         },
-        get first_name() {
+        get firstName() {
           return new FieldNode(schema.String, undefined, true);
         },
-        get google_id() {
+        get googleId() {
           return new FieldNode(schema.String, undefined, true);
         },
-        get last_name() {
+        get lastName() {
           return new FieldNode(schema.String, undefined, true);
         },
         get locale() {
@@ -1401,7 +1428,7 @@ export const schema = {
         get picture() {
           return new FieldNode(schema.String, undefined, true);
         },
-        get updated_at() {
+        get updatedAt() {
           return new FieldNode(schema.timestamptz, undefined, true);
         }
       },
@@ -1414,19 +1441,19 @@ export const schema = {
   get users_max_order_by() {
     return new InputNode(
       {
-        get created_at() {
+        get createdAt() {
           return new InputNodeField(schema.order_by, true);
         },
         get email() {
           return new InputNodeField(schema.order_by, true);
         },
-        get first_name() {
+        get firstName() {
           return new InputNodeField(schema.order_by, true);
         },
-        get google_id() {
+        get googleId() {
           return new InputNodeField(schema.order_by, true);
         },
-        get last_name() {
+        get lastName() {
           return new InputNodeField(schema.order_by, true);
         },
         get locale() {
@@ -1435,7 +1462,7 @@ export const schema = {
         get picture() {
           return new InputNodeField(schema.order_by, true);
         },
-        get updated_at() {
+        get updatedAt() {
           return new InputNodeField(schema.order_by, true);
         }
       },
@@ -1445,19 +1472,19 @@ export const schema = {
   get users_min_fields() {
     return new ObjectNode(
       {
-        get created_at() {
+        get createdAt() {
           return new FieldNode(schema.timestamptz, undefined, true);
         },
         get email() {
           return new FieldNode(schema.String, undefined, true);
         },
-        get first_name() {
+        get firstName() {
           return new FieldNode(schema.String, undefined, true);
         },
-        get google_id() {
+        get googleId() {
           return new FieldNode(schema.String, undefined, true);
         },
-        get last_name() {
+        get lastName() {
           return new FieldNode(schema.String, undefined, true);
         },
         get locale() {
@@ -1466,7 +1493,7 @@ export const schema = {
         get picture() {
           return new FieldNode(schema.String, undefined, true);
         },
-        get updated_at() {
+        get updatedAt() {
           return new FieldNode(schema.timestamptz, undefined, true);
         }
       },
@@ -1479,19 +1506,19 @@ export const schema = {
   get users_min_order_by() {
     return new InputNode(
       {
-        get created_at() {
+        get createdAt() {
           return new InputNodeField(schema.order_by, true);
         },
         get email() {
           return new InputNodeField(schema.order_by, true);
         },
-        get first_name() {
+        get firstName() {
           return new InputNodeField(schema.order_by, true);
         },
-        get google_id() {
+        get googleId() {
           return new InputNodeField(schema.order_by, true);
         },
-        get last_name() {
+        get lastName() {
           return new InputNodeField(schema.order_by, true);
         },
         get locale() {
@@ -1500,7 +1527,7 @@ export const schema = {
         get picture() {
           return new InputNodeField(schema.order_by, true);
         },
-        get updated_at() {
+        get updatedAt() {
           return new InputNodeField(schema.order_by, true);
         }
       },
@@ -1562,22 +1589,22 @@ export const schema = {
   get users_order_by() {
     return new InputNode(
       {
-        get created_at() {
+        get createdAt() {
           return new InputNodeField(schema.order_by, true);
         },
         get email() {
           return new InputNodeField(schema.order_by, true);
         },
-        get first_name() {
+        get firstName() {
           return new InputNodeField(schema.order_by, true);
         },
-        get google_id() {
+        get googleId() {
           return new InputNodeField(schema.order_by, true);
         },
         get id() {
           return new InputNodeField(schema.order_by, true);
         },
-        get last_name() {
+        get lastName() {
           return new InputNodeField(schema.order_by, true);
         },
         get locale() {
@@ -1589,7 +1616,7 @@ export const schema = {
         get sessions_aggregate() {
           return new InputNodeField(schema.sessions_aggregate_order_by, true);
         },
-        get updated_at() {
+        get updatedAt() {
           return new InputNodeField(schema.order_by, true);
         }
       },
@@ -1602,22 +1629,22 @@ export const schema = {
   get users_set_input() {
     return new InputNode(
       {
-        get created_at() {
+        get createdAt() {
           return new InputNodeField(schema.timestamptz, true);
         },
         get email() {
           return new InputNodeField(schema.String, true);
         },
-        get first_name() {
+        get firstName() {
           return new InputNodeField(schema.String, true);
         },
-        get google_id() {
+        get googleId() {
           return new InputNodeField(schema.String, true);
         },
         get id() {
           return new InputNodeField(schema.uuid, true);
         },
-        get last_name() {
+        get lastName() {
           return new InputNodeField(schema.String, true);
         },
         get locale() {
@@ -1626,7 +1653,7 @@ export const schema = {
         get picture() {
           return new InputNodeField(schema.String, true);
         },
-        get updated_at() {
+        get updatedAt() {
           return new InputNodeField(schema.timestamptz, true);
         }
       },

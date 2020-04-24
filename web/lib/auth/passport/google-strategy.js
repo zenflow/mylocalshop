@@ -1,5 +1,5 @@
 import GoogleStrategy from 'passport-google-oauth20/lib'
-import { adminGraphql, gqlStr } from '../../adminGraphql'
+import { adminGraphql } from '../../adminGraphql'
 
 const clientID = process.env.GOOGLE_CLIENT_ID
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET
@@ -15,12 +15,12 @@ export const googleStrategy = new GoogleStrategy(
   callbackify(async (accessToken, refreshToken, profile) => {
 
     const userDataFromGoogle = {
+      googleId: profile.id,
       email: profile._json.email,
-      first_name: profile._json.given_name,
-      last_name: profile._json.family_name,
+      firstName: profile._json.given_name,
+      lastName: profile._json.family_name,
       picture: profile._json.picture,
       locale: profile._json.locale,
-      google_id: profile.id,
     }
 
     let userId = await queryUserIdFromGoogleId(profile.id)
@@ -33,12 +33,13 @@ export const googleStrategy = new GoogleStrategy(
     const sessionData = {
       provider: 'google',
       token: accessToken,
-      user_id: userId,
+      userId,
     }
     const sessionQuery = `
       id
-      created_at
-      user { id email first_name last_name picture locale google_id }
+      createdAt
+      updatedAt
+      user { id googleId email firstName lastName picture locale }
     `
     const session = await insertSession(sessionData, sessionQuery)
 
@@ -48,16 +49,13 @@ export const googleStrategy = new GoogleStrategy(
 
 async function queryUserIdFromGoogleId (googleId) {
   const query = `
-    query ($google_id: String) {
-      users(where: {google_id: {_eq: $google_id}}) {
+    query ($googleId: String) {
+      users(where: {googleId: {_eq: $googleId}}) {
         id
       } 
     }
   `
-  const variables = {
-    google_id: googleId,
-  }
-  const {data} = await adminGraphql(query, variables)
+  const {data} = await adminGraphql(query, {googleId})
   return data.users[0]?.id
 }
 

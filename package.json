@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "clean-hasura": "docker-compose down --volumes",
-    "start-hasura": "docker-compose up --build"
+    "start-hasura": "docker-compose up --build",
+    "clean-start-hasura": "yarn clean-hasura && yarn start-hasura"
   }
 }

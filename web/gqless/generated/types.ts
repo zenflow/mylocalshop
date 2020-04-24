@@ -369,16 +369,17 @@ type t_query_root = FieldsType<
 type t_sessions = FieldsType<
   {
     __typename: t_String<"sessions">;
-    created_at: t_timestamptz;
+    createdAt: t_timestamptz;
     id: t_uuid;
     provider: t_String;
     token: t_String;
+    updatedAt: t_timestamptz;
 
     /**
      * An object relationship
      */
     user: t_users;
-    user_id: t_uuid;
+    userId: t_uuid;
   },
   Extension<"sessions">
 >;
@@ -440,12 +441,13 @@ export type sessions_bool_exp = {
   _and?: (sessions_bool_exp | null)[] | null;
   _not?: sessions_bool_exp | null;
   _or?: (sessions_bool_exp | null)[] | null;
-  created_at?: timestamptz_comparison_exp | null;
+  createdAt?: timestamptz_comparison_exp | null;
   id?: uuid_comparison_exp | null;
   provider?: String_comparison_exp | null;
   token?: String_comparison_exp | null;
+  updatedAt?: timestamptz_comparison_exp | null;
   user?: users_bool_exp | null;
-  user_id?: uuid_comparison_exp | null;
+  userId?: uuid_comparison_exp | null;
 };
 
 /**
@@ -459,12 +461,13 @@ type t_sessions_constraint = EnumType<"sessions_pkey">;
  * @type INPUT_OBJECT
  */
 export type sessions_insert_input = {
-  created_at?: any | null;
+  createdAt?: any | null;
   id?: any | null;
   provider?: string | null;
   token?: string | null;
+  updatedAt?: any | null;
   user?: users_obj_rel_insert_input | null;
-  user_id?: any | null;
+  userId?: any | null;
 };
 
 /**
@@ -474,9 +477,10 @@ export type sessions_insert_input = {
 type t_sessions_max_fields = FieldsType<
   {
     __typename: t_String<"sessions_max_fields">;
-    created_at?: t_timestamptz | null;
+    createdAt?: t_timestamptz | null;
     provider?: t_String | null;
     token?: t_String | null;
+    updatedAt?: t_timestamptz | null;
   },
   Extension<"sessions_max_fields">
 >;
@@ -486,9 +490,10 @@ type t_sessions_max_fields = FieldsType<
  * @type INPUT_OBJECT
  */
 export type sessions_max_order_by = {
-  created_at?: order_by | null;
+  createdAt?: order_by | null;
   provider?: order_by | null;
   token?: order_by | null;
+  updatedAt?: order_by | null;
 };
 
 /**
@@ -498,9 +503,10 @@ export type sessions_max_order_by = {
 type t_sessions_min_fields = FieldsType<
   {
     __typename: t_String<"sessions_min_fields">;
-    created_at?: t_timestamptz | null;
+    createdAt?: t_timestamptz | null;
     provider?: t_String | null;
     token?: t_String | null;
+    updatedAt?: t_timestamptz | null;
   },
   Extension<"sessions_min_fields">
 >;
@@ -510,9 +516,10 @@ type t_sessions_min_fields = FieldsType<
  * @type INPUT_OBJECT
  */
 export type sessions_min_order_by = {
-  created_at?: order_by | null;
+  createdAt?: order_by | null;
   provider?: order_by | null;
   token?: order_by | null;
+  updatedAt?: order_by | null;
 };
 
 /**
@@ -560,12 +567,13 @@ export type sessions_on_conflict = {
  * @type INPUT_OBJECT
  */
 export type sessions_order_by = {
-  created_at?: order_by | null;
+  createdAt?: order_by | null;
   id?: order_by | null;
   provider?: order_by | null;
   token?: order_by | null;
+  updatedAt?: order_by | null;
   user?: users_order_by | null;
-  user_id?: order_by | null;
+  userId?: order_by | null;
 };
 
 /**
@@ -573,7 +581,7 @@ export type sessions_order_by = {
  * @type ENUM
  */
 type t_sessions_select_column = EnumType<
-  "created_at" | "id" | "provider" | "token" | "user_id"
+  "createdAt" | "id" | "provider" | "token" | "updatedAt" | "userId"
 >;
 
 /**
@@ -581,11 +589,12 @@ type t_sessions_select_column = EnumType<
  * @type INPUT_OBJECT
  */
 export type sessions_set_input = {
-  created_at?: any | null;
+  createdAt?: any | null;
   id?: any | null;
   provider?: string | null;
   token?: string | null;
-  user_id?: any | null;
+  updatedAt?: any | null;
+  userId?: any | null;
 };
 
 /**
@@ -593,7 +602,7 @@ export type sessions_set_input = {
  * @type ENUM
  */
 type t_sessions_update_column = EnumType<
-  "created_at" | "id" | "provider" | "token" | "user_id"
+  "createdAt" | "id" | "provider" | "token" | "updatedAt" | "userId"
 >;
 
 /**
@@ -705,12 +714,12 @@ export type timestamptz_comparison_exp = {
 type t_users = FieldsType<
   {
     __typename: t_String<"users">;
-    created_at: t_timestamptz;
+    createdAt: t_timestamptz;
     email: t_String;
-    first_name: t_String;
-    google_id?: t_String | null;
+    firstName: t_String;
+    googleId?: t_String | null;
     id: t_uuid;
-    last_name: t_String;
+    lastName: t_String;
     locale: t_String;
     picture?: t_String | null;
 
@@ -741,7 +750,7 @@ type t_users = FieldsType<
       },
       t_sessions_aggregate
     >;
-    updated_at: t_timestamptz;
+    updatedAt: t_timestamptz;
   },
   Extension<"users">
 >;
@@ -803,16 +812,16 @@ export type users_bool_exp = {
   _and?: (users_bool_exp | null)[] | null;
   _not?: users_bool_exp | null;
   _or?: (users_bool_exp | null)[] | null;
-  created_at?: timestamptz_comparison_exp | null;
+  createdAt?: timestamptz_comparison_exp | null;
   email?: String_comparison_exp | null;
-  first_name?: String_comparison_exp | null;
-  google_id?: String_comparison_exp | null;
+  firstName?: String_comparison_exp | null;
+  googleId?: String_comparison_exp | null;
   id?: uuid_comparison_exp | null;
-  last_name?: String_comparison_exp | null;
+  lastName?: String_comparison_exp | null;
   locale?: String_comparison_exp | null;
   picture?: String_comparison_exp | null;
   sessions?: sessions_bool_exp | null;
-  updated_at?: timestamptz_comparison_exp | null;
+  updatedAt?: timestamptz_comparison_exp | null;
 };
 
 /**
@@ -820,7 +829,7 @@ export type users_bool_exp = {
  * @type ENUM
  */
 type t_users_constraint = EnumType<
-  "users_email_key" | "users_google_id_key" | "users_pkey"
+  "users_email_key" | "users_googleId_key" | "users_pkey"
 >;
 
 /**
@@ -828,16 +837,16 @@ type t_users_constraint = EnumType<
  * @type INPUT_OBJECT
  */
 export type users_insert_input = {
-  created_at?: any | null;
+  createdAt?: any | null;
   email?: string | null;
-  first_name?: string | null;
-  google_id?: string | null;
+  firstName?: string | null;
+  googleId?: string | null;
   id?: any | null;
-  last_name?: string | null;
+  lastName?: string | null;
   locale?: string | null;
   picture?: string | null;
   sessions?: sessions_arr_rel_insert_input | null;
-  updated_at?: any | null;
+  updatedAt?: any | null;
 };
 
 /**
@@ -847,14 +856,14 @@ export type users_insert_input = {
 type t_users_max_fields = FieldsType<
   {
     __typename: t_String<"users_max_fields">;
-    created_at?: t_timestamptz | null;
+    createdAt?: t_timestamptz | null;
     email?: t_String | null;
-    first_name?: t_String | null;
-    google_id?: t_String | null;
-    last_name?: t_String | null;
+    firstName?: t_String | null;
+    googleId?: t_String | null;
+    lastName?: t_String | null;
     locale?: t_String | null;
     picture?: t_String | null;
-    updated_at?: t_timestamptz | null;
+    updatedAt?: t_timestamptz | null;
   },
   Extension<"users_max_fields">
 >;
@@ -864,14 +873,14 @@ type t_users_max_fields = FieldsType<
  * @type INPUT_OBJECT
  */
 export type users_max_order_by = {
-  created_at?: order_by | null;
+  createdAt?: order_by | null;
   email?: order_by | null;
-  first_name?: order_by | null;
-  google_id?: order_by | null;
-  last_name?: order_by | null;
+  firstName?: order_by | null;
+  googleId?: order_by | null;
+  lastName?: order_by | null;
   locale?: order_by | null;
   picture?: order_by | null;
-  updated_at?: order_by | null;
+  updatedAt?: order_by | null;
 };
 
 /**
@@ -881,14 +890,14 @@ export type users_max_order_by = {
 type t_users_min_fields = FieldsType<
   {
     __typename: t_String<"users_min_fields">;
-    created_at?: t_timestamptz | null;
+    createdAt?: t_timestamptz | null;
     email?: t_String | null;
-    first_name?: t_String | null;
-    google_id?: t_String | null;
-    last_name?: t_String | null;
+    firstName?: t_String | null;
+    googleId?: t_String | null;
+    lastName?: t_String | null;
     locale?: t_String | null;
     picture?: t_String | null;
-    updated_at?: t_timestamptz | null;
+    updatedAt?: t_timestamptz | null;
   },
   Extension<"users_min_fields">
 >;
@@ -898,14 +907,14 @@ type t_users_min_fields = FieldsType<
  * @type INPUT_OBJECT
  */
 export type users_min_order_by = {
-  created_at?: order_by | null;
+  createdAt?: order_by | null;
   email?: order_by | null;
-  first_name?: order_by | null;
-  google_id?: order_by | null;
-  last_name?: order_by | null;
+  firstName?: order_by | null;
+  googleId?: order_by | null;
+  lastName?: order_by | null;
   locale?: order_by | null;
   picture?: order_by | null;
-  updated_at?: order_by | null;
+  updatedAt?: order_by | null;
 };
 
 /**
@@ -953,16 +962,16 @@ export type users_on_conflict = {
  * @type INPUT_OBJECT
  */
 export type users_order_by = {
-  created_at?: order_by | null;
+  createdAt?: order_by | null;
   email?: order_by | null;
-  first_name?: order_by | null;
-  google_id?: order_by | null;
+  firstName?: order_by | null;
+  googleId?: order_by | null;
   id?: order_by | null;
-  last_name?: order_by | null;
+  lastName?: order_by | null;
   locale?: order_by | null;
   picture?: order_by | null;
   sessions_aggregate?: sessions_aggregate_order_by | null;
-  updated_at?: order_by | null;
+  updatedAt?: order_by | null;
 };
 
 /**
@@ -970,15 +979,15 @@ export type users_order_by = {
  * @type ENUM
  */
 type t_users_select_column = EnumType<
-  | "created_at"
+  | "createdAt"
   | "email"
-  | "first_name"
-  | "google_id"
+  | "firstName"
+  | "googleId"
   | "id"
-  | "last_name"
+  | "lastName"
   | "locale"
   | "picture"
-  | "updated_at"
+  | "updatedAt"
 >;
 
 /**
@@ -986,15 +995,15 @@ type t_users_select_column = EnumType<
  * @type INPUT_OBJECT
  */
 export type users_set_input = {
-  created_at?: any | null;
+  createdAt?: any | null;
   email?: string | null;
-  first_name?: string | null;
-  google_id?: string | null;
+  firstName?: string | null;
+  googleId?: string | null;
   id?: any | null;
-  last_name?: string | null;
+  lastName?: string | null;
   locale?: string | null;
   picture?: string | null;
-  updated_at?: any | null;
+  updatedAt?: any | null;
 };
 
 /**
@@ -1002,15 +1011,15 @@ export type users_set_input = {
  * @type ENUM
  */
 type t_users_update_column = EnumType<
-  | "created_at"
+  | "createdAt"
   | "email"
-  | "first_name"
-  | "google_id"
+  | "firstName"
+  | "googleId"
   | "id"
-  | "last_name"
+  | "lastName"
   | "locale"
   | "picture"
-  | "updated_at"
+  | "updatedAt"
 >;
 
 /**
@@ -1215,11 +1224,12 @@ export type sessions_mutation_response = TypeData<t_sessions_mutation_response>;
  * @type ENUM
  */
 export enum sessions_select_column {
-  created_at = "created_at",
+  createdAt = "createdAt",
   id = "id",
   provider = "provider",
   token = "token",
-  user_id = "user_id"
+  updatedAt = "updatedAt",
+  userId = "userId"
 }
 
 /**
@@ -1227,11 +1237,12 @@ export enum sessions_select_column {
  * @type ENUM
  */
 export enum sessions_update_column {
-  created_at = "created_at",
+  createdAt = "createdAt",
   id = "id",
   provider = "provider",
   token = "token",
-  user_id = "user_id"
+  updatedAt = "updatedAt",
+  userId = "userId"
 }
 
 /**
@@ -1270,7 +1281,7 @@ export type users_aggregate_fields = TypeData<t_users_aggregate_fields>;
  */
 export enum users_constraint {
   users_email_key = "users_email_key",
-  users_google_id_key = "users_google_id_key",
+  users_googleId_key = "users_googleId_key",
   users_pkey = "users_pkey"
 }
 
@@ -1297,15 +1308,15 @@ export type users_mutation_response = TypeData<t_users_mutation_response>;
  * @type ENUM
  */
 export enum users_select_column {
-  created_at = "created_at",
+  createdAt = "createdAt",
   email = "email",
-  first_name = "first_name",
-  google_id = "google_id",
+  firstName = "firstName",
+  googleId = "googleId",
   id = "id",
-  last_name = "last_name",
+  lastName = "lastName",
   locale = "locale",
   picture = "picture",
-  updated_at = "updated_at"
+  updatedAt = "updatedAt"
 }
 
 /**
@@ -1313,15 +1324,15 @@ export enum users_select_column {
  * @type ENUM
  */
 export enum users_update_column {
-  created_at = "created_at",
+  createdAt = "createdAt",
   email = "email",
-  first_name = "first_name",
-  google_id = "google_id",
+  firstName = "firstName",
+  googleId = "googleId",
   id = "id",
-  last_name = "last_name",
+  lastName = "lastName",
   locale = "locale",
   picture = "picture",
-  updated_at = "updated_at"
+  updatedAt = "updatedAt"
 }
 
 /**

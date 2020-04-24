@@ -4,7 +4,7 @@
       name: sessions
       schema: public
     using:
-      foreign_key_constraint_on: user_id
+      foreign_key_constraint_on: userId
   type: create_object_relationship
 - args:
     name: sessions
@@ -13,7 +13,7 @@
       schema: public
     using:
       foreign_key_constraint_on:
-        column: user_id
+        column: userId
         table:
           name: sessions
           schema: public
