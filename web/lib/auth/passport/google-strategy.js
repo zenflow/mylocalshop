@@ -1,17 +1,17 @@
 import GoogleStrategy from 'passport-google-oauth20/lib'
 import { adminGraphql } from '../../adminGraphql'
 
-const clientID = process.env.GOOGLE_CLIENT_ID
-const clientSecret = process.env.GOOGLE_CLIENT_SECRET
-const callbackURL = '/api/auth/google/callback'
-
 const callbackify = fn => (...args) => {
   const cb = args.pop()
   fn(...args).then(result => cb(null, result), error => cb(error))
 }
 
 export const googleStrategy = new GoogleStrategy(
-  { clientID, clientSecret, callbackURL },
+  {
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: '/api/auth/google/callback',
+  },
   callbackify(async (accessToken, refreshToken, profile) => {
     const userDataFromGoogle = {
       googleId: profile.id,

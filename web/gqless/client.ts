@@ -2,10 +2,9 @@ import fetch from 'isomorphic-unfetch'
 import { Client, QueryFetcher } from 'gqless'
 import { schema, query_root } from './generated'
 
-const endpoint = `${process.env.HASURA_ENGINE_ENDPOINT}/v1/graphql`
-
 function getQueryFetcher(sessionId): QueryFetcher {
   return async (query, variables) => {
+    const endpoint = `${process.env.HASURA_ENGINE_ENDPOINT}/v1/graphql`
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {

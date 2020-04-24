@@ -3,15 +3,13 @@
 const fetch = require('isomorphic-unfetch')
 module.exports = { adminGraphql }
 
-const endpoint = `${process.env.HASURA_ENGINE_ENDPOINT}/v1/graphql`
-const secret = process.env.HASURA_GRAPHQL_ADMIN_SECRET
-
 async function adminGraphql (query, variables) {
+  const endpoint = `${process.env.HASURA_ENGINE_ENDPOINT}/v1/graphql`
   const response = await fetch(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-Hasura-Admin-Secret': secret,
+      'X-Hasura-Admin-Secret': process.env.HASURA_GRAPHQL_ADMIN_SECRET,
     },
     body: JSON.stringify({
       query,
