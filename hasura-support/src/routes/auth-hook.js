@@ -16,6 +16,7 @@ module.exports = server => {
       const result = {
         'X-Hasura-Role': getRole(user),
         'X-Hasura-User-Id': user ? user.id : undefined,
+        'Cache-Control': `max-age=${60 * 60}`, // 1 hour
       }
 
       res.json(result)
