@@ -1,4 +1,4 @@
-// Note: there's an identical file in hasura-support/lib/
+// Note: there's an identical file in hasura-support/src/helpers/
 
 import fetch from 'isomorphic-unfetch'
 export { adminGraphql }

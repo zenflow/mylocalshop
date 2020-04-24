@@ -2,16 +2,16 @@
   "version": 2,
   "builds": [
     {
-      "src": "lib/server.js",
+      "src": "src/server.js",
       "use": "@now/node",
       "config": {
         "includeFiles": [
-          "lib/**"
+          "src/**"
         ]
       }
     }
   ],
   "routes": [
-    { "src": "/.*", "dest": "lib/server.js" }
+    { "src": "/.*", "dest": "src/server.js" }
   ]
 }

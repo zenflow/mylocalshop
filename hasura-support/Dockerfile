@@ -5,7 +5,6 @@ WORKDIR /code
 ADD package.json yarn.lock /code/
 RUN yarn install --frozen-lockfile
 
-COPY bin /code/bin/
-COPY lib /code/lib/
+COPY src /code/src/
 
-CMD node bin/start.js
+CMD node src/start.js
