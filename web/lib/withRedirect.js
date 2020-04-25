@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import Router from 'next/router'
 import App from 'next/app'
 
-export function withRedirect (AppComponent) {
-  const WithRedirect = ({ redirectLocation, redirectMethod, ...pageProps }) => {
+export function withRedirect (Component) {
+  const WithRedirect = ({ redirectLocation, redirectMethod, ...props }) => {
     useEffect(() => {
       if (redirectLocation) {
         // console.log(`redirecting from ${Router.asPath} to ${redirectLocation} using ${redirectMethod}`)
@@ -13,16 +13,17 @@ export function withRedirect (AppComponent) {
     if (redirectLocation) {
       return <div/>
     }
-    return <AppComponent {...pageProps} />
+    return <Component {...props} />
   }
 
   if (process.env.NODE_ENV !== 'production') {
-    const displayName = AppComponent.displayName || AppComponent.name || 'Component'
+    const displayName = Component.displayName || Component.name || 'Component'
     WithRedirect.displayName = `withRedirect(${displayName})`
   }
 
-  WithRedirect.getInitialProps = async appContext => {
-    const pageContext = appContext.ctx
+  WithRedirect.getInitialProps = async ctx => {
+    const appContext = ctx.ctx ? ctx : null
+    const pageContext = ctx.ctx ? ctx.ctx : ctx
 
     let redirectLocation = null
     let redirectMethod = null
@@ -33,14 +34,18 @@ export function withRedirect (AppComponent) {
       redirectMethod = method
     }
 
-    appContext.redirect = redirect
     pageContext.redirect = redirect
+    if (appContext) {
+      appContext.redirect = redirect
+    }
 
-    const appProps = AppComponent.getInitialProps
-      ? await AppComponent.getInitialProps(appContext)
-      : await App.getInitialProps(appContext)
+    const getInitialProps = Component.getInitialProps ||
+      (appContext && App.getInitialProps) ||
+      (ctx => ({}))
 
-    return { ...appProps, redirectLocation, redirectMethod }
+    const props = await getInitialProps(ctx)
+
+    return { ...props, redirectLocation, redirectMethod }
   }
 
   return WithRedirect

@@ -1,30 +1,41 @@
-import 'semantic-ui-css/semantic.min.css'
-
-// import App from 'next/app'
+import { useEffect } from 'react'
+import App from 'next/app'
+import Head from 'next/head'
+import { ThemeProvider } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
 import { AppFrame } from '../components/AppFrame'
-import { withGqless } from '../lib/gqless'
 import { withSession } from '../lib/auth/react'
 import { withRedirect } from '../lib/withRedirect'
-import Suspense from '../components/SsrCompatibleSuspense'
-import { Loader } from 'semantic-ui-react'
+import theme from '../theme'
 
 function MyApp ({ Component, pageProps }) {
+  useEffect(() => {
+    // Remove the server-side injected CSS.
+    const jssStyles = document.querySelector('#jss-server-side')
+    if (jssStyles) {
+      jssStyles.parentElement.removeChild(jssStyles)
+    }
+  }, [])
+
   return (
-    <Suspense>
-      <AppFrame>
-        <Suspense fallback={<Loader active/>}>
+    <>
+      <Head>
+        <title>mylocalshop</title>
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+      </Head>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <AppFrame>
           <Component {...pageProps} />
-        </Suspense>
-      </AppFrame>
-    </Suspense>
+        </AppFrame>
+      </ThemeProvider>
+    </>
   )
 }
 
-/*
 MyApp.getInitialProps = async (appContext) => {
   const appProps = await App.getInitialProps(appContext)
-  return {...appProps}
+  return { ...appProps }
 }
-*/
 
-export default withGqless(withSession(withRedirect(MyApp)))
+export default withSession(withRedirect(MyApp))

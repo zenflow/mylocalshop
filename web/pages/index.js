@@ -1,20 +1,17 @@
 import Link from 'next/link'
-import { Header } from 'semantic-ui-react'
-import { graphql } from '@gqless/react'
-import { useUser } from '../lib/auth/react'
 
-const IndexPage = graphql(() => {
-  const user = useUser()
+import { useSession } from '../lib/auth/react'
+
+const IndexPage = () => {
+  const session = useSession()
   return (
     <div style={{ textAlign: 'center' }}>
-      <Header as='h2'>
-        {user
-          ? <>Welcome, {user.firstName}!</>
-          : <>Please <Link href="/login"><a>Log in </a></Link> to continue</>
-        }
-      </Header>
+      <h2>
+        {session && <>Welcome, user #{session.userId}!</>}
+        {!session && <>Please <Link href="/login"><a>Log in </a></Link> to continue</>}
+      </h2>
     </div>
   )
-})
+}
 
 export default IndexPage

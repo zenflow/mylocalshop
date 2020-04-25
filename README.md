@@ -12,14 +12,16 @@ Shop local, from home
 
 ## TODO
 
-- switch gql client
-- efficiently access gql data from app frame
-- react-admin for Users
+- title (in <AppBar> & <head>)
+- integrate RA with Next.js's router
+- MainMenu based on `resources`
+- `resources` based on permissions
+- ra refresh button / loader
+- integrate new gql client
 - create `shops`
 
 ---
 
-- useSession can be standalone hook that doesn't need a context, or a withSession HOC
 - facebook auth provider
 - delete sessions from database when `now > created_at + ttl`
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`

@@ -1,48 +1,42 @@
 import React from 'react'
 import { getSessionCookie } from './session-cookie'
 import App from 'next/app'
-import { useGqless } from '../gqless'
-
-export const useUser = () => {
-  const { query } = useGqless()
-  const session = useSession()
-  const userId = session?.userId
-  if (!userId) {
-    return null
-  }
-  return query.users_by_pk({ id: userId })
-}
 
 export const useSession = () => React.useContext(SessionContext)
 export const SessionContext = React.createContext()
 
-export function withSession (AppComponent) {
+export function withSession (Component) {
   const WithSession = ({ session, ...appProps }) => {
     return (
       <SessionContext.Provider value={session}>
-        <AppComponent {...appProps} />
+        <Component {...appProps} />
       </SessionContext.Provider>
     )
   }
 
   if (process.env.NODE_ENV !== 'production') {
-    const displayName = AppComponent.displayName || AppComponent.name || 'Component'
+    const displayName = Component.displayName || Component.name || 'Component'
     WithSession.displayName = `withSession(${displayName})`
   }
 
-  WithSession.getInitialProps = async appContext => {
-    const pageContext = appContext.ctx
+  WithSession.getInitialProps = async ctx => {
+    const appContext = ctx.ctx ? ctx : null
+    const pageContext = ctx.ctx ? ctx.ctx : ctx
 
     const session = getSessionCookie(pageContext.req)
 
-    appContext.session = session
     pageContext.session = session
+    if (appContext) {
+      appContext.session = session
+    }
 
-    const appProps = AppComponent.getInitialProps
-      ? await AppComponent.getInitialProps(appContext)
-      : await App.getInitialProps(appContext)
+    const getInitialProps = Component.getInitialProps ||
+      (appContext && App.getInitialProps) ||
+      (ctx => ({}))
 
-    return { ...appProps, session }
+    const props = await getInitialProps(ctx)
+
+    return { ...props, session }
   }
 
   return WithSession
