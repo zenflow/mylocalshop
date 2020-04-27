@@ -1,8 +1,17 @@
 import { useRouter } from 'next/router'
+import { useSession } from '../lib/auth/react'
+import { Redirect } from '../components/Redirect'
 
 const LoginPage = () => {
+  const session = useSession()
   const { query: { redirect } } = useRouter()
+
+  if (session) {
+    return <Redirect to={redirect || '/'} action="replace"/>
+  }
+
   const googleLoginUrl = '/api/auth/google' + (redirect ? `?${new URLSearchParams({ redirect })}` : '')
+
   return (
     <div style={{ textAlign: 'center' }}>
       <h2>
@@ -12,13 +21,6 @@ const LoginPage = () => {
       </h2>
     </div>
   )
-}
-
-LoginPage.getInitialProps = ({ session, query, redirect }) => {
-  if (session) {
-    redirect(query.redirect || '/', 'replace')
-  }
-  return {}
 }
 
 export default LoginPage

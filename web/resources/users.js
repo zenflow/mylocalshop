@@ -19,7 +19,7 @@ export default () => {
         <SelectField source="role" choices={roleChoices} />
         <DateField source="createdAt"/>
         <DateField source="updatedAt"/>
-        <EditButton/>
+        {props.hasEdit && <EditButton/>}
       </Datagrid>
     </List>
   )

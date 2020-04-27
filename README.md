@@ -12,17 +12,30 @@ Shop local, from home
 
 ## TODO
 
-- title (in <AppBar> & <head>)
-- integrate RA with Next.js's router
-- MainMenu based on `resources`
-- `resources` based on permissions
-- ra refresh button / loader
-- integrate new gql client
-- create `shops`
+- allow non-admin users to edit data
 
+- title (in <AppBar> & <head>)
+- ra refresh button / loader
+- view list & edit/create at same time, with Panel
+
+
+- integrate new gql client & subscribe to current user
+- MainMenu based on `resources` &  `resources` based on permissions
+- AccessDenied page
+
+- create "shop-owner" role, `shops` table, `user.shops` field
+
+- createdBy & updatedBy fields
+- unified NotFound page
 ---
 
 - facebook auth provider
+- optimize admin with code-splitting
+    - in `/pages/admin/[...args].js`
+        - use dynamic imports (e.g. `await import(\`../resources/${name}\`)`)
+        - use `next/dynamic` and `mem`?
+    - in `/components/NextReactAdminContext.js`
+        - import and use [lite] `resourcesMeta` instead of [heavy] `resources`
 - delete sessions from database when `now > created_at + ttl`
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
 - develop hasura-support normally (not in Docker) and use nodemon

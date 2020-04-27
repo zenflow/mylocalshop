@@ -1,9 +1,8 @@
 import {
-  List, Datagrid, TextField, DateField, ReferenceField
+  List, Datagrid, TextField, DateField, ReferenceField,
 } from 'react-admin'
 
 export default () => {
-
   const SessionList = (props) => (
     <List title="List Sessions" {...props}>
       <Datagrid>

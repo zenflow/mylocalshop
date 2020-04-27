@@ -19,14 +19,14 @@ export const MainMenu = () => {
             <ListItemText primary="Home" />
           </ListItem>
         </Link>
-        <Link href="/admin#/users">
-          <ListItem button component="a" href="/admin#/users">
+        <Link href="/admin/[...args]" as="/admin/users">
+          <ListItem button component="a" href="/admin/users">
             <ListItemIcon children={<PeopleIcon/>}/>
             <ListItemText primary="Users"/>
           </ListItem>
         </Link>
-        <Link href="/admin#/sessions">
-          <ListItem button component="a" href="/admin#/sessions">
+        <Link href="/admin/[...args]" as="/admin/sessions">
+          <ListItem button component="a" href="/admin/sessions">
             <ListItemIcon children={<CloudCircleIcon/>}/>
             <ListItemText primary="Sessions"/>
           </ListItem>

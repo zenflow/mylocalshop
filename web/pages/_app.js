@@ -3,10 +3,12 @@ import App from 'next/app'
 import Head from 'next/head'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import NoSsr from '@material-ui/core/NoSsr'
+import { Notification } from 'react-admin'
 import { AppFrame } from '../components/AppFrame'
 import { withSession } from '../lib/auth/react'
-import { withRedirect } from '../lib/withRedirect'
 import theme from '../theme'
+import { NextReactAdminContext } from '../components/NextReactAdminContext'
 
 function MyApp ({ Component, pageProps }) {
   useEffect(() => {
@@ -18,7 +20,7 @@ function MyApp ({ Component, pageProps }) {
   }, [])
 
   return (
-    <>
+    <NextReactAdminContext>
       <Head>
         <title>mylocalshop</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
@@ -27,9 +29,10 @@ function MyApp ({ Component, pageProps }) {
         <CssBaseline />
         <AppFrame>
           <Component {...pageProps} />
+          <NoSsr><Notification/></NoSsr>
         </AppFrame>
       </ThemeProvider>
-    </>
+    </NextReactAdminContext>
   )
 }
 
@@ -38,4 +41,4 @@ MyApp.getInitialProps = async (appContext) => {
   return { ...appProps }
 }
 
-export default withSession(withRedirect(MyApp))
+export default withSession(MyApp)
