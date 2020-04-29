@@ -1,0 +1,22 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - id
+      - createdAt
+      - updatedAt
+      - googleId
+      - email
+      - firstName
+      - lastName
+      - picture
+      - locale
+      - roleId
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: users
+      schema: public
+  type: create_select_permission
