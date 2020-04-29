@@ -7,14 +7,15 @@ module.exports = server => {
 
       const sessionId = req.get('Authorization')
       if (sessionId) {
-        user = await queryUserBySessionId(sessionId, 'id role')
+        user = await queryUserBySessionId(sessionId, 'id roleId')
         if (!user) {
+          // TODO: return 4xx auth error, prompting user to create a new session
           console.warn(`Could not find user by session id "${sessionId}"`)
         }
       }
 
       const result = {
-        'X-Hasura-Role': user ? user.role : 'anonymous',
+        'X-Hasura-Role': user ? user.roleId : 'anonymous',
         'X-Hasura-User-Id': user ? user.id : undefined,
         'Cache-Control': `max-age=${60 * 60}`, // 1 hour
       }

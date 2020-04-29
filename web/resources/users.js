@@ -5,6 +5,7 @@ import {
 } from 'react-admin'
 
 export default () => {
+  // TODO: make this dynamic from database? :p
   const roleChoices = [
     { id: 'admin', name: 'Administrator' },
     { id: 'user', name: 'Normal User' },
@@ -16,7 +17,7 @@ export default () => {
         <TextField source="email" />
         <TextField source="firstName" />
         <TextField source="lastName" />
-        <SelectField source="role" choices={roleChoices} />
+        <SelectField source="roleId" choices={roleChoices} />
         <DateField source="createdAt"/>
         <DateField source="updatedAt"/>
         {props.hasEdit && <EditButton/>}
@@ -31,7 +32,7 @@ export default () => {
         <TextInput source="email" />
         <TextInput source="firstName" />
         <TextInput source="lastName" />
-        <SelectInput source="role" choices={roleChoices} />
+        <SelectInput source="roleId" choices={roleChoices} />
         <DateInput source="createdAt" disabled/>
         <DateInput source="updatedAt" disabled/>
       </SimpleForm>
@@ -44,7 +45,7 @@ export default () => {
         <TextInput source="email" />
         <TextInput source="firstName" />
         <TextInput source="lastName" />
-        <SelectInput source="role" choices={roleChoices} />
+        <SelectInput source="roleId" choices={roleChoices} />
       </SimpleForm>
     </Create>
   )

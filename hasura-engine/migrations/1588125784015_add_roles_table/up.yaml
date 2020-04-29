@@ -1,0 +1,11 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: "CREATE TABLE roles (\r\n  id text PRIMARY KEY,\r\n  description text\r\n);\r\n\r\nINSERT
+      INTO roles (id, description) VALUES\r\n  ('user', 'Normal user'),\r\n  ('admin',
+      'Super-user');"
+  type: run_sql
+- args:
+    name: roles
+    schema: public
+  type: add_existing_table_or_view

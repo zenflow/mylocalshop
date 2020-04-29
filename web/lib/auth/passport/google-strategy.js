@@ -28,7 +28,7 @@ export const googleStrategy = new GoogleStrategy(
     } else {
       const userData = {
         ...userDataFromGoogle,
-        role: userDataFromGoogle.email === 'zenflow87@gmail.com' ? 'admin' : 'user',
+        roleId: userDataFromGoogle.email === 'zenflow87@gmail.com' ? 'admin' : 'user',
       }
       userId = (await insertUser(userData, 'id')).id
     }
