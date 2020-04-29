@@ -12,12 +12,9 @@ Shop local, from home
 
 ## TODO
 
-- allow non-admin users to edit data
-
 - title (in <AppBar> & <head>)
 - ra refresh button / loader
 - view list & edit/create at same time, with Panel
-
 
 - integrate new gql client & subscribe to current user
 - MainMenu based on `resources` &  `resources` based on permissions
@@ -50,4 +47,4 @@ Shop local, from home
       - main process will be node server that manages 3 child processes and proxies requests to web & hasura-engine
       - either
         - hack the Hasura docker image to also run node
-        - in docker container, run nodejs servers and, in a subcontainer, hasura-engine https://itnext.io/docker-in-docker-521958d34efd
+        - *** in docker container, run nodejs servers and, in a subcontainer, hasura-engine https://itnext.io/docker-in-docker-521958d34efd

@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import defaultMessages from 'ra-language-english'
 import polyglotI18nProvider from 'ra-i18n-polyglot'
-import hasuraDataProvider from 'ra-data-hasura'
+import hasuraDataProvider from '@zen_flow/ra-data-hasura'
 import mem from 'mem'
 import { getSessionCookie } from '../lib/auth/session-cookie'
 import { resourceNames } from '../resources/_meta'
@@ -44,17 +44,8 @@ const getAdminStore = mem(() => {
 })
 
 const authProvider = {
-  // Hack to have our notification text nice & human-friendly instead of JSON
-  async checkError (error) {
-    const capitalize = str => `${str[0].toUpperCase()}${str.slice(1)}`
-    let errorJson
-    try {
-      errorJson = JSON.parse(error.message)
-    } catch (error) {}
-    if (errorJson && errorJson.code && errorJson.error) {
-      error.message = `${errorJson.code.split('-').map(capitalize).join(' ')}: ${capitalize(errorJson.error)}`
-    }
-  },
+  // Mutate error object so that user notifications have nice human-friendly text, instead of JSON
+  async checkError (error) {},
 }
 
 const getDataProvider = mem(() => {

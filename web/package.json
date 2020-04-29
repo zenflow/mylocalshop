@@ -15,7 +15,7 @@
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
-    "ra-data-hasura": "^0.0.8",
+    "@zen_flow/ra-data-hasura": "0.0.8-zenflow-1",
     "react": "^16.13.1",
     "react-admin": "^3.4.2",
     "react-dom": "^16.13.1"

@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic'
-import hasuraDataProvider from 'ra-data-hasura'
+import hasuraDataProvider from '@zen_flow/ra-data-hasura'
 import { Layout, AppBar, Menu, Notification, AdminContext, AdminUI, Resource } from 'react-admin'
 import { createHashHistory } from 'history'
 import { useSession } from '../lib/auth/react'

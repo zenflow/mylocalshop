@@ -1314,6 +1314,11 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+"@zen_flow/ra-data-hasura@0.0.8-zenflow-1":
+  version "0.0.8-zenflow-1"
+  resolved "https://registry.yarnpkg.com/@zen_flow/ra-data-hasura/-/ra-data-hasura-0.0.8-zenflow-1.tgz#8b4481569df82bf5f0d35f3003274af2d3c48e6e"
+  integrity sha512-0snlCDzAleGBvviLhCZw4Kf85lAPtjnIU+Fur8qsBingWNtJB5uVSI9CgJkMGABPwXemM9eJSDOE0x0/8ULsUQ==
+
 acorn@^6.2.1:
   version "6.4.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.4.1.tgz#531e58ba3f51b9dacb9a6646ca4debf5b14ca474"
@@ -4915,11 +4920,6 @@ ra-core@^3.4.1:
     query-string "^5.1.1"
     recompose "~0.26.0"
     reselect "~3.0.0"
-
-ra-data-hasura@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/ra-data-hasura/-/ra-data-hasura-0.0.8.tgz#8db4bad451134c949bda920a1dc57bb08978ed61"
-  integrity sha512-o7EeajFx+4oJX+6Zw56IbvASdvvzTiDX5X+LSpJ0Mc89wtVDlqKMIAtV2xWLUbdtY+q9QRQU2eyobnBv5o3qOg==
 
 ra-i18n-polyglot@^3.4.1:
   version "3.4.1"
