@@ -4,6 +4,24 @@ import { getResources } from '../../resources'
 import { useSession } from '../../lib/auth/react'
 import { RedirectToLogin } from '../../components/Redirect'
 
+function getRouteParams (args) {
+  let action
+  let id
+  if (args.length === 1) {
+    action = 'list'
+  } else if (args.length === 2 && args[1] === 'create') {
+    action = 'create'
+  } else {
+    id = args[1]
+    if (args.length === 2) {
+      action = 'edit'
+    } else if (args.length === 3 && args[1] === 'show') {
+      action = 'show'
+    }
+  }
+  return {action, id}
+}
+
 const AdminView = () => {
   const { args } = Router.query
   const resources = getResources()
@@ -11,22 +29,8 @@ const AdminView = () => {
   const resourceName = args[0]
   const resource = resources[resourceName]
 
-  let View
-  let id
-  if (resource) {
-    if (args.length === 1) {
-      View = resource.list
-    } else if (args.length === 2 && args[1] === 'create') {
-      View = resource.create
-    } else {
-      id = args[1]
-      if (args.length === 2) {
-        View = resource.edit
-      } else if (args.length === 3 && args[1] === 'show') {
-        View = resource.show
-      }
-    }
-  }
+  const {action, id} = getRouteParams(args)
+  const View = resource[action]
 
   if (!View) {
     return <h1>Not Found</h1>
