@@ -20,10 +20,10 @@ export const MainMenu = () => {
 
   return (
     <List>{
-      items.map(({href, label, icon}) => {
+      items.map(({href, label, icon}, index) => {
         const selected = asPath === href || asPath.startsWith(`${href}/`)
         return (
-          <SimpleLink href={href}>
+          <SimpleLink key={index} href={href}>
             <ListItem button selected={selected} component="a" href={href}>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={label}/>
