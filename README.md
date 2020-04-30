@@ -12,20 +12,25 @@ Shop local, from home
 
 ## TODO
 
-- title (in <AppBar> & <head>)
-- ra refresh button / loader
-- view list & edit/create at same time, with Panel
+- admin pages:
+    - see about advanced layouts
+    - view list & edit/create at same time, with Panel
+    - title in <h1> & <head>
+    - show some <Loader/> for "loading" state
 
 - integrate new gql client & subscribe to current user
 - MainMenu based on `resources` &  `resources` based on permissions
-- AccessDenied page
+- AccessDenied page & unified NotFound page
+- use 'show' view for users without privileges to 'edit'
 
-- create "shop-owner" role, `shops` table, `user.shops` field
+- `shops` table, `user.shops` field
 
-- createdBy & updatedBy fields
-- unified NotFound page
+- clearing urql cache (or recreating urql client) to refresh data
+
 ---
 
+- createdBy & updatedBy fields
+- immutable records in postgresql (for sessions resource)
 - facebook auth provider
 - optimize admin with code-splitting
     - in `/pages/admin/[...args].js`

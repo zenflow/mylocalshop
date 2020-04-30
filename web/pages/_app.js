@@ -9,6 +9,7 @@ import { AppFrame } from '../components/AppFrame/AppFrame'
 import { withSession } from '../lib/auth/react'
 import theme from '../theme'
 import { NextReactAdminContext } from '../components/NextReactAdminContext'
+import { withApollo } from '../lib/apollo'
 
 function MyApp ({ Component, pageProps }) {
   useEffect(() => {
@@ -41,4 +42,4 @@ MyApp.getInitialProps = async (appContext) => {
   return { ...appProps }
 }
 
-export default withSession(MyApp)
+export default withApollo(withSession(MyApp))
