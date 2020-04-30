@@ -88,15 +88,12 @@ const getHistory = mem(() => {
       const query = Object.fromEntries(new URLSearchParams(search))
       let route = '/admin/[...args]'
       if (!pathname.startsWith('/admin/')) {
-        console.warn(`'history' being routed outside /admin/ ... to (${pathname}${search})`)
-        console.warn()
-        console.warn(new Error().stack)
         route = pathname
+        console.warn(`Warning: React Admin is navigating outside of /admin/ to ${pathname}${search}`)
+        console.warn(`Guessing route as ${route}`)
+        console.warn(new Error().stack)
       }
-      await Router.push(
-        { pathname: route, query },
-        { pathname, query },
-      )
+      await Router.push(route, { pathname, query })
     },
     listen (listener) {
       listeners.add(listener)

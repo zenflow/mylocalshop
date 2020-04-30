@@ -10,9 +10,10 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import NoSsr from '@material-ui/core/NoSsr'
 import { makeStyles } from '@material-ui/core/styles'
-import { useSession } from '../lib/auth/react'
+import { useSession } from '../../lib/auth/react'
 import { UserMenuButton } from './UserMenuButton'
 import { MainMenu } from './MainMenu'
+import { PageRefreshButton } from './PageRefreshButton'
 
 const drawerWidth = 240
 
@@ -78,6 +79,7 @@ export const AppFrame = ({ children }) => {
           <Typography variant="h5" noWrap className={classes.title}>
             mylocalshop
           </Typography>
+          <PageRefreshButton/>
           {session
             ? <UserMenuButton/>
             : (
