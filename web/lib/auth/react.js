@@ -1,42 +1,51 @@
 import React from 'react'
 import { getSessionCookie } from './session-cookie'
 import App from 'next/app'
+import { useLiveQuery } from '../apollo-helpers'
 
 export const useSession = () => React.useContext(SessionContext)
 export const SessionContext = React.createContext()
 
-export function withSession (Component) {
-  const WithSession = ({ session, ...appProps }) => {
+export function withSession (AppComponent) {
+  const WithSession = ({ sessionCookie, ...appProps }) => {
+    const { error, data } = useLiveQuery({
+      query: `
+        ($id: uuid!) {
+          sessions_by_pk(id: $id) {
+            user {
+              id roleId email firstName lastName
+            }
+          }
+        }
+      `,
+      variables: {id: sessionCookie?.id},
+      skip: !sessionCookie,
+    })
+    if (error) {
+      throw error // TODO
+    }
+    const session = data?.sessions_by_pk
     return (
       <SessionContext.Provider value={session}>
-        <Component {...appProps} />
+        <AppComponent {...appProps} />
       </SessionContext.Provider>
     )
   }
 
   if (process.env.NODE_ENV !== 'production') {
-    const displayName = Component.displayName || Component.name || 'Component'
+    const displayName = AppComponent.displayName || AppComponent.name || 'Component'
     WithSession.displayName = `withSession(${displayName})`
   }
 
-  WithSession.getInitialProps = async ctx => {
-    const appContext = ctx.ctx ? ctx : null
-    const pageContext = ctx.ctx ? ctx.ctx : ctx
+  WithSession.getInitialProps = async appContext => {
+    const pageContext = appContext.ctx
 
-    const session = getSessionCookie(pageContext.req)
+    const sessionCookie = getSessionCookie(pageContext.req)
 
-    pageContext.session = session
-    if (appContext) {
-      appContext.session = session
-    }
+    const getInitialProps = AppComponent.getInitialProps || App.getInitialProps
+    const props = await getInitialProps(appContext)
 
-    const getInitialProps = Component.getInitialProps ||
-      (appContext && App.getInitialProps) ||
-      (ctx => ({}))
-
-    const props = await getInitialProps(ctx)
-
-    return { ...props, session }
+    return { ...props, sessionCookie }
   }
 
   return WithSession

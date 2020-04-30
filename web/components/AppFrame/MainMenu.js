@@ -8,15 +8,17 @@ import HomeIcon from '@material-ui/icons/Home'
 import PeopleIcon from '@material-ui/icons/People'
 import CloudCircleIcon from '@material-ui/icons/CloudCircle'
 import { SimpleLink } from '../links'
+import { useSession } from '../../lib/auth/react'
 
 export const MainMenu = () => {
   const { asPath } = useRouter()
+  const session = useSession()
 
   const items = [
     { href: '/', label: 'Home', icon: <HomeIcon/> },
-    { href: '/admin/users', label: 'Users', icon: <PeopleIcon/> },
-    { href: '/admin/sessions', label: 'Sessions', icon: <CloudCircleIcon/> },
-  ]
+    session?.user?.roleId === 'admin' && { href: '/admin/users', label: 'Users', icon: <PeopleIcon/> },
+    session?.user?.roleId === 'admin' && { href: '/admin/sessions', label: 'Sessions', icon: <CloudCircleIcon/> },
+  ].filter(Boolean)
 
   return (
     <List>{

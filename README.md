@@ -18,7 +18,6 @@ Shop local, from home
     - title in <h1> & <head>
     - show some <Loader/> for "loading" state
 
-- integrate new gql client & subscribe to current user
 - MainMenu based on `resources` &  `resources` based on permissions
 - AccessDenied page & unified NotFound page
 - use 'show' view for users without privileges to 'edit'

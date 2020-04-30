@@ -7,22 +7,19 @@ import MenuItem from '@material-ui/core/MenuItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import Typography from '@material-ui/core/Typography'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
-import SettingsIcon from '@material-ui/icons/Settings'
-// import { useSession } from '../lib/auth/react'
+import AccountBoxIcon from '@material-ui/icons/AccountBox'
+import { LinkElement } from '../links'
+import { useSession } from '../../lib/auth/react'
 
 export const UserMenuButton = () => {
-  // const session = useSession()
+  const session = useSession()
+  if (!session) {
+    return null
+  }
 
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
+  const closeMenu = () => setAnchorEl(null)
 
   return (
     <>
@@ -31,7 +28,7 @@ export const UserMenuButton = () => {
           aria-label="account of current user"
           aria-controls="menu-appbar"
           aria-haspopup="true"
-          onClick={handleMenu}
+          onClick={(event) => setAnchorEl(event.currentTarget)}
           color="inherit"
         >
           <AccountCircle />
@@ -50,17 +47,25 @@ export const UserMenuButton = () => {
           horizontal: 'right',
         }}
         open={open}
-        onClose={handleClose}
+        onClose={closeMenu}
       >
-        <MenuItem>
+        <LinkElement
+          element={MenuItem}
+          component="a"
+          href={`/admin/users/${session.user.id}`}
+          onClick={closeMenu}
+        >
           <ListItemIcon>
-            <SettingsIcon fontSize="small"/>
+            <AccountBoxIcon fontSize="small"/>
           </ListItemIcon>
           <Typography variant="inherit">
-            Settings
+            Profile
           </Typography>
-        </MenuItem>
-        <MenuItem component="a" href="/api/auth/logout">
+        </LinkElement>
+        <MenuItem
+          component="a"
+          href="/api/auth/logout"
+        >
           <ListItemIcon>
             <PowerSettingsNewIcon fontSize="small"/>
           </ListItemIcon>

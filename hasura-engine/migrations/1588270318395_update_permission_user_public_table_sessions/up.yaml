@@ -1,0 +1,20 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - id
+      - createdAt
+      - updatedAt
+      - provider
+      - token
+      - userId
+      computed_fields: []
+      filter:
+        userId:
+          _eq: X-Hasura-User-Id
+      limit: null
+    role: user
+    table:
+      name: sessions
+      schema: public
+  type: create_select_permission

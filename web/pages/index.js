@@ -1,54 +1,79 @@
-import CircularProgress from '@material-ui/core/CircularProgress'
+import { useState } from 'react'
 import Link from 'next/link'
-import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import MenuItem from '@material-ui/core/MenuItem'
+import Select from '@material-ui/core/Select'
 import { useSession } from '../lib/auth/react'
+import { useLiveQuery } from '../lib/apollo-helpers'
 
 const IndexPage = () => {
   const session = useSession()
   return (
     <>
-      <div style={{ textAlign: 'center' }}>
-        <h2>
-          {session && <>Welcome, user #{session.userId}!</>}
-          {!session && <>Please <Link href="/login"><a>Log in </a></Link> to continue</>}
-        </h2>
-      </div>
-      <CurrentUserView query="id email"/>
-      <CurrentUserView query="id email firstName lastName"/>
+      <h2>{
+        session
+          ? <>Welcome {session.user.firstName}!</>
+          : <>Please <Link href="/login"><a>Log in </a></Link> to continue</>
+      }</h2>
+      {session?.user.roleId === 'admin' && <UserList/>}
+      <style jsx>{`
+        h2 { text-align: center; }
+      `}</style>
     </>
   )
 }
 
 export default IndexPage
 
-function CurrentUserView ({ query }) {
-  const session = useSession()
-  const { loading, error, data } = useQuery(gql`
-      query ($id: uuid!) {
-        users_by_pk(id: $id) {
-          ${query}
+function UserList () {
+  const [roleFilter, setRoleFilter] = useState('')
+  const { loading, error, data } = useLiveQuery({
+    query: `
+      ($where: users_bool_exp){
+        users (where: $where) { 
+          email roleId firstName lastName
         }
       }
-  `, {
-    variables: { id: session?.userId },
-    skip: !session,
+    `,
+    variables: {
+      where: roleFilter ? { roleId: { _eq: roleFilter } } : {},
+    },
   })
-  const user = data?.users_by_pk
   if (error) {
-    // TODO: Error view (use 'react-admin's?)
-    throw error
+    throw error // TODO
   }
   if (loading && !data) {
     return <CircularProgress/>
   }
   return (
-    user
-      ? (
-        <pre style={{textAlign: 'left'}}>
-          {JSON.stringify(user, null, 2)}
-        </pre>
-      )
-      : <h2>No user</h2>
+    <>
+      <h3>Users</h3>
+      <span>Filter by Role: </span>
+      <Select
+        value={roleFilter}
+        onChange={event => setRoleFilter(event.target.value)}
+        children={
+          ['', 'admin', 'user'].map(roleId => (
+            <MenuItem key={roleId} value={roleId}>
+              {roleId || <em>any</em>}
+            </MenuItem>
+          ))
+        }
+      />
+      <table>
+        <tbody>
+          {data.users.map(({ email, roleId, firstName, lastName }) => (
+            <tr key={email}>
+              <td>{email}</td>
+              <td>{roleId}</td>
+              <td>{firstName} {lastName}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <style jsx>{`
+        table { width: 100%; }
+      `}</style>
+    </>
   )
 }
