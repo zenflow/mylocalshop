@@ -1,15 +1,15 @@
 import { useEffect } from 'react'
-import App from 'next/app'
+// import App from 'next/app'
 import Head from 'next/head'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import NoSsr from '@material-ui/core/NoSsr'
 import { Notification } from 'react-admin'
 import { AppFrame } from '../components/AppFrame/AppFrame'
-import { withSession } from '../lib/auth/react'
+import { withSession } from '../hooks/session'
 import theme from '../theme'
-import { NextReactAdminContext } from '../components/NextReactAdminContext'
-import { withApollo } from '../lib/apollo'
+import { ReactAdminContext } from '../react-admin'
+import { withApollo } from '../apollo'
 
 function MyApp ({ Component, pageProps }) {
   useEffect(() => {
@@ -21,25 +21,24 @@ function MyApp ({ Component, pageProps }) {
   }, [])
 
   return (
-    <NextReactAdminContext>
-      <Head>
-        <title>mylocalshop</title>
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-      </Head>
+    <ReactAdminContext>
       <ThemeProvider theme={theme}>
+        <Head>
+          <title>mylocalshop</title>
+        </Head>
         <CssBaseline />
         <AppFrame>
           <Component {...pageProps} />
           <NoSsr><Notification/></NoSsr>
         </AppFrame>
       </ThemeProvider>
-    </NextReactAdminContext>
+    </ReactAdminContext>
   )
 }
 
-MyApp.getInitialProps = async (appContext) => {
+/* MyApp.getInitialProps = async (appContext) => {
   const appProps = await App.getInitialProps(appContext)
   return { ...appProps }
-}
+} */
 
 export default withApollo(withSession(MyApp))

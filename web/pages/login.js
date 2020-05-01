@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
-import { useSession } from '../lib/auth/react'
-import { Redirect } from '../components/Redirect'
+import { useSession } from '../hooks/session'
+import { Redirect } from '../components/redirects'
 
 const LoginPage = () => {
   const session = useSession()

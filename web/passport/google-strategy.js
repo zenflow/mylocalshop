@@ -1,5 +1,5 @@
 import GoogleStrategy from 'passport-google-oauth20/lib'
-import { adminGraphql } from '../../adminGraphql'
+import { adminGraphql } from '../lib/adminGraphql'
 
 const callbackify = fn => (...args) => {
   const cb = args.pop()
@@ -49,7 +49,7 @@ async function queryUserIdFromGoogleId (googleId) {
     query ($googleId: String) {
       users(where: {googleId: {_eq: $googleId}}) {
         id
-      } 
+      }
     }
   `
   const { data } = await adminGraphql(query, { googleId })

@@ -1,53 +1,65 @@
 import {
-  List, Datagrid, TextField, SelectField, EditButton, DateField,
-  Edit, SimpleForm, TextInput, SelectInput, DateInput,
+  List, Datagrid, TextField, SelectField, DateField,
+  Edit, SimpleForm, Toolbar, SaveButton, DeleteButton, TextInput, SelectInput,
   Create,
 } from 'react-admin'
+import { Protected } from '../components/auth'
 
-export default () => {
-  // TODO: make this dynamic from database? :p
-  const roleChoices = [
-    { id: 'admin', name: 'Administrator' },
-    { id: 'user', name: 'Normal User' },
-  ]
+// TODO: make this dynamic from database? :p
+const roleChoices = [
+  { id: 'admin', name: 'Administrator' },
+  { id: 'user', name: 'Normal User' },
+]
 
-  const UserList = (props) => (
-    <List title="List Users" {...props}>
-      <Datagrid>
-        <TextField source="email" />
-        <TextField source="firstName" />
-        <TextField source="lastName" />
-        <SelectField source="roleId" choices={roleChoices} />
+export default ({ isUserAdmin }) => {
+  const UserList = props => (
+    <Protected condition={isUserAdmin}>
+      <List {...props}>
+        <Datagrid rowClick="edit">
+          <TextField source="email" />
+          <TextField source="firstName" />
+          <TextField source="lastName" />
+          <SelectField source="roleId" choices={roleChoices} />
+          <DateField source="createdAt"/>
+          <DateField source="updatedAt"/>
+        </Datagrid>
+      </List>
+    </Protected>
+  )
+
+  const UserEditToolbar = props => (
+    <Toolbar {...props} style={{ flex: 1, display: 'flex', justifyContent: 'space-between' }}>
+      <SaveButton label="Save" submitOnEnter redirect={false} disabled={false && props.pristine}/>
+      {isUserAdmin && <DeleteButton label="Delete"/>}
+    </Toolbar>
+  )
+  const EditUserAside = ({ record }) => (
+    <div>{record?.picture && <img src={record.picture} />}</div>
+  )
+  const UserEdit = props => (<>
+    <Edit {...props} aside={<EditUserAside/>}>
+      <SimpleForm toolbar={<UserEditToolbar/>}>
+        <TextField source="email" disabled />
+        <TextInput source="firstName" />
+        <TextInput source="lastName" />
+        <SelectInput source="roleId" choices={roleChoices} disabled={!isUserAdmin} />
         <DateField source="createdAt"/>
         <DateField source="updatedAt"/>
-        {props.hasEdit && <EditButton/>}
-      </Datagrid>
-    </List>
-  )
-
-  const Title = ({ record }) => <span>Edit User {record.firstName} {record.lastName}</span>
-  const UserEdit = (props) => (
-    <Edit title={<Title/>} {...props}>
-      <SimpleForm>
-        <TextInput source="email" />
-        <TextInput source="firstName" />
-        <TextInput source="lastName" />
-        <SelectInput source="roleId" choices={roleChoices} />
-        <DateInput source="createdAt" disabled/>
-        <DateInput source="updatedAt" disabled/>
       </SimpleForm>
     </Edit>
-  )
+  </>)
 
-  const UserCreate = (props) => (
-    <Create title="Create User" {...props}>
-      <SimpleForm>
-        <TextInput source="email" />
-        <TextInput source="firstName" />
-        <TextInput source="lastName" />
-        <SelectInput source="roleId" choices={roleChoices} />
-      </SimpleForm>
-    </Create>
+  const UserCreate = props => (
+    <Protected condition={isUserAdmin}>
+      <Create {...props}>
+        <SimpleForm>
+          <TextInput source="email" />
+          <TextInput source="firstName" />
+          <TextInput source="lastName" />
+          <SelectInput source="roleId" choices={roleChoices} />
+        </SimpleForm>
+      </Create>
+    </Protected>
   )
 
   return {

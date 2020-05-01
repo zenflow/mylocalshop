@@ -1,6 +1,6 @@
 import nextConnect from 'next-connect'
-import { passport } from '../../../../lib/auth/passport'
-import { setSessionCookie } from '../../../../lib/auth/session-cookie'
+import { passport } from '../../../../passport'
+import { setSessionCookie } from '../../../../lib/session-cookie'
 
 const authenticate = (method, options, req, res) =>
   new Promise((resolve, reject) => {

@@ -12,19 +12,24 @@ Shop local, from home
 
 ## TODO
 
+- let admin page handle returning <Protected> (too much repetition)
+- AccessDenied page, unified NotFound page, unified Error page
+
+- test when user logs out in another tab
+
 - admin pages:
-    - see about advanced layouts
-    - view list & edit/create at same time, with Panel
+    - render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
     - title in <h1> & <head>
     - show some <Loader/> for "loading" state
 
-- MainMenu based on `resources` &  `resources` based on permissions
-- AccessDenied page & unified NotFound page
-- use 'show' view for users without privileges to 'edit'
+- refresh button doesn't work for admin pages
+- react-admin: 'Element does not exist' error notification after deleting something
+- error when saving edits when no fields were edited
 
+- user.role -> user.isAdmin
 - `shops` table, `user.shops` field
 
-- clearing urql cache (or recreating urql client) to refresh data
+- remove typescript
 
 ---
 
@@ -34,9 +39,7 @@ Shop local, from home
 - optimize admin with code-splitting
     - in `/pages/admin/[...args].js`
         - use dynamic imports (e.g. `await import(\`../resources/${name}\`)`)
-        - use `next/dynamic` and `mem`?
-    - in `/components/NextReactAdminContext.js`
-        - import and use [lite] `resourcesMeta` instead of [heavy] `resources`
+        - use `next/dynamic` and `memoizeOne`?
 - delete sessions from database when `now > created_at + ttl`
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
 - develop hasura-support normally (not in Docker) and use nodemon

@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import NoSsr from '@material-ui/core/NoSsr'
 import { makeStyles } from '@material-ui/core/styles'
-import { useSession } from '../../lib/auth/react'
+import { useSession } from '../../hooks/session'
 import { UserMenuButton } from './UserMenuButton'
 import { MainMenu } from './MainMenu'
 import { PageRefreshButton } from './PageRefreshButton'
@@ -96,7 +96,7 @@ export const AppFrame = ({ children }) => {
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="main menu">
-        <NoSsr>{/* No ssr for the mobile menu, to avoid duplicate links & bad SEA */null}
+        <NoSsr>{/* No ssr for the mobile menu, to avoid duplicate links & bad SEO */null}
           <Hidden smUp implementation="css">
             <Drawer
               variant="temporary"

@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
@@ -8,7 +7,7 @@ import HomeIcon from '@material-ui/icons/Home'
 import PeopleIcon from '@material-ui/icons/People'
 import CloudCircleIcon from '@material-ui/icons/CloudCircle'
 import { SimpleLink } from '../links'
-import { useSession } from '../../lib/auth/react'
+import { useSession } from '../../hooks/session'
 
 export const MainMenu = () => {
   const { asPath } = useRouter()
@@ -22,7 +21,7 @@ export const MainMenu = () => {
 
   return (
     <List>{
-      items.map(({href, label, icon}, index) => {
+      items.map(({ href, label, icon }, index) => {
         const selected = asPath === href || asPath.startsWith(`${href}/`)
         return (
           <SimpleLink key={index} href={href}>

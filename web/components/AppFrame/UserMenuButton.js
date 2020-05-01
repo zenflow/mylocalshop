@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import { LinkElement } from '../links'
-import { useSession } from '../../lib/auth/react'
+import { useSession } from '../../hooks/session'
 
 export const UserMenuButton = () => {
   const session = useSession()

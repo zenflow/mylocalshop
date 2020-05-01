@@ -1,7 +1,7 @@
 import React from 'react'
-import { getSessionCookie } from './session-cookie'
+import { getSessionCookie } from '../lib/session-cookie'
 import App from 'next/app'
-import { useLiveQuery } from '../apollo-helpers'
+import { useLiveQuery } from './graphql'
 
 export const useSession = () => React.useContext(SessionContext)
 export const SessionContext = React.createContext()
@@ -18,13 +18,13 @@ export function withSession (AppComponent) {
           }
         }
       `,
-      variables: {id: sessionCookie?.id},
+      variables: { id: sessionCookie?.id },
       skip: !sessionCookie,
     })
     if (error) {
       throw error // TODO
     }
-    const session = data?.sessions_by_pk
+    const session = data?.sessions_by_pk // eslint-disable-line camelcase
     return (
       <SessionContext.Provider value={session}>
         <AppComponent {...appProps} />

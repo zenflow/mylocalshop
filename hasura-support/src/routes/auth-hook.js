@@ -10,6 +10,7 @@ module.exports = server => {
         user = await queryUserBySessionId(sessionId, 'id roleId')
         if (!user) {
           // TODO: return 4xx auth error, prompting user to create a new session
+          //   mostly not necessary because session data is realtime & client should know session is expired
           console.warn(`Could not find user by session id "${sessionId}"`)
         }
       }

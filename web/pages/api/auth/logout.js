@@ -1,4 +1,4 @@
-import { removeSessionCookie } from '../../../lib/auth/session-cookie'
+import { removeSessionCookie } from '../../../lib/session-cookie'
 
 export default (req, res) => {
   removeSessionCookie(res)

@@ -1,5 +1,5 @@
 import nextConnect from 'next-connect'
-import { passport } from '../../../../lib/auth/passport'
+import { passport } from '../../../../passport'
 
 export default nextConnect()
   .use(passport.initialize())

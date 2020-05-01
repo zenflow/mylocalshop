@@ -3,8 +3,8 @@ import Link from 'next/link'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
-import { useSession } from '../lib/auth/react'
-import { useLiveQuery } from '../lib/apollo-helpers'
+import { useSession } from '../hooks/session'
+import { useLiveQuery } from '../hooks/graphql'
 
 const IndexPage = () => {
   const session = useSession()
@@ -30,7 +30,7 @@ function UserList () {
   const { loading, error, data } = useLiveQuery({
     query: `
       ($where: users_bool_exp){
-        users (where: $where) { 
+        users (where: $where) {
           email roleId firstName lastName
         }
       }
@@ -52,14 +52,15 @@ function UserList () {
       <Select
         value={roleFilter}
         onChange={event => setRoleFilter(event.target.value)}
-        children={
+      >
+        {
           ['', 'admin', 'user'].map(roleId => (
             <MenuItem key={roleId} value={roleId}>
               {roleId || <em>any</em>}
             </MenuItem>
           ))
         }
-      />
+      </Select>
       <table>
         <tbody>
           {data.users.map(({ email, roleId, firstName, lastName }) => (

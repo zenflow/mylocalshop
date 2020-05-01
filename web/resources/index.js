@@ -1,9 +1,9 @@
 import users from './users'
 import sessions from './sessions'
 
-export const getResources = () => {
+export const getResources = (authorizationParams) => {
   return {
-    users: users(),
-    sessions: sessions(),
+    users: users(authorizationParams),
+    sessions: sessions(authorizationParams),
   }
 }

@@ -1,11 +1,12 @@
 import { ApolloClient } from 'apollo-client'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { split } from 'apollo-link'
-import { BatchHttpLink } from "apollo-link-batch-http"
+import { BatchHttpLink } from 'apollo-link-batch-http'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import fetch from 'isomorphic-unfetch'
-import { getSessionCookie } from './lib/auth/session-cookie'
+import { getSessionCookie } from './lib/session-cookie'
+import { createWithApollo } from './lib/apollo'
 
 const toWsUrl = url => {
   const parsedUrl = new URL(url)
@@ -14,18 +15,14 @@ const toWsUrl = url => {
   return parsedUrl.toString()
 }
 
-export default function createApolloClient(initialState, req) {
+function createApolloClient (initialState, req) {
   const uri = `${process.env.HASURA_ENGINE_ENDPOINT}/v1/graphql`
 
   // TODO: make this dynamic
   const sessionId = getSessionCookie(req)?.id
   const headers = sessionId ? { Authorization: sessionId } : {}
 
-  let link = new BatchHttpLink({
-    uri,
-    fetch,
-    headers,
-  })
+  let link = new BatchHttpLink({ uri, fetch, headers })
 
   if (process.browser) {
     const httpLink = link
@@ -38,11 +35,11 @@ export default function createApolloClient(initialState, req) {
       webSocketImpl: WebSocket,
     })
     const test = ({ query }) => {
-      const definition = getMainDefinition(query);
+      const definition = getMainDefinition(query)
       return (
         definition.kind === 'OperationDefinition' &&
         definition.operation === 'subscription'
-      );
+      )
     }
     link = split(test, wsLink, httpLink)
   }
@@ -56,8 +53,10 @@ export default function createApolloClient(initialState, req) {
         fetchPolicy: 'cache-and-network',
       },
       query: {
-        fetchPolicy: 'network-only'
+        fetchPolicy: 'network-only',
       },
-    }
+    },
   })
 }
+
+export const withApollo = createWithApollo({ createApolloClient })
