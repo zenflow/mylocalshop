@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import HomeIcon from '@material-ui/icons/Home'
 import PeopleIcon from '@material-ui/icons/People'
 import CloudCircleIcon from '@material-ui/icons/CloudCircle'
+import HelpIcon from '@material-ui/icons/Help'
 import { SimpleLink } from '../links'
 import { useSession } from '../../hooks/session'
 
@@ -15,7 +16,7 @@ const MyListItem = ({ href, label, icon, selected }) => {
   return (
     <SimpleLink href={href}>
       <ListItem button component="a" href={href} selected={selected}>
-        <ListItemIcon>{icon}</ListItemIcon>
+        {icon && <ListItemIcon>{icon}</ListItemIcon>}
         <ListItemText primary={label}/>
       </ListItem>
     </SimpleLink>
@@ -33,6 +34,12 @@ export const MainMenu = () => {
         href="/"
         label="Home"
         icon={<HomeIcon/>}
+        selected={isPathEqual}
+      />
+      <MyListItem
+        href="/another-public-page"
+        label="Another Public Page"
+        icon={<HelpIcon/>}
         selected={isPathEqual}
       />
       {session?.user.isAdmin && (
