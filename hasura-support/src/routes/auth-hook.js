@@ -7,7 +7,7 @@ module.exports = server => {
 
       const sessionId = req.get('Authorization')
       if (sessionId) {
-        user = await queryUserBySessionId(sessionId, 'id roleId')
+        user = await queryUserBySessionId(sessionId, 'id isAdmin')
         if (!user) {
           // TODO: return 4xx auth error, prompting user to create a new session
           //   mostly not necessary because client subscribes to it's session and is aware when it's gone
@@ -16,7 +16,7 @@ module.exports = server => {
       }
 
       const result = {
-        'X-Hasura-Role': user ? user.roleId : 'anonymous',
+        'X-Hasura-Role': user ? (user.isAdmin ? 'admin' : 'user') : 'anonymous',
         'X-Hasura-User-Id': user ? user.id : undefined,
         'Cache-Control': `max-age=${60 * 60}`, // 1 hour
       }

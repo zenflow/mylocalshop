@@ -14,7 +14,7 @@ const IndexPage = () => {
           ? <>Welcome {session.user.firstName}!</>
           : <>Please <a href="/api/auth/google">Log in </a> to continue</>
       }</h2>
-      {session?.user.roleId === 'admin' && <UserList/>}
+      {session?.user.isAdmin && <UserList/>}
       <style jsx>{`
         h2 { text-align: center; }
       `}</style>
@@ -25,17 +25,17 @@ const IndexPage = () => {
 export default IndexPage
 
 function UserList () {
-  const [roleFilter, setRoleFilter] = useState('')
+  const [adminFieldFilter, setadminFieldFilter] = useState(null)
   const { loading, error, data } = useLiveQuery({
     query: `
       ($where: users_bool_exp){
         users (where: $where) {
-          email roleId firstName lastName
+          email firstName lastName isAdmin
         }
       }
     `,
     variables: {
-      where: roleFilter ? { roleId: { _eq: roleFilter } } : {},
+      where: adminFieldFilter === null ? {} : { isAdmin: { _eq: adminFieldFilter } },
     },
   })
   if (error) {
@@ -47,26 +47,22 @@ function UserList () {
   return (
     <>
       <h3>Users</h3>
-      <span>Filter by Role: </span>
+      <span>Filter: </span>
       <Select
-        value={roleFilter}
-        onChange={event => setRoleFilter(event.target.value)}
+        value={adminFieldFilter}
+        onChange={event => setadminFieldFilter(event.target.value)}
       >
-        {
-          ['', 'admin', 'user'].map(roleId => (
-            <MenuItem key={roleId} value={roleId}>
-              {roleId || <em>any</em>}
-            </MenuItem>
-          ))
-        }
+        <MenuItem value={null}><em>Show All</em></MenuItem>
+        <MenuItem value={true}>Only Admin</MenuItem>
+        <MenuItem value={false}>Only Non-Admin</MenuItem>
       </Select>
       <table>
         <tbody>
-          {data.users.map(({ email, roleId, firstName, lastName }) => (
+          {data.users.map(({ email, firstName, lastName, isAdmin }) => (
             <tr key={email}>
               <td>{email}</td>
-              <td>{roleId}</td>
               <td>{firstName} {lastName}</td>
+              <td>{isAdmin && 'admin'}</td>
             </tr>
           ))}
         </tbody>

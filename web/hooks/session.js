@@ -13,7 +13,7 @@ export function withSession (AppComponent) {
         ($id: uuid!) {
           sessions_by_pk(id: $id) {
             user {
-              id roleId email firstName lastName
+              id email firstName lastName isAdmin
             }
           }
         }

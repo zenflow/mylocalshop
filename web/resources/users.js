@@ -1,15 +1,10 @@
 import {
-  List, Datagrid, TextField, SelectField, DateField,
-  Edit, SimpleForm, Toolbar, SaveButton, DeleteButton, TextInput, SelectInput,
+  List, Datagrid, TextField, BooleanField, DateField,
+  Edit, SimpleForm, Toolbar, SaveButton, DeleteButton, TextInput, BooleanInput,
   Create,
 } from 'react-admin'
 import { AccessDeniedErrorPage } from '../components/errors'
 
-// TODO: make this dynamic from database? :p
-const roleChoices = [
-  { id: 'admin', name: 'Administrator' },
-  { id: 'user', name: 'Normal User' },
-]
 
 export default ({ isUserAdmin, isLoggedIn }) => {
   const UserList = props => (
@@ -18,7 +13,7 @@ export default ({ isUserAdmin, isLoggedIn }) => {
         <TextField source="email" />
         <TextField source="firstName" />
         <TextField source="lastName" />
-        <SelectField source="roleId" choices={roleChoices} />
+        <BooleanField source="isAdmin" />
         <DateField source="createdAt"/>
         <DateField source="updatedAt"/>
       </Datagrid>
@@ -40,7 +35,7 @@ export default ({ isUserAdmin, isLoggedIn }) => {
         <TextField source="email" disabled />
         <TextInput source="firstName" />
         <TextInput source="lastName" />
-        <SelectInput source="roleId" choices={roleChoices} disabled={!isUserAdmin} />
+        <BooleanInput source="isAdmin" disabled={!isUserAdmin} />
         <DateField source="createdAt"/>
         <DateField source="updatedAt"/>
       </SimpleForm>
@@ -53,7 +48,7 @@ export default ({ isUserAdmin, isLoggedIn }) => {
         <TextInput source="email" />
         <TextInput source="firstName" />
         <TextInput source="lastName" />
-        <SelectInput source="roleId" choices={roleChoices} />
+        <BooleanInput source="isAdmin" />
       </SimpleForm>
     </Create>
   )

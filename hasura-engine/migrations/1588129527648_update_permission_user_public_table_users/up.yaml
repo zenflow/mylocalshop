@@ -5,13 +5,13 @@
       - id
       - createdAt
       - updatedAt
-      - googleId
       - email
+      - googleId
       - firstName
       - lastName
+      - isAdmin
       - picture
       - locale
-      - roleId
       computed_fields: []
       filter: {}
       limit: null

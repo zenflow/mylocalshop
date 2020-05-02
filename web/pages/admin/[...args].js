@@ -10,7 +10,7 @@ session) will cause the resource components to recompute (via `getResources`) */
 const getAuthorizationParams = session => ({
   isLoggedIn: !!session,
   userId: session?.user.id,
-  isUserAdmin: session?.user.roleId === 'admin',
+  isUserAdmin: session?.user.isAdmin,
 })
 
 const AdminPage = () => {

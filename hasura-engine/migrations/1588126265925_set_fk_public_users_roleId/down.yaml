@@ -1,5 +1,0 @@
-- args:
-    cascade: false
-    read_only: false
-    sql: alter table "public"."users" drop constraint "users_roleId_fkey";
-  type: run_sql

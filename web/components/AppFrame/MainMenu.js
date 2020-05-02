@@ -27,7 +27,6 @@ const isPathInside = (asPath, href) => asPath === href || asPath.startsWith(`${h
 
 export const MainMenu = () => {
   const session = useSession()
-  const isAdmin = session?.user.roleId === 'admin'
   return (
     <List>
       <MyListItem
@@ -36,7 +35,7 @@ export const MainMenu = () => {
         icon={<HomeIcon/>}
         selected={isPathEqual}
       />
-      {isAdmin && (
+      {session?.user.isAdmin && (
         <MyListItem
           href="/admin/users"
           label="Users"
@@ -44,7 +43,7 @@ export const MainMenu = () => {
           selected={isPathInside}
         />
       )}
-      {isAdmin && (
+      {session?.user.isAdmin && (
         <MyListItem
           href="/admin/sessions"
           label="Sessions"
