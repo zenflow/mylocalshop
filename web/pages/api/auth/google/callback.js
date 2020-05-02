@@ -16,7 +16,7 @@ export default nextConnect()
     try {
       const state = JSON.parse(req.query.state)
       const session = await authenticate('google', {
-        failureRedirect: state.redirect || '/login',
+        failureRedirect: state.redirect || '/',
       }, req, res)
       setSessionCookie(res, session)
       res.writeHead(302, { Location: state.redirect || '/' })

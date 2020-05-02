@@ -3,7 +3,7 @@ import {
   Edit, SimpleForm, Toolbar, SaveButton, DeleteButton, TextInput, SelectInput,
   Create,
 } from 'react-admin'
-import { Protected } from '../components/auth'
+import { AccessDeniedErrorPage } from '../components/errors'
 
 // TODO: make this dynamic from database? :p
 const roleChoices = [
@@ -11,32 +11,30 @@ const roleChoices = [
   { id: 'user', name: 'Normal User' },
 ]
 
-export default ({ isUserAdmin }) => {
+export default ({ isUserAdmin, isLoggedIn }) => {
   const UserList = props => (
-    <Protected condition={isUserAdmin}>
-      <List {...props}>
-        <Datagrid rowClick="edit">
-          <TextField source="email" />
-          <TextField source="firstName" />
-          <TextField source="lastName" />
-          <SelectField source="roleId" choices={roleChoices} />
-          <DateField source="createdAt"/>
-          <DateField source="updatedAt"/>
-        </Datagrid>
-      </List>
-    </Protected>
+    <List {...props}>
+      <Datagrid rowClick="edit">
+        <TextField source="email" />
+        <TextField source="firstName" />
+        <TextField source="lastName" />
+        <SelectField source="roleId" choices={roleChoices} />
+        <DateField source="createdAt"/>
+        <DateField source="updatedAt"/>
+      </Datagrid>
+    </List>
   )
 
   const UserEditToolbar = props => (
     <Toolbar {...props} style={{ flex: 1, display: 'flex', justifyContent: 'space-between' }}>
-      <SaveButton label="Save" submitOnEnter redirect={false} disabled={false && props.pristine}/>
+      <SaveButton label="Save" submitOnEnter redirect={false} disabled={props.pristine}/>
       {isUserAdmin && <DeleteButton label="Delete"/>}
     </Toolbar>
   )
   const EditUserAside = ({ record }) => (
     <div>{record?.picture && <img src={record.picture} />}</div>
   )
-  const UserEdit = props => (<>
+  const UserEdit = props => (
     <Edit {...props} aside={<EditUserAside/>}>
       <SimpleForm toolbar={<UserEditToolbar/>}>
         <TextField source="email" disabled />
@@ -47,24 +45,22 @@ export default ({ isUserAdmin }) => {
         <DateField source="updatedAt"/>
       </SimpleForm>
     </Edit>
-  </>)
+  )
 
   const UserCreate = props => (
-    <Protected condition={isUserAdmin}>
-      <Create {...props}>
-        <SimpleForm>
-          <TextInput source="email" />
-          <TextInput source="firstName" />
-          <TextInput source="lastName" />
-          <SelectInput source="roleId" choices={roleChoices} />
-        </SimpleForm>
-      </Create>
-    </Protected>
+    <Create {...props}>
+      <SimpleForm>
+        <TextInput source="email" />
+        <TextInput source="firstName" />
+        <TextInput source="lastName" />
+        <SelectInput source="roleId" choices={roleChoices} />
+      </SimpleForm>
+    </Create>
   )
 
   return {
-    list: UserList,
-    edit: UserEdit,
-    create: UserCreate,
+    list: isUserAdmin ? UserList : AccessDeniedErrorPage,
+    edit: isLoggedIn ? UserEdit : AccessDeniedErrorPage,
+    create: isUserAdmin ? UserCreate : AccessDeniedErrorPage,
   }
 }

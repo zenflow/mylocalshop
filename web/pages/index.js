@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Link from 'next/link'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
@@ -13,7 +12,7 @@ const IndexPage = () => {
       <h2>{
         session
           ? <>Welcome {session.user.firstName}!</>
-          : <>Please <Link href="/login"><a>Log in </a></Link> to continue</>
+          : <>Please <a href="/api/auth/google">Log in </a> to continue</>
       }</h2>
       {session?.user.roleId === 'admin' && <UserList/>}
       <style jsx>{`

@@ -2,8 +2,8 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import memoizeOne from 'memoize-one'
 import { useSession } from '../../hooks/session'
-import { RedirectToLogin } from '../../components/redirects'
 import { resourceNames } from '../../react-admin'
+import { NotFoundErrorPage, AccessDeniedErrorPage, ErrorPage } from '../../components/errors'
 
 /* Select only what's necessary, since changes in the result (due to changes in
 session) will cause the resource components to recompute (via `getResources`) */
@@ -16,10 +16,10 @@ const getAuthorizationParams = session => ({
 const AdminPage = () => {
   const session = useSession()
   const router = useRouter()
-  if (!session) {
-    return <RedirectToLogin/>
-  }
   const { resource, view, id } = getRouteParams(router.query.args)
+  if (!resourceNames.includes(resource)) {
+    return <NotFoundErrorPage/>
+  }
   const authorizationParams = getAuthorizationParams(session)
   const AdminResourceView = getAdminResourceView({ resource, authorizationParams, view })
   return <AdminResourceView id={id}/>
@@ -28,33 +28,41 @@ const AdminPage = () => {
 export default AdminPage
 
 const isJsonEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b)
-const NotFoundError = () => <div>Not found</div>
 
 const getAdminResourceView = memoizeOne(({ resource, authorizationParams, view }) => {
-  if (!resourceNames.includes(resource)) {
-    return <NotFoundError/>
-  }
   return dynamic(async () => {
     const viewsFactory = (await import(`../../resources/${resource}.js`)).default
     const views = viewsFactory(authorizationParams)
     const View = views[view]
     return function AdminResourceView ({ id }) {
       if (!View) {
-        return <NotFoundError/>
+        return <NotFoundErrorPage/>
+      }
+      if (View === AccessDeniedErrorPage) {
+        return <AccessDeniedErrorPage/>
       }
       return (
         <View
           resource={resource}
           basePath={`/admin/${resource}`}
-          hasList={!!views.list}
-          hasEdit={!!views.edit}
-          hasCreate={!!views.create}
-          hasShow={!!views.show}
+          hasList={!!views.list && views.list !== AccessDeniedErrorPage}
+          hasEdit={!!views.edit && views.edit !== AccessDeniedErrorPage}
+          hasCreate={!!views.create && views.create !== AccessDeniedErrorPage}
+          hasShow={!!views.show && views.show !== AccessDeniedErrorPage}
           id={id}
         />
       )
     }
-  }, { ssr: false })
+  }, {
+    ssr: false,
+    loading ({ error, pastDelay }) {
+      if (error) {
+        Promise.reject(error)
+        return <ErrorPage details={error.toString()}/>
+      }
+      return pastDelay ? <h1>Loading...</h1> : <></>
+    },
+  })
 }, isJsonEqual)
 
 function getRouteParams (args) {

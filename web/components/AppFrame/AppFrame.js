@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { useState } from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import Drawer from '@material-ui/core/Drawer'
@@ -14,6 +13,8 @@ import { useSession } from '../../hooks/session'
 import { UserMenuButton } from './UserMenuButton'
 import { MainMenu } from './MainMenu'
 import { PageRefreshButton } from './PageRefreshButton'
+import { useRouter } from 'next/router'
+import GoogleIcon from '../GoogleIcon'
 
 const drawerWidth = 240
 
@@ -57,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 export const AppFrame = ({ children }) => {
   const classes = useStyles()
   const session = useSession()
+  const router = useRouter()
 
   const [mobileOpen, setMobileOpen] = useState(false)
   const handleDrawerToggle = () => {
@@ -83,14 +85,13 @@ export const AppFrame = ({ children }) => {
           {session
             ? <UserMenuButton/>
             : (
-              <Link href="/login">
-                <Button
-                  component="a"
-                  href="/login"
-                  color="inherit">
-                  Login
-                </Button>
-              </Link>
+              <Button
+                href={`/api/auth/google?${new URLSearchParams({ redirect: router.asPath })}`}
+                startIcon={<GoogleIcon/>}
+                color="inherit"
+              >
+                Log in
+              </Button>
             )
           }
         </Toolbar>

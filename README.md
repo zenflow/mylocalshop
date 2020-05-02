@@ -12,15 +12,13 @@ Shop local, from home
 
 ## TODO
 
-- let admin page handle returning <Protected> (too much repetition)
-- AccessDenied page, unified NotFound page, unified Error page
-
+- delete sessions from database when user logs out
+- delete old sessions when when user logs in (i.e. delete sessions where `now > created_at + ttl`)
 - test when user logs out in another tab
-
 - admin pages:
     - render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
     - title in <h1> & <head>
-    - show some <Loader/> for "loading" state
+    - show some <Loader/> for "loading" stateS
 
 - refresh button doesn't work for admin pages
 - react-admin: 'Element does not exist' error notification after deleting something
@@ -29,14 +27,12 @@ Shop local, from home
 - user.role -> user.isAdmin
 - `shops` table, `user.shops` field
 
-- remove typescript
-
+- remove typescript but add prop types ffs
 ---
 
 - createdBy & updatedBy fields
 - immutable records in postgresql (for sessions resource)
 - facebook auth provider
-- delete sessions from database when `now > created_at + ttl`
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
 - develop hasura-support normally (not in Docker) and use nodemon
 
