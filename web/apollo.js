@@ -8,17 +8,11 @@ import fetch from 'isomorphic-unfetch'
 import { getSessionCookie } from './lib/session-cookie'
 import { createWithApollo } from './lib/apollo'
 
-const toWsUrl = url => {
-  const parsedUrl = new URL(url)
-  parsedUrl.protocol = parsedUrl.protocol === 'https' ? 'wss' : 'ws'
-  parsedUrl.port = parsedUrl.port || 80
-  return parsedUrl.toString()
-}
+export const withApollo = createWithApollo({ createApolloClient })
 
 function createApolloClient (initialState, req) {
   const uri = `${process.env.HASURA_ENGINE_ENDPOINT}/v1/graphql`
 
-  // TODO: make this dynamic
   const sessionId = getSessionCookie(req)?.id
   const headers = sessionId ? { Authorization: sessionId } : {}
 
@@ -59,4 +53,10 @@ function createApolloClient (initialState, req) {
   })
 }
 
-export const withApollo = createWithApollo({ createApolloClient })
+const toWsUrl = url => {
+  const parsedUrl = new URL(url)
+  const secure = parsedUrl.protocol === 'https:'
+  parsedUrl.protocol = secure ? 'wss:' : 'ws:'
+  parsedUrl.port = parsedUrl.port || (secure ? 443 : 80)
+  return parsedUrl.toString()
+}
