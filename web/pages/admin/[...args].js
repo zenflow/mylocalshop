@@ -1,9 +1,9 @@
-import NoSsr from '@material-ui/core/NoSsr'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import memoizeOne from 'memoize-one'
-import { getResources } from '../../resources'
 import { useSession } from '../../hooks/session'
 import { RedirectToLogin } from '../../components/redirects'
+import { resourceNames } from '../../react-admin'
 
 /* Select only what's necessary, since changes in the result (due to changes in
 session) will cause the resource components to recompute (via `getResources`) */
@@ -15,66 +15,63 @@ const getAuthorizationParams = session => ({
 
 const AdminPage = () => {
   const session = useSession()
+  const router = useRouter()
   if (!session) {
     return <RedirectToLogin/>
   }
-  return (
-    <NoSsr>
-      <AdminView/>
-    </NoSsr>
-  )
+  const { resource, view, id } = getRouteParams(router.query.args)
+  const authorizationParams = getAuthorizationParams(session)
+  const AdminResourceView = getAdminResourceView({ resource, authorizationParams, view })
+  return <AdminResourceView id={id}/>
 }
 
 export default AdminPage
 
 const isJsonEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b)
-const memoizedGetResources = memoizeOne(getResources, isJsonEqual)
+const NotFoundError = () => <div>Not found</div>
 
-const AdminView = () => {
-  const session = useSession()
-  const authorizationParams = getAuthorizationParams(session)
-  console.log('authorizationParams', authorizationParams)
-  const resources = memoizedGetResources(authorizationParams)
-
-  const { query: { args } } = useRouter()
-  const resourceName = args[0]
-
-  const resource = resources[resourceName]
-
-  const { action, id } = getRouteParams(args)
-  const View = resource[action]
-
-  if (!View) {
-    return <h1>Not Found</h1>
+const getAdminResourceView = memoizeOne(({ resource, authorizationParams, view }) => {
+  if (!resourceNames.includes(resource)) {
+    return <NotFoundError/>
   }
-
-  return (
-    <View
-      resource={resourceName}
-      basePath={`/admin/${resourceName}`}
-      hasList={!!resource.list}
-      hasEdit={!!resource.edit}
-      hasCreate={!!resource.create}
-      hasShow={!!resource.show}
-      id={id}
-    />
-  )
-}
+  return dynamic(async () => {
+    const viewsFactory = (await import(`../../resources/${resource}.js`)).default
+    const views = viewsFactory(authorizationParams)
+    const View = views[view]
+    return function AdminResourceView ({ id }) {
+      if (!View) {
+        return <NotFoundError/>
+      }
+      return (
+        <View
+          resource={resource}
+          basePath={`/admin/${resource}`}
+          hasList={!!views.list}
+          hasEdit={!!views.edit}
+          hasCreate={!!views.create}
+          hasShow={!!views.show}
+          id={id}
+        />
+      )
+    }
+  }, { ssr: false })
+}, isJsonEqual)
 
 function getRouteParams (args) {
-  let action
+  const resource = args[0]
+  let view
   let id
   if (args.length === 1) {
-    action = 'list'
+    view = 'list'
   } else if (args.length === 2 && args[1] === 'create') {
-    action = 'create'
+    view = 'create'
   } else {
     id = args[1]
     if (args.length === 2) {
-      action = 'edit'
+      view = 'edit'
     } else if (args.length === 3 && args[1] === 'show') {
-      action = 'show'
+      view = 'show'
     }
   }
-  return { action, id }
+  return { resource, view, id }
 }
