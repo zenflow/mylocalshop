@@ -9,29 +9,49 @@ import CloudCircleIcon from '@material-ui/icons/CloudCircle'
 import { SimpleLink } from '../links'
 import { useSession } from '../../hooks/session'
 
-export const MainMenu = () => {
+const MyListItem = ({ href, label, icon, selected }) => {
   const { asPath } = useRouter()
-  const session = useSession()
-
-  const items = [
-    { href: '/', label: 'Home', icon: <HomeIcon/> },
-    session?.user?.roleId === 'admin' && { href: '/admin/users', label: 'Users', icon: <PeopleIcon/> },
-    session?.user?.roleId === 'admin' && { href: '/admin/sessions', label: 'Sessions', icon: <CloudCircleIcon/> },
-  ].filter(Boolean)
-
+  selected = typeof selected === 'function' ? selected(asPath, href) : selected
   return (
-    <List>{
-      items.map(({ href, label, icon }, index) => {
-        const selected = asPath === href || asPath.startsWith(`${href}/`)
-        return (
-          <SimpleLink key={index} href={href}>
-            <ListItem button selected={selected} component="a" href={href}>
-              <ListItemIcon>{icon}</ListItemIcon>
-              <ListItemText primary={label}/>
-            </ListItem>
-          </SimpleLink>
-        )
-      })
-    }</List>
+    <SimpleLink href={href}>
+      <ListItem button component="a" href={href} selected={selected}>
+        <ListItemIcon>{icon}</ListItemIcon>
+        <ListItemText primary={label}/>
+      </ListItem>
+    </SimpleLink>
+  )
+}
+
+const isPathEqual = (asPath, href) => asPath === href
+const isPathInside = (asPath, href) => asPath === href || asPath.startsWith(`${href}/`)
+
+export const MainMenu = () => {
+  const session = useSession()
+  const isAdmin = session?.user.roleId === 'admin'
+  return (
+    <List>
+      <MyListItem
+        href="/"
+        label="Home"
+        icon={<HomeIcon/>}
+        selected={isPathEqual}
+      />
+      {isAdmin && (
+        <MyListItem
+          href="/admin/users"
+          label="Users"
+          icon={<PeopleIcon/>}
+          selected={isPathInside}
+        />
+      )}
+      {isAdmin && (
+        <MyListItem
+          href="/admin/sessions"
+          label="Sessions"
+          icon={<CloudCircleIcon/>}
+          selected={isPathInside}
+        />
+      )}
+    </List>
   )
 }
