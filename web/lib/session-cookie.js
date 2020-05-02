@@ -1,13 +1,10 @@
 import { parse, serialize } from 'cookie'
 
 const COOKIE_NAME = 'session'
-const MAX_AGE = 60 * 60 * 8 // 8 hours
 
 // server-side only
 export function setSessionCookie (res, value) {
   const cookie = serialize(COOKIE_NAME, JSON.stringify(value), {
-    maxAge: MAX_AGE,
-    expires: new Date(Date.now() + MAX_AGE * 1000),
     secure: process.env.NODE_ENV === 'production',
     path: '/',
   })

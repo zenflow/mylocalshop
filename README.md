@@ -12,9 +12,6 @@ Shop local, from home
 
 ## TODO
 
-- delete sessions from database when user logs out
-- delete old sessions when when user logs in (i.e. delete sessions where `now > created_at + ttl`)
-- test when user logs out in another tab
 - admin pages:
     - render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
     - title in <h1> & <head>
@@ -28,13 +25,15 @@ Shop local, from home
 - `shops` table, `user.shops` field
 
 - remove typescript but add prop types ffs
+
 ---
 
 - createdBy & updatedBy fields
 - immutable records in postgresql (for sessions resource)
 - facebook auth provider
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
-- develop hasura-support normally (not in Docker) and use nodemon
+- delete old sessions when when user logs in (i.e. delete sessions where `now > created_at + ttl`)
+- next-connect should propagate errors so they are logged to console by default
 
 - Simplify deployment and improve production performance by deploying all 3 processes in same way
   - Either
