@@ -20,22 +20,20 @@ export function removeSessionCookie (res) {
   res.setHeader('Set-Cookie', cookie)
 }
 
-function parseCookies (req) {
-  if (process.browser) {
-    return parse(window.document.cookie || '')
-  }
-  // For API Routes we don't need to parse the cookies.
-  if (req.cookies) {
-    return req.cookies
-  }
-  // For pages we do need to parse the cookies.
-  const cookie = req.headers?.cookie
-  return parse(cookie || '')
-}
-
 // works on browser & server. ignores `req` on browser
 export function getSessionCookie (req) {
-  const cookies = parseCookies(req)
+  let cookies
+  if (process.browser) {
+    cookies = parse(window.document.cookie || '')
+  } else if (!req) {
+    throw new Error('session-cookie: `req` argument is required server-side')
+  } else if (req.cookies) {
+    // For API Routes we don't need to parse the cookies.
+    cookies = req.cookies
+  } else {
+    // For pages we do need to parse the cookies.
+    cookies = parse(req.headers?.cookie || '')
+  }
   const json = cookies[COOKIE_NAME]
   return json && JSON.parse(json)
 }
