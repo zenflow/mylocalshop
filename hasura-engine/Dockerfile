@@ -1,4 +1,4 @@
-FROM hasura/graphql-engine:v1.1.1
+FROM hasura/graphql-engine:v1.2.0
 
 CMD graphql-engine \
     --database-url $DATABASE_URL \

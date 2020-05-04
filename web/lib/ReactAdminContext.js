@@ -9,9 +9,9 @@ import polyglotI18nProvider from 'ra-i18n-polyglot'
 import defaultMessages from 'ra-language-english'
 import hasuraDataProvider from '@zen_flow/ra-data-hasura'
 import memoizeOne from 'memoize-one'
-import { useSessionCookie } from './auth/session-cookie'
+import { getSessionCookie, useSessionCookie } from './auth/session-cookie'
 import { matchRoute } from '../matchRoute'
-import { resourceNames } from '../resources/_meta'
+import { resourcesMeta } from '../resources/_meta'
 
 export function ReactAdminContext ({ children }) {
   if (!process.browser) {
@@ -25,8 +25,8 @@ export function ReactAdminContext ({ children }) {
         <AuthContext.Provider value={authProvider}>
           <TranslationProvider i18nProvider={i18nProvider}>
             <ConnectedRouter history={getHistory()}>
-              {resourceNames.map(name =>
-                <Resource key={name} name={name} intent="registration"/>,
+              {Object.keys(resourcesMeta).map(resourceName =>
+                <Resource key={resourceName} name={resourceName} intent="registration"/>,
               )}
               {children}
             </ConnectedRouter>
@@ -38,12 +38,21 @@ export function ReactAdminContext ({ children }) {
 }
 
 const getDataProvider = memoizeOne(sessionId => {
-  return convertLegacyDataProvider(
-    hasuraDataProvider(
-      process.env.HASURA_ENGINE_ENDPOINT,
-      { 'Content-Type': 'application/json', ...(sessionId ? { Authorization: sessionId } : {}) },
-    ),
+  const currentUserId = getSessionCookie()?.userId ?? null
+  const baseDataProvider = hasuraDataProvider(
+    process.env.HASURA_ENGINE_ENDPOINT,
+    { 'Content-Type': 'application/json', ...(sessionId ? { Authorization: sessionId } : {}) },
   )
+  return convertLegacyDataProvider((type, resource, params) => {
+    const resourceMeta = resourcesMeta[resource]
+    if (resourceMeta.hasCreatedByField && (type === 'CREATE')) {
+      params.data.createdBy = currentUserId
+    }
+    if (resourceMeta.hasUpdatedByField && ['CREATE', 'UPDATE'].includes(type)) {
+      params.data.updatedBy = currentUserId
+    }
+    return baseDataProvider(type, resource, params)
+  })
 })
 
 const getMyAdminStore = memoizeOne(sessionId => {

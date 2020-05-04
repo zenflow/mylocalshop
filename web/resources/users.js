@@ -1,5 +1,5 @@
 import {
-  List, Datagrid, TextField, BooleanField, DateField,
+  List, Datagrid, TextField, BooleanField, DateField, ReferenceField,
   Edit, SimpleForm, Toolbar, SaveButton, DeleteButton, TextInput, BooleanInput,
   Create,
 } from 'react-admin'
@@ -14,7 +14,13 @@ export default ({ isUserAdmin, isLoggedIn }) => {
         <TextField source="lastName" />
         <BooleanField source="isAdmin" />
         <DateField source="createdAt"/>
+        <ReferenceField source="createdBy" reference="users">
+          <TextField source="email"/>
+        </ReferenceField>
         <DateField source="updatedAt"/>
+        <ReferenceField source="updatedBy" reference="users">
+          <TextField source="email"/>
+        </ReferenceField>
       </Datagrid>
     </List>
   )
@@ -36,7 +42,13 @@ export default ({ isUserAdmin, isLoggedIn }) => {
         <TextInput source="lastName" />
         <BooleanInput source="isAdmin" disabled={!isUserAdmin} />
         <DateField source="createdAt"/>
+        <ReferenceField source="createdBy" reference="users" link={isUserAdmin}>
+          <TextField source="email"/>
+        </ReferenceField>
         <DateField source="updatedAt"/>
+        <ReferenceField source="updatedBy" reference="users" link={isUserAdmin}>
+          <TextField source="email"/>
+        </ReferenceField>
       </SimpleForm>
     </Edit>
   )

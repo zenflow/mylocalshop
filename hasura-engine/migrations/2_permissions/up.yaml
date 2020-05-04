@@ -1,0 +1,67 @@
+- args:
+    permission:
+      allow_aggregations: false
+      backend_only: false
+      columns:
+        - id
+        - createdAt
+        - updatedAt
+        - userId
+        - provider
+        - token
+      computed_fields: []
+      filter:
+        userId:
+          _eq: X-Hasura-User-Id
+      limit: null
+    role: user
+    table:
+      name: sessions
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      allow_aggregations: true
+      backend_only: false
+      columns:
+        - id
+        - createdAt
+        - updatedAt
+        - createdBy
+        - updatedBy
+        - email
+        - firstName
+        - lastName
+        - googleId
+        - isAdmin
+        - picture
+        - locale
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: users
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      backend_only: false
+      check:
+        updatedBy:
+          _eq: X-Hasura-User-Id
+      columns:
+        - firstName
+        - lastName
+        - locale
+        - picture
+        - updatedBy
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      set: {}
+    role: user
+    table:
+      name: users
+      schema: public
+  type: create_update_permission

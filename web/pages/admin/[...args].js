@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import memoizeOne from 'memoize-one'
 import { useCurrentUser } from '../../lib/auth/useCurrentUser'
-import { resourceNames } from '../../resources/_meta'
+import { resourcesMeta } from '../../resources/_meta'
 import { NotFoundErrorPage, AccessDeniedErrorPage, ErrorPage } from '../../components/errors'
 
 /* Select only what's necessary, since changes in the result (due to changes in
@@ -17,7 +17,7 @@ const AdminPage = () => {
   const { currentUser } = useCurrentUser()
   const router = useRouter()
   const { resource, view, id } = getRouteParams(router.query.args)
-  if (!resourceNames.includes(resource)) {
+  if (!Object.keys(resourcesMeta).includes(resource)) {
     return <NotFoundErrorPage/>
   }
   const authorizationParams = getAuthorizationParams(currentUser)

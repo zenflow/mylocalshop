@@ -1,0 +1,18 @@
+- args:
+    role: user
+    table:
+      name: sessions
+      schema: public
+  type: drop_select_permission
+- args:
+    role: user
+    table:
+      name: users
+      schema: public
+  type: drop_select_permission
+- args:
+    role: user
+    table:
+      name: users
+      schema: public
+  type: drop_update_permission

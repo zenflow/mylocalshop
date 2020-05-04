@@ -12,16 +12,16 @@ Shop local, from home
 
 ## TODO
 
-- upgrade hasura
-- use prettier
-
 - merge hasura-engine & hasura-support and then remove hasura-support cache-control & do session.lastHit
+- use prettier
+- use websocket link for mutations and regular queries too
 
 - admin pages:
     - render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
     - title in <h1> & <head>
     - show some <Loader/> for "loading" stateS
     - refresh button
+    - integrate apollo client /w subscriptions
 
 - `shops` table, `user.shops` field
 
@@ -35,7 +35,6 @@ Shop local, from home
 ---
 
 - user feedback during login/logout process (loader + notification)
-- createdBy & updatedBy fields
 - immutable records in postgresql (for sessions resource)
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
 - next-connect should propagate errors so they are logged to console by default
