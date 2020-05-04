@@ -8,12 +8,14 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import Typography from '@material-ui/core/Typography'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
+import fetch from 'isomorphic-unfetch'
+import Router from 'next/router'
 import { LinkElement } from '../links'
-import { useSession } from '../../hooks/session'
+import { useCurrentUser } from '../../lib/auth/useCurrentUser'
 
 export const UserMenuButton = () => {
-  const session = useSession()
-  if (!session) {
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
     return null
   }
 
@@ -52,7 +54,7 @@ export const UserMenuButton = () => {
         <LinkElement
           element={MenuItem}
           component="a"
-          href={`/admin/users/${session.user.id}`}
+          href={`/admin/users/${currentUser.id}`}
           onClick={closeMenu}
         >
           <ListItemIcon>
@@ -62,10 +64,7 @@ export const UserMenuButton = () => {
             Profile
           </Typography>
         </LinkElement>
-        <MenuItem
-          component="a"
-          href="/api/auth/logout"
-        >
+        <MenuItem onClick={logOut}>
           <ListItemIcon>
             <PowerSettingsNewIcon fontSize="small"/>
           </ListItemIcon>
@@ -76,4 +75,10 @@ export const UserMenuButton = () => {
       </Menu>
     </>
   )
+}
+
+async function logOut () {
+  // TODO: Give some user-feedback during this process (loader + notification)
+  await Router.push('/')
+  await fetch('/api/auth/logout')
 }

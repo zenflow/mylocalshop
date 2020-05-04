@@ -2,19 +2,20 @@ import { useState } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
-import { useSession } from '../hooks/session'
-import { useLiveQuery } from '../hooks/graphql'
+import { useCurrentUser } from '../lib/auth/useCurrentUser'
+import { useLiveQuery } from '../lib/useLiveQuery'
+import { LogInButton } from '../components/LogInButton'
 
 const IndexPage = () => {
-  const session = useSession()
+  const currentUser = useCurrentUser()
   return (
     <>
       <h2>{
-        session
-          ? <>Welcome {session.user.firstName}!</>
-          : <>Please <a href="/api/auth/google">Log in </a> to continue</>
+        currentUser
+          ? <>Welcome {currentUser.firstName}!</>
+          : <>Please <LogInButton variant="contained"/> to continue</>
       }</h2>
-      {session?.user.isAdmin && <UserList/>}
+      {currentUser?.isAdmin && <UserList/>}
       <style jsx>{`
         h2 { text-align: center; }
       `}</style>

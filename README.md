@@ -12,18 +12,16 @@ Shop local, from home
 
 ## TODO
 
-- clear apache cache when session subscription notifies session deleted
-prettier
+- useLiveQuery currently fetches data through both "query" and "subscription" on browser
+- upgrade hasura
+- use prettier
 - test in production
 
 - admin pages:
     - render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
     - title in <h1> & <head>
     - show some <Loader/> for "loading" stateS
-
-- refresh button doesn't work for admin pages
-- react-admin: 'Element does not exist' error notification after deleting something
-- error when saving edits when no fields were edited
+    - refresh button
 
 - `shops` table, `user.shops` field
 

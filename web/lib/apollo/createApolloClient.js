@@ -5,22 +5,17 @@ import { BatchHttpLink } from 'apollo-link-batch-http'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import fetch from 'isomorphic-unfetch'
-import { getSessionCookie } from './lib/session-cookie'
-import { createWithApollo } from './lib/apollo'
 
-export const withApollo = createWithApollo({ createApolloClient })
-
-function createApolloClient (initialState, req) {
+export function createApolloClient (sessionId) {
   const uri = `${process.env.HASURA_ENGINE_ENDPOINT}/v1/graphql`
-
-  const sessionId = getSessionCookie(req)?.id
   const headers = sessionId ? { Authorization: sessionId } : {}
 
   let link = new BatchHttpLink({ uri, fetch, headers })
 
+  let wsLink
   if (process.browser) {
     const httpLink = link
-    const wsLink = new WebSocketLink({
+    wsLink = new WebSocketLink({
       uri: toWsUrl(uri),
       options: {
         reconnect: true,
@@ -38,9 +33,9 @@ function createApolloClient (initialState, req) {
     link = split(test, wsLink, httpLink)
   }
 
-  return new ApolloClient({
+  const apolloClient = new ApolloClient({
     link,
-    cache: new InMemoryCache().restore(initialState),
+    cache: new InMemoryCache(),
     ssrMode: !process.browser,
     defaultOptions: {
       watchQuery: {
@@ -51,6 +46,8 @@ function createApolloClient (initialState, req) {
       },
     },
   })
+
+  return { apolloClient, wsLink }
 }
 
 const toWsUrl = url => {

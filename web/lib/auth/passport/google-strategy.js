@@ -1,5 +1,5 @@
 import GoogleStrategy from 'passport-google-oauth20/lib'
-import { adminGraphql } from '../lib/adminGraphql'
+import { adminGraphql } from '../../adminGraphql'
 
 const callbackify = fn => (...args) => {
   const cb = args.pop()

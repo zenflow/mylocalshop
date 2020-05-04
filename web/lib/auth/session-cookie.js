@@ -1,4 +1,6 @@
 import { parse, serialize } from 'cookie'
+import React from 'react'
+import App from 'next/app'
 
 const COOKIE_NAME = 'session'
 
@@ -36,4 +38,27 @@ export function getSessionCookie (req) {
   }
   const json = cookies[COOKIE_NAME]
   return json && JSON.parse(json)
+}
+
+export const useSessionCookie = () => React.useContext(SessionCookieContext)
+export const SessionCookieContext = React.createContext()
+export function withSessionCookie (AppComponent) {
+  const WithSessionCookie = ({ sessionCookie, ...appProps }) => {
+    return (
+      <SessionCookieContext.Provider value={sessionCookie}>
+        <AppComponent {...appProps} />
+      </SessionCookieContext.Provider>
+    )
+  }
+  if (process.env.NODE_ENV !== 'production') {
+    const displayName = AppComponent.displayName || AppComponent.name || 'Component'
+    WithSessionCookie.displayName = `withSessionCookie(${displayName})`
+  }
+  WithSessionCookie.getInitialProps = async ctx => {
+    const sessionCookie = getSessionCookie(ctx.ctx.req)
+    const getInitialProps = AppComponent.getInitialProps || App.getInitialProps
+    const props = await getInitialProps(ctx)
+    return { ...props, sessionCookie }
+  }
+  return WithSessionCookie
 }

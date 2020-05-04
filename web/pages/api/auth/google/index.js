@@ -1,13 +1,11 @@
 import nextConnect from 'next-connect'
-import { passport } from '../../../../passport'
+import { passport } from '../../../../lib/auth/passport'
 
 export default nextConnect()
   .use(passport.initialize())
   .get((req, res) => {
     passport.authenticate('google', {
       scope: ['email', 'profile'],
-      state: JSON.stringify({
-        redirect: req.query.redirect,
-      }),
+      // state: JSON.stringify({ redirect: req.query.redirect, }), // Not needed for login via popup
     })(req, res)
   })

@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import classnames from 'classnames'
 import Button from '@material-ui/core/Button'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
@@ -9,7 +8,8 @@ import ErrorIcon from '@material-ui/icons/Report'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { useTranslate } from 'react-admin'
 import GoogleIcon from './GoogleIcon'
-import { useSession } from '../hooks/session'
+import { useCurrentUser } from '../lib/auth/useCurrentUser'
+import { LogInButton } from './LogInButton'
 
 const useStyles = makeStyles(
   theme => ({
@@ -88,20 +88,12 @@ export const NotFoundErrorPage = () => {
 }
 
 export const AccessDeniedErrorPage = () => {
-  const session = useSession()
-  const router = useRouter()
+  const currentUser = useCurrentUser()
   return (
     <ErrorPage
       title="403 Access Denied"
-      buttons={!session && (
-        <Button
-          variant="contained"
-          href={`/api/auth/google?${new URLSearchParams({ redirect: router.asPath })}`}
-          startIcon={<GoogleIcon/>}
-          color="primary"
-        >
-          Log in
-        </Button>
+      buttons={!currentUser && (
+        <LogInButton color="primary" variant="contained"/>
       )}
     />
   )

@@ -5,7 +5,6 @@ import {
 } from 'react-admin'
 import { AccessDeniedErrorPage } from '../components/errors'
 
-
 export default ({ isUserAdmin, isLoggedIn }) => {
   const UserList = props => (
     <List {...props}>

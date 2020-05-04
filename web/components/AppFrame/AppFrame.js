@@ -9,12 +9,13 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import NoSsr from '@material-ui/core/NoSsr'
 import { makeStyles } from '@material-ui/core/styles'
-import { useSession } from '../../hooks/session'
+import { useCurrentUser } from '../../lib/auth/useCurrentUser'
 import { UserMenuButton } from './UserMenuButton'
 import { MainMenu } from './MainMenu'
 import { PageRefreshButton } from './PageRefreshButton'
 import { useRouter } from 'next/router'
 import GoogleIcon from '../GoogleIcon'
+import { LogInButton } from '../LogInButton'
 
 const drawerWidth = 240
 
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const AppFrame = ({ children }) => {
   const classes = useStyles()
-  const session = useSession()
+  const currentUser = useCurrentUser()
   const router = useRouter()
 
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -82,17 +83,9 @@ export const AppFrame = ({ children }) => {
             mylocalshop
           </Typography>
           <PageRefreshButton/>
-          {session
+          {currentUser
             ? <UserMenuButton/>
-            : (
-              <Button
-                href={`/api/auth/google?${new URLSearchParams({ redirect: router.asPath })}`}
-                startIcon={<GoogleIcon/>}
-                color="inherit"
-              >
-                Log in
-              </Button>
-            )
+            : <LogInButton color="inherit"/>
           }
         </Toolbar>
       </AppBar>
