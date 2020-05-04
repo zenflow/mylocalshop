@@ -34,6 +34,7 @@ Shop local, from home
 
 ---
 
+- hasura graphql-engine issue: createdBy & updatedBy should be in "Frequently used columns" 
 - user feedback during login/logout process (loader + notification)
 - immutable records in postgresql (for sessions resource)
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`

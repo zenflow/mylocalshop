@@ -1,10 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "dev-migrate-apply": "hasura migrate apply --admin-secret admin_secret",
-    "dev-console": "hasura console --admin-secret admin_secret",
-    "prod-console": "hasura console --admin-secret SECRET --endpoint https://mylocalshop-hasura-engine.herokuapp.com",
-    "prod-migrate-apply": "hasura migrate apply --admin-secret SECRET --endpoint https://mylocalshop-hasura-engine.herokuapp.com"
+    "dev-migrate-apply": "hasura migrate apply --endpoint http://docker-machine:8080 --admin-secret admin_secret",
+    "dev-console": "hasura console --endpoint http://docker-machine:8080 --admin-secret admin_secret",
+    "prod-console": "hasura console --endpoint https://mylocalshop-hasura-engine.herokuapp.com --admin-secret SECRET",
+    "prod-migrate-apply": "hasura migrate apply --endpoint https://mylocalshop-hasura-engine.herokuapp.com --admin-secret SECRET"
   },
   "devDependencies": {
     "hasura-cli": "^1.2.0"
