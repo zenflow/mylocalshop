@@ -3,7 +3,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import { useCurrentUser } from '../lib/auth/useCurrentUser'
-import { useLiveQuery } from '../lib/useLiveQuery'
+import { useRealtimeSsrQuery } from '../lib/useRealtimeSsrQuery'
 import { LogInButton } from '../components/LogInButton'
 
 const IndexPage = () => {
@@ -29,7 +29,7 @@ const SHOW_ALL = 'SHOW_ALL'
 
 function UserList () {
   const [adminFieldFilter, setadminFieldFilter] = useState(SHOW_ALL)
-  const { loading, error, data } = useLiveQuery({
+  const { loading, error, data } = useRealtimeSsrQuery({
     query: `
       ($where: users_bool_exp){
         users (where: $where) {

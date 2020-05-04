@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSessionCookie } from './session-cookie'
 import App from 'next/app'
-import { useLiveQuery } from '../useLiveQuery'
+import { useRealtimeSsrQuery } from '../useRealtimeSsrQuery'
 
 export const useCurrentUser = () => React.useContext(CurrentUserContext)
 export const CurrentUserContext = React.createContext()
@@ -9,7 +9,7 @@ export const CurrentUserContext = React.createContext()
 export function withCurrentUser (AppComponent) {
   const WithCurrentUser = (appProps) => {
     const sessionCookie = useSessionCookie()
-    const { error, data } = useLiveQuery({
+    const { error, data } = useRealtimeSsrQuery({
       query: `
         ($id: uuid!) {
           sessions_by_pk(id: $id) {

@@ -12,10 +12,9 @@ Shop local, from home
 
 ## TODO
 
-- useLiveQuery currently fetches data through both "query" and "subscription" on browser
+- test in production
 - upgrade hasura
 - use prettier
-- test in production
 
 - admin pages:
     - render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
@@ -29,11 +28,15 @@ Shop local, from home
 
 ---
 
+- test on mobile, test with slow connection
+- facebook auth provider
+- delete old sessions when when user logs in (i.e. delete sessions where `now > created_at + ttl`)
+
+---
+
 - createdBy & updatedBy fields
 - immutable records in postgresql (for sessions resource)
-- facebook auth provider
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
-- delete old sessions when when user logs in (i.e. delete sessions where `now > created_at + ttl`)
 - next-connect should propagate errors so they are logged to console by default
 
 - Simplify deployment and improve production performance by deploying all 3 processes in same way
