@@ -7,7 +7,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import ErrorIcon from '@material-ui/icons/Report'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { useTranslate } from 'react-admin'
-import GoogleIcon from './GoogleIcon'
 import { useCurrentUser } from '../lib/auth/useCurrentUser'
 import { LogInButton } from './LogInButton'
 
@@ -75,7 +74,7 @@ export const ErrorPage = ({ title = null, details = null, buttons = null }) => {
           variant="contained"
           onClick={() => window.history.go(-1)}
         >
-          {translate('ra.action.back')}
+          Go back
         </Button>
         {buttons}
       </div>

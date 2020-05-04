@@ -6,15 +6,12 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
 import NoSsr from '@material-ui/core/NoSsr'
 import { makeStyles } from '@material-ui/core/styles'
 import { useCurrentUser } from '../../lib/auth/useCurrentUser'
 import { UserMenuButton } from './UserMenuButton'
 import { MainMenu } from './MainMenu'
 import { PageRefreshButton } from './PageRefreshButton'
-import { useRouter } from 'next/router'
-import GoogleIcon from '../GoogleIcon'
 import { LogInButton } from '../LogInButton'
 
 const drawerWidth = 240
@@ -59,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
 export const AppFrame = ({ children }) => {
   const classes = useStyles()
   const currentUser = useCurrentUser()
-  const router = useRouter()
 
   const [mobileOpen, setMobileOpen] = useState(false)
   const handleDrawerToggle = () => {

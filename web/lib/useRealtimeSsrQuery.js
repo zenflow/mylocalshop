@@ -26,6 +26,3 @@ export function useRealtimeSsrQuery ({ query, variables = {}, skip = false }) {
   }
   return { loading, error, data }
 }
-
-
-
