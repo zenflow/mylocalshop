@@ -13,31 +13,38 @@ export function setSessionCookie (res, value) {
   res.setHeader('Set-Cookie', cookie)
 }
 
-// server-side only
+// works on browser & server. ignores `req` on browser
 export function removeSessionCookie (res) {
   const cookie = serialize(COOKIE_NAME, '', {
     maxAge: -1,
     path: '/',
   })
-  res.setHeader('Set-Cookie', cookie)
+  if (process.browser) {
+    document.cookie += cookie
+  } else {
+    res.setHeader('Set-Cookie', cookie)
+  }
 }
 
 // works on browser & server. ignores `req` on browser
 export function getSessionCookie (req) {
-  let cookies
+  const cookies = getCookies(req)
+  const json = cookies[COOKIE_NAME]
+  return json && JSON.parse(json)
+}
+
+function getCookies (req) {
   if (process.browser) {
-    cookies = parse(window.document.cookie || '')
+    return parse(document.cookie || '')
   } else if (!req) {
     throw new Error('session-cookie: `req` argument is required server-side')
   } else if (req.cookies) {
     // For API Routes we don't need to parse the cookies.
-    cookies = req.cookies
+    return req.cookies
   } else {
     // For pages we do need to parse the cookies.
-    cookies = parse(req.headers?.cookie || '')
+    return parse(req.headers?.cookie || '')
   }
-  const json = cookies[COOKIE_NAME]
-  return json && JSON.parse(json)
 }
 
 export const useSessionCookie = () => React.useContext(SessionCookieContext)

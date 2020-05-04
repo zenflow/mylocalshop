@@ -14,7 +14,7 @@ const getAuthorizationParams = currentUser => ({
 })
 
 const AdminPage = () => {
-  const currentUser = useCurrentUser()
+  const { currentUser } = useCurrentUser()
   const router = useRouter()
   const { resource, view, id } = getRouteParams(router.query.args)
   if (!resourceNames.includes(resource)) {

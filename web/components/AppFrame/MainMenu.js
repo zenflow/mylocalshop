@@ -28,7 +28,7 @@ const isPathEqual = (asPath, href) => asPath === href
 const isPathInside = (asPath, href) => asPath === href || asPath.startsWith(`${href}/`)
 
 export const MainMenu = () => {
-  const currentUser = useCurrentUser()
+  const { currentUser } = useCurrentUser()
   return (
     <List>
       <MyListItem

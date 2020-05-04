@@ -8,11 +8,6 @@ module.exports = server => {
       const sessionId = req.get('Authorization')
       if (sessionId) {
         user = await queryUserBySessionId(sessionId, 'id isAdmin')
-        if (!user) {
-          // TODO: return 4xx auth error, prompting user to create a new session
-          //   mostly not necessary because client subscribes to it's session and is aware when it's gone
-          console.warn(`Could not find user by session id "${sessionId}"`)
-        }
       }
 
       const result = {

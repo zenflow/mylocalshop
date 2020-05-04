@@ -1,25 +1,25 @@
 import { useEffect } from 'react'
 import Router from 'next/router'
 import { useCurrentUser } from './useCurrentUser'
-import { getSessionCookie, useSessionCookie } from './session-cookie'
-
-let lastCurrentUser
+import { getSessionCookie, removeSessionCookie, useSessionCookie } from './session-cookie'
 
 /* Responsible for reloading the route (i.e. causing getInitialProps) when authentication status changes.
   Necessary so that new apollo & react-admin clients are created for the new authentication status. */
 export function RouteReloader () {
   if (process.browser) {
-    const currentUser = useCurrentUser()
-    const shouldRefresh = lastCurrentUser && !currentUser
+    const { currentUserLoading, currentUser } = useCurrentUser()
+    const sessionCookie = useSessionCookie()
+    const shouldRefresh = sessionCookie && !currentUser && !currentUserLoading
     useEffect(() => {
       if (shouldRefresh) {
-        console.log('User logged out. Refreshing page.')
+        console.log('Session no longer exists. Refreshing page.')
+        if (getSessionCookie()) {
+          removeSessionCookie()
+        }
         Router.replace(Router.route, Router.asPath)
       }
     })
-    lastCurrentUser = currentUser
 
-    const sessionCookie = useSessionCookie()
     useEffect(() => {
       const focusHandler = () => {
         if (getSessionCookie()?.id !== sessionCookie?.id) {

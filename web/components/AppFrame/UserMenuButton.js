@@ -14,7 +14,7 @@ import { LinkElement } from '../links'
 import { useCurrentUser } from '../../lib/auth/useCurrentUser'
 
 export const UserMenuButton = () => {
-  const currentUser = useCurrentUser()
+  const { currentUser } = useCurrentUser()
   if (!currentUser) {
     return null
   }

@@ -87,7 +87,7 @@ export const NotFoundErrorPage = () => {
 }
 
 export const AccessDeniedErrorPage = () => {
-  const currentUser = useCurrentUser()
+  const { currentUser } = useCurrentUser()
   return (
     <ErrorPage
       title="403 Access Denied"

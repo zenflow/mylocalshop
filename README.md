@@ -12,9 +12,10 @@ Shop local, from home
 
 ## TODO
 
-- test in production
 - upgrade hasura
 - use prettier
+
+- merge hasura-engine & hasura-support and then remove hasura-support cache-control & do session.lastHit
 
 - admin pages:
     - render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
@@ -28,7 +29,6 @@ Shop local, from home
 
 ---
 
-- test on mobile, test with slow connection
 - facebook auth provider
 - delete old sessions when when user logs in (i.e. delete sessions where `now > created_at + ttl`)
 

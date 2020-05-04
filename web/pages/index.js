@@ -7,7 +7,7 @@ import { useRealtimeSsrQuery } from '../lib/useRealtimeSsrQuery'
 import { LogInButton } from '../components/LogInButton'
 
 const IndexPage = () => {
-  const currentUser = useCurrentUser()
+  const { currentUser } = useCurrentUser()
   return (
     <>
       <h2>{

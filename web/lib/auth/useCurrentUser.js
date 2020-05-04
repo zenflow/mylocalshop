@@ -9,7 +9,7 @@ export const CurrentUserContext = React.createContext()
 export function withCurrentUser (AppComponent) {
   const WithCurrentUser = (appProps) => {
     const sessionCookie = useSessionCookie()
-    const { error, data } = useRealtimeSsrQuery({
+    const { loading, error, data } = useRealtimeSsrQuery({
       query: `
         ($id: uuid!) {
           sessions_by_pk(id: $id) {
@@ -23,11 +23,19 @@ export function withCurrentUser (AppComponent) {
       skip: !sessionCookie,
     })
     if (error) {
-      throw error // TODO
+      if (error.message === 'no subscriptions exist') {
+        // This 'no subscriptions exist' error is ok; don't throw.
+        // We get this when the item requested for subscription doesn't exist, which we are expecting.
+      } else {
+        throw error
+      }
     }
-    const currentUser = data?.sessions_by_pk?.user // eslint-disable-line camelcase
+    const value = {
+      currentUserLoading: loading,
+      currentUser: data?.sessions_by_pk?.user, // eslint-disable-line camelcase
+    }
     return (
-      <CurrentUserContext.Provider value={currentUser}>
+      <CurrentUserContext.Provider value={value}>
         <AppComponent {...appProps} />
       </CurrentUserContext.Provider>
     )
