@@ -11,7 +11,8 @@ import { SimpleLink } from '../links'
 import { useSession } from '../../hooks/session'
 
 const MyListItem = ({ href, label, icon, selected }) => {
-  const { asPath } = useRouter()
+  let { asPath } = useRouter()
+  asPath = asPath.split('#')[0]
   selected = typeof selected === 'function' ? selected(asPath, href) : selected
   return (
     <SimpleLink href={href}>

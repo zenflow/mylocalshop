@@ -24,8 +24,10 @@ const IndexPage = () => {
 
 export default IndexPage
 
+const SHOW_ALL = 'SHOW_ALL'
+
 function UserList () {
-  const [adminFieldFilter, setadminFieldFilter] = useState(null)
+  const [adminFieldFilter, setadminFieldFilter] = useState(SHOW_ALL)
   const { loading, error, data } = useLiveQuery({
     query: `
       ($where: users_bool_exp){
@@ -35,7 +37,7 @@ function UserList () {
       }
     `,
     variables: {
-      where: adminFieldFilter === null ? {} : { isAdmin: { _eq: adminFieldFilter } },
+      where: adminFieldFilter === SHOW_ALL ? {} : { isAdmin: { _eq: adminFieldFilter } },
     },
   })
   if (error) {
@@ -52,7 +54,7 @@ function UserList () {
         value={adminFieldFilter}
         onChange={event => setadminFieldFilter(event.target.value)}
       >
-        <MenuItem value={null}><em>Show All</em></MenuItem>
+        <MenuItem value={SHOW_ALL}><em>Show All</em></MenuItem>
         <MenuItem value={true}>Only Admin</MenuItem>
         <MenuItem value={false}>Only Non-Admin</MenuItem>
       </Select>
