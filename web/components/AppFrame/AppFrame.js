@@ -97,6 +97,7 @@ export const AppFrame = ({ children }) => {
               anchor="left"
               open={mobileOpen}
               onClose={handleDrawerToggle}
+              onClick={handleDrawerToggle}
               classes={{
                 paper: classes.drawerPaper,
               }}

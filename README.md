@@ -34,6 +34,7 @@ Shop local, from home
 
 ---
 
+- user feedback during login/logout process (loader + notification)
 - createdBy & updatedBy fields
 - immutable records in postgresql (for sessions resource)
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`

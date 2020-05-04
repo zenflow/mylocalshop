@@ -78,7 +78,6 @@ export const UserMenuButton = () => {
 }
 
 async function logOut () {
-  // TODO: Give some user-feedback during this process (loader + notification)
   await Router.push('/')
   await fetch('/api/auth/logout')
 }
