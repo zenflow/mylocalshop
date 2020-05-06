@@ -39,6 +39,7 @@ Shop local, from home
 - immutable records in postgresql (for sessions resource)
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
 - next-connect should propagate errors so they are logged to console by default
+- develop hasura-support outside of docker container, with nodemon
 
 - Simplify deployment and improve production performance by deploying all 3 processes in same way
   - Either
@@ -50,4 +51,7 @@ Shop local, from home
       - main process will be node server that manages 3 child processes and proxies requests to web & hasura-engine
       - either
         - hack the Hasura docker image to also run node
-        - *** in docker container, run nodejs servers and, in a subcontainer, hasura-engine https://itnext.io/docker-in-docker-521958d34efd
+        - in docker container, run nodejs servers and, in a subcontainer, hasura-engine https://itnext.io/docker-in-docker-521958d34efd
+            - X this idea. Requires exposing docker socket as volume from host. 
+                1. Not going to work easy with Windows development host
+                2. Hasura (and other platforms) unlikely to expose docker socket to containers like this 

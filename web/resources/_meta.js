@@ -1,5 +1,5 @@
 export const resourcesMeta = {
-  session: {},
+  sessions: {},
   users: {
     hasCreatedByField: true,
     hasUpdatedByField: true,

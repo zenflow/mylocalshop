@@ -4,6 +4,6 @@ const Error = ({ err }) => {
   return <ErrorPage details={err}/>
 }
 
-Error.getInitialProps = ({ err }) => ({ err: err?.toString() })
+Error.getInitialProps = ({ err }) => ({ err: JSON.stringify(err) })
 
 export default Error
