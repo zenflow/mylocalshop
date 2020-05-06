@@ -42,7 +42,7 @@ Shop local, from home
 - develop hasura-support outside of docker container, with nodemon
 - use prettier
 - use some prop-types & typescript
-- use rollbar or similar
+- use rollbar (or similar) & google analytics 
 - i18n
 
 - Simplify deployment and improve production performance by deploying all 3 processes in same way

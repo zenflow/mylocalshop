@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Head from 'next/head'
 import AppBar from '@material-ui/core/AppBar'
 import Drawer from '@material-ui/core/Drawer'
 import Hidden from '@material-ui/core/Hidden'
@@ -73,6 +74,9 @@ export const AppFrame = ({ children }) => {
 
   return (
     <div className={classes.root}>
+      <Head>
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+      </Head>
       <ProgressBar/>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
