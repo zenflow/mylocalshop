@@ -36,7 +36,7 @@ function UserList () {
           firstName lastName
           createdByUser { email }
           updatedByUser { email }
-          sessions_aggregate { aggregate { max { lastUsedAt } } }
+          sessions_aggregate { aggregate { max { lastHit } } }
         }
       }
     `,
@@ -72,7 +72,7 @@ function UserList () {
             <th>name</th>
             <th>created by</th>
             <th>updated by</th>
-            <th>last api request</th>
+            <th>last auth hit</th>
           </tr>
         </thead>
         <tbody>
@@ -83,7 +83,7 @@ function UserList () {
               <td>{user.firstName} {user.lastName}</td>
               <td>{user.createdByUser?.email}</td>
               <td>{user.updatedByUser?.email}</td>
-              <td>{new Date(user.sessions_aggregate.aggregate.max.lastUsedAt).toLocaleString()}</td>
+              <td>{new Date(user.sessions_aggregate.aggregate.max.lastHit).toLocaleString()}</td>
             </tr>
           ))}
         </tbody>

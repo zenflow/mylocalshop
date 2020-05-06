@@ -14,5 +14,20 @@ CREATE TRIGGER "set_public_users_updatedAt"
 BEFORE UPDATE ON "public"."users"
 FOR EACH ROW
 EXECUTE PROCEDURE "public"."set_current_timestamp_updatedAt"();
-COMMENT ON TRIGGER "set_public_users_updatedAt" ON "public"."users" 
+COMMENT ON TRIGGER "set_public_users_updatedAt" ON "public"."users"
 IS 'trigger to set value of column "updatedAt" to current timestamp on row update';
+
+ALTER TABLE "public"."users"
+    ADD CONSTRAINT "users_createdBy_fkey"
+        FOREIGN KEY ("createdBy")
+        REFERENCES "public"."users" ("id")
+        ON UPDATE RESTRICT
+        ON DELETE RESTRICT;
+
+ALTER TABLE "public"."users"
+    ADD CONSTRAINT "users_updatedBy_fkey"
+        FOREIGN KEY ("updatedBy")
+        REFERENCES "public"."users" ("id")
+        ON UPDATE RESTRICT
+        ON DELETE RESTRICT;
+

@@ -12,8 +12,8 @@ export default ({ isUserAdmin }) => {
         <ReferenceField label="User" source="userId" reference="users">
           <TextField source="email"/>
         </ReferenceField>
-        <DateField source="lastUsedAt" showTime />
-        <NumberField source="hits"/>
+        <DateField source="lastHit" showTime />
+        <NumberField source="hitCount"/>
       </Datagrid>
     </List>
   )

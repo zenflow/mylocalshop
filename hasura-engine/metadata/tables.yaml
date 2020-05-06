@@ -10,9 +10,9 @@
     permission:
       columns:
       - createdAt
-      - hits
+      - hitCount
       - id
-      - lastUsedAt
+      - lastHit
       - provider
       - token
       - userId

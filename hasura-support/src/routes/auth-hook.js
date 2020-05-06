@@ -12,7 +12,7 @@ module.exports = server => {
           mutation ($sessionId: uuid!, $now: timestamptz) {
             update_sessions_by_pk(
               pk_columns: { id: $sessionId }, 
-              _set: { lastUsedAt: $now }
+              _set: { lastHit: $now }
             ) {
               user { id isAdmin }
             }
