@@ -63,6 +63,7 @@ export function withSessionCookie (AppComponent) {
   }
   WithSessionCookie.getInitialProps = async ctx => {
     const sessionCookie = getSessionCookie(ctx.ctx.req)
+    ctx.ctx.sessionCookie = ctx.sessionCookie = sessionCookie
     const getInitialProps = AppComponent.getInitialProps || App.getInitialProps
     const props = await getInitialProps(ctx)
     return { ...props, sessionCookie }

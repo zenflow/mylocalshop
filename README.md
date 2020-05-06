@@ -12,9 +12,10 @@ Shop local, from home
 
 ## TODO
 
-- merge hasura-engine & hasura-support and then remove hasura-support cache-control & do session.lastHit
+- nprogress loader
+- session.useCount
 - use prettier
-- use websocket link for mutations and regular queries too
+- use graphql normally in google-strategy.js & /api/auth/...
 
 - admin pages:
     - render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
@@ -34,7 +35,11 @@ Shop local, from home
 
 ---
 
-- hasura graphql-engine issue: createdBy & updatedBy should be in "Frequently used columns" 
+- hasura graphql-engine issues
+    - `hasura/graphql-engine:v1.2.1.cli-migrations-v2` crashes applying migrations on heroku
+    - createdBy & updatedBy should be in "Frequently used columns"
+    - should hasura authorize every graphql `subscription`, not just the **singular** http request?
+ 
 - user feedback during login/logout process (loader + notification)
 - immutable records in postgresql (for sessions resource)
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`

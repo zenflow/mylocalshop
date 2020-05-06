@@ -1,24 +1,26 @@
 import React from 'react'
 import { useSessionCookie } from './session-cookie'
 import App from 'next/app'
+import gql from 'graphql-tag'
 import { useRealtimeSsrQuery } from '../useRealtimeSsrQuery'
 
 export const useCurrentUser = () => React.useContext(CurrentUserContext)
 export const CurrentUserContext = React.createContext()
 
+const QUERY = `
+  query ($id: uuid!) {
+    sessions_by_pk(id: $id) {
+      user {
+        id email firstName lastName isAdmin
+      }
+    }
+  }
+`
 export function withCurrentUser (AppComponent) {
   const WithCurrentUser = (appProps) => {
     const sessionCookie = useSessionCookie()
-    const { loading, error, data } = useRealtimeSsrQuery({
-      query: `
-        ($id: uuid!) {
-          sessions_by_pk(id: $id) {
-            user {
-              id email firstName lastName isAdmin
-            }
-          }
-        }
-      `,
+    const { error, data } = useRealtimeSsrQuery({
+      query: QUERY,
       variables: { id: sessionCookie?.id },
       skip: !sessionCookie,
     })
@@ -30,12 +32,9 @@ export function withCurrentUser (AppComponent) {
         throw error
       }
     }
-    const value = {
-      currentUserLoading: loading,
-      currentUser: data?.sessions_by_pk?.user, // eslint-disable-line camelcase
-    }
+    const currentUser = data?.sessions_by_pk?.user // eslint-disable-line camelcase
     return (
-      <CurrentUserContext.Provider value={value}>
+      <CurrentUserContext.Provider value={currentUser}>
         <AppComponent {...appProps} />
       </CurrentUserContext.Provider>
     )
@@ -46,7 +45,21 @@ export function withCurrentUser (AppComponent) {
     WithCurrentUser.displayName = `withCurrentUser(${displayName})`
   }
 
-  WithCurrentUser.getInitialProps = AppComponent.getInitialProps || App.getInitialProps
+  WithCurrentUser.getInitialProps = async ctx => {
+    if (ctx.sessionCookie) {
+      const { error, data } = await ctx.apolloClient.query({
+        query: gql`${QUERY}`,
+        variables: { id: ctx.sessionCookie.id },
+        fetchPolicy: 'cache-first',
+      })
+      if (error) {
+        throw error
+      }
+      const currentUser = data?.sessions_by_pk?.user // eslint-disable-line camelcase
+      ctx.ctx.currentUser = ctx.currentUser = currentUser
+    }
+    return (AppComponent.getInitialProps || App.getInitialProps)(ctx)
+  }
 
   return WithCurrentUser
 }

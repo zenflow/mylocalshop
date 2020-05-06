@@ -2,7 +2,7 @@ import React from 'react'
 import App from 'next/app'
 import Head from 'next/head'
 import { ApolloProvider } from '@apollo/react-hooks'
-import { getApolloClient } from './getApolloClient'
+import { getApolloClient } from './apollo-client'
 
 export function withApollo (AppComponent) {
   const WithApollo = ({ apolloClient, apolloState, ...pageProps }) => {
@@ -23,8 +23,8 @@ export function withApollo (AppComponent) {
     const pageContext = appContext.ctx
 
     const apolloClient = getApolloClient({}, pageContext.req)
-    appContext.apolloClient = appContext
-    pageContext.apolloClient = appContext
+    appContext.apolloClient = apolloClient
+    pageContext.apolloClient = apolloClient
 
     const pageProps = AppComponent.getInitialProps
       ? await AppComponent.getInitialProps(appContext)

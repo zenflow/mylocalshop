@@ -7,10 +7,10 @@ import { Notification } from 'react-admin'
 import { AppFrame } from '../components/AppFrame/AppFrame'
 import { withCurrentUser } from '../lib/auth/useCurrentUser'
 import theme from '../theme'
-import { ReactAdminContext } from '../lib/ReactAdminContext'
+import { ReactAdminContext } from '../lib/react-admin/ReactAdminContext'
 import { withApollo } from '../lib/apollo/withApollo'
 import { withSessionCookie } from '../lib/auth/session-cookie'
-import { RouteReloader } from '../lib/auth/RouteReloader'
+import { ClientReloader } from '../lib/auth/ClientReloader'
 
 function MyApp ({ Component, pageProps }) {
   useEffect(() => {
@@ -23,7 +23,7 @@ function MyApp ({ Component, pageProps }) {
 
   return (
     <ReactAdminContext>
-      <RouteReloader/>
+      <ClientReloader/>
       <Head>
         <title>mylocalshop</title>
       </Head>

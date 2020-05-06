@@ -6,8 +6,8 @@ import { useCurrentUser } from '../lib/auth/useCurrentUser'
 import { useRealtimeSsrQuery } from '../lib/useRealtimeSsrQuery'
 import { LogInButton } from '../components/LogInButton'
 
-const IndexPage = () => {
-  const { currentUser } = useCurrentUser()
+export default function IndexPage () {
+  const currentUser = useCurrentUser()
   return (
     <>
       <h2>{
@@ -22,8 +22,6 @@ const IndexPage = () => {
     </>
   )
 }
-
-export default IndexPage
 
 const SHOW_ALL = 'SHOW_ALL'
 

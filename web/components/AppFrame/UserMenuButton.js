@@ -14,13 +14,13 @@ import { LinkElement } from '../links'
 import { useCurrentUser } from '../../lib/auth/useCurrentUser'
 
 export const UserMenuButton = () => {
-  const { currentUser } = useCurrentUser()
+  const currentUser = useCurrentUser()
   if (!currentUser) {
     return null
   }
 
   const [anchorEl, setAnchorEl] = useState(null)
-  const open = Boolean(anchorEl)
+  const isOpen = Boolean(anchorEl)
   const closeMenu = () => setAnchorEl(null)
 
   return (
@@ -48,7 +48,7 @@ export const UserMenuButton = () => {
           vertical: 'top',
           horizontal: 'right',
         }}
-        open={open}
+        open={isOpen}
         onClose={closeMenu}
       >
         <LinkElement
@@ -64,7 +64,12 @@ export const UserMenuButton = () => {
             Profile
           </Typography>
         </LinkElement>
-        <MenuItem onClick={logOut}>
+        <MenuItem
+          onClick={() => {
+            logOut()
+            closeMenu()
+          }}
+        >
           <ListItemIcon>
             <PowerSettingsNewIcon fontSize="small"/>
           </ListItemIcon>

@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const AppFrame = ({ children }) => {
   const classes = useStyles()
-  const { currentUser } = useCurrentUser()
+  const currentUser = useCurrentUser()
 
   const [mobileOpen, setMobileOpen] = useState(false)
   const handleDrawerToggle = () => {

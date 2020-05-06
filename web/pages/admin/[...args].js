@@ -6,7 +6,7 @@ import { resourcesMeta } from '../../resources/_meta'
 import { NotFoundErrorPage, AccessDeniedErrorPage, ErrorPage } from '../../components/errors'
 
 /* Select only what's necessary, since changes in the result (due to changes in
-session) will cause the resource components to recompute (via `getResources`) */
+the user record) will cause the AdminResourceView to recompute */
 const getAuthorizationParams = currentUser => ({
   isLoggedIn: !!currentUser,
   userId: currentUser?.id,
@@ -14,7 +14,7 @@ const getAuthorizationParams = currentUser => ({
 })
 
 const AdminPage = () => {
-  const { currentUser } = useCurrentUser()
+  const currentUser = useCurrentUser()
   const router = useRouter()
   const { resource, view, id } = getRouteParams(router.query.args)
   if (!Object.keys(resourcesMeta).includes(resource)) {
