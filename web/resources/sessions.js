@@ -1,5 +1,5 @@
 import {
-  List, Datagrid, TextField, DateField, ReferenceField,
+  List, Datagrid, TextField, DateField, ReferenceField, NumberField
 } from 'react-admin'
 import { AccessDeniedErrorPage } from '../components/errors'
 
@@ -13,6 +13,7 @@ export default ({ isUserAdmin }) => {
           <TextField source="email"/>
         </ReferenceField>
         <DateField source="lastUsedAt" showTime />
+        <NumberField source="hits"/>
       </Datagrid>
     </List>
   )
