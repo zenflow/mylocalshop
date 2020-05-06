@@ -7,12 +7,12 @@ export default ({ isUserAdmin }) => {
   const SessionList = (props) => (
     <List {...props}>
       <Datagrid>
-        <DateField source="createdAt" />
-        <DateField source="updatedAt" />
+        <DateField source="createdAt" showTime/>
         <TextField source="provider" />
         <ReferenceField label="User" source="userId" reference="users">
           <TextField source="email"/>
         </ReferenceField>
+        <DateField source="lastUsedAt" showTime />
       </Datagrid>
     </List>
   )

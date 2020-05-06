@@ -7,14 +7,26 @@ module.exports = server => {
 
       const sessionId = req.get('Authorization')
       if (sessionId) {
-        user = await queryUserBySessionId(sessionId, 'id isAdmin')
+        const now = (new Date()).toISOString()
+        const { data } = await adminGraphql(`
+          mutation ($sessionId: uuid!, $now: timestamptz) {
+            update_sessions_by_pk(
+              pk_columns: { id: $sessionId }, 
+              _set: { lastUsedAt: $now }
+            ) {
+              user { id isAdmin }
+            }
+          }
+        `, { sessionId, now })
+        user = data.update_sessions_by_pk && data.update_sessions_by_pk.user
       }
 
       const result = {
         'X-Hasura-Role': user ? (user.isAdmin ? 'admin' : 'user') : 'anonymous',
         'X-Hasura-User-Id': user ? user.id : undefined,
-        'Cache-Control': `max-age=${60 * 60}`, // 1 hour
       }
+
+      // TODO: 'Cache-Control': `max-age=${60 * 60}`, // 1 hour
 
       res.json(result)
       console.log({ user, result })
@@ -23,18 +35,4 @@ module.exports = server => {
       res.status(500).send(error.message)
     }
   })
-}
-
-async function queryUserBySessionId (sessionId, userQuery) {
-  const query = `
-    query ($sessionId: uuid!) {
-      sessions_by_pk(id: $sessionId) {
-        user {
-          ${userQuery.trim()}
-        }
-      }
-    }
-  `
-  const { data } = await adminGraphql(query, { sessionId })
-  return data.sessions_by_pk && data.sessions_by_pk.user
 }

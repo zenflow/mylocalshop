@@ -13,11 +13,11 @@ export default ({ isUserAdmin, isLoggedIn }) => {
         <TextField source="firstName" />
         <TextField source="lastName" />
         <BooleanField source="isAdmin" />
-        <DateField source="createdAt"/>
+        <DateField source="createdAt" showTime/>
         <ReferenceField source="createdBy" reference="users">
           <TextField source="email"/>
         </ReferenceField>
-        <DateField source="updatedAt"/>
+        <DateField source="updatedAt" showTime/>
         <ReferenceField source="updatedBy" reference="users">
           <TextField source="email"/>
         </ReferenceField>
@@ -41,11 +41,11 @@ export default ({ isUserAdmin, isLoggedIn }) => {
         <TextInput source="firstName" />
         <TextInput source="lastName" />
         <BooleanInput source="isAdmin" disabled={!isUserAdmin} />
-        <DateField source="createdAt"/>
+        <DateField source="createdAt" showTime/>
         <ReferenceField source="createdBy" reference="users" link={isUserAdmin}>
           <TextField source="email"/>
         </ReferenceField>
-        <DateField source="updatedAt"/>
+        <DateField source="updatedAt" showTime/>
         <ReferenceField source="updatedBy" reference="users" link={isUserAdmin}>
           <TextField source="email"/>
         </ReferenceField>

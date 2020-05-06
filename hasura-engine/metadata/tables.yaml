@@ -9,15 +9,14 @@
   - role: user
     permission:
       columns:
-      - id
       - createdAt
-      - updatedAt
-      - userId
+      - id
+      - lastUsedAt
       - provider
       - token
-      filter:
-        userId:
-          _eq: X-Hasura-User-Id
+      - userId
+      filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: users

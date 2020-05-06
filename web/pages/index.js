@@ -38,6 +38,7 @@ function UserList () {
           firstName lastName
           createdByUser { email }
           updatedByUser { email }
+          sessions_aggregate { aggregate { max { lastUsedAt } } }
         }
       }
     `,
@@ -73,16 +74,18 @@ function UserList () {
             <th>name</th>
             <th>created by</th>
             <th>updated by</th>
+            <th>last api request</th>
           </tr>
         </thead>
         <tbody>
-          {data.users.map(({ email, firstName, lastName, isAdmin, createdByUser, updatedByUser }) => (
-            <tr key={email}>
-              <td><strong>{isAdmin && 'admin'}</strong></td>
-              <td>{email}</td>
-              <td>{firstName} {lastName}</td>
-              <td>{createdByUser?.email}</td>
-              <td>{updatedByUser?.email}</td>
+          {data.users.map(user => (
+            <tr key={user.email}>
+              <td><strong>{user.isAdmin && 'admin'}</strong></td>
+              <td>{user.email}</td>
+              <td>{user.firstName} {user.lastName}</td>
+              <td>{user.createdByUser?.email}</td>
+              <td>{user.updatedByUser?.email}</td>
+              <td>{new Date(user.sessions_aggregate.aggregate.max.lastUsedAt).toLocaleString()}</td>
             </tr>
           ))}
         </tbody>
