@@ -25,12 +25,7 @@ export function withCurrentUser (AppComponent) {
       skip: !sessionCookie,
     })
     if (error) {
-      if (error.message === 'no subscriptions exist') {
-        // This 'no subscriptions exist' error is ok; don't throw.
-        // We get this when the item requested for subscription doesn't exist, which we are expecting.
-      } else {
-        throw error
-      }
+      throw error
     }
     const currentUser = data?.sessions_by_pk?.user // eslint-disable-line camelcase
     return (
@@ -47,13 +42,19 @@ export function withCurrentUser (AppComponent) {
 
   WithCurrentUser.getInitialProps = async ctx => {
     if (ctx.sessionCookie) {
-      const { error, data } = await ctx.apolloClient.query({
-        query: gql`${QUERY}`,
-        variables: { id: ctx.sessionCookie.id },
-        fetchPolicy: 'cache-first',
-      })
-      if (error) {
-        throw error
+      let data
+      try {
+        data = (await ctx.apolloClient.query({
+          query: gql`${QUERY}`,
+          variables: { id: ctx.sessionCookie.id },
+          fetchPolicy: 'cache-first',
+        })).data
+      } catch (error) {
+        if (error.message === 'GraphQL error: Authentication hook unauthorized this request') {
+          console.log('error', error)
+        } else {
+          throw error
+        }
       }
       const currentUser = data?.sessions_by_pk?.user // eslint-disable-line camelcase
       ctx.ctx.currentUser = ctx.currentUser = currentUser

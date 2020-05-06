@@ -12,31 +12,32 @@ Shop local, from home
 
 ## TODO
 
-- session.useCount && cache-control @ 3 min
-- use graphql normally in google-strategy.js & /api/auth/...
-
+- concatenate migrations & deploy
 - admin pages:
-    - render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
-    - title in <h1> & <head>
     - show some <Loader/> for "loading" stateS
     - refresh button
+    - title in <h1> & <head>
+    - render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
     - integrate apollo client /w subscriptions
+- use graphql normally in google-strategy.js & /api/auth/...
+
+- facebook auth provider
+- delete old sessions when when user logs in
 
 - `shops` table, `user.shops` field
 
 ---
 
-- facebook auth provider
-- delete old sessions when when user logs in (i.e. delete sessions where `now > created_at + ttl`)
-
----
-
+- nextjs issues
+    - dynamic components swallow errors! It should `Promise.reject(` errrors by default
+    - build matchRoute function, use it like <Link href={matchRoute(href)} as={href}><a href={href}></a></Link>
 - hasura graphql-engine issues
     - `hasura/graphql-engine:v1.2.1.cli-migrations-v2` crashes applying migrations on heroku
-    - createdBy & updatedBy should be in "Frequently used columns"
+    - createdBy & updatedBy should be in "Frequently used columns"    
+- next-connect issues
+    - should propagate errors so they are logged to console by default
 - handle errors in routes (server-side & client-side)
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
-- next-connect should propagate errors so they are logged to console by default
 - develop hasura-support outside of docker container, with nodemon
 - use prettier
 - use some prop-types & typescript

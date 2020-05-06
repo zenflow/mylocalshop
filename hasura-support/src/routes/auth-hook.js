@@ -19,14 +19,17 @@ module.exports = server => {
           }
         `, { sessionId, now })
         user = data.update_sessions_by_pk && data.update_sessions_by_pk.user
+        if (!user) {
+          res.status(401).send('Invalid Authorization header')
+          return
+        }
       }
 
       const result = {
         'X-Hasura-Role': user ? (user.isAdmin ? 'admin' : 'user') : 'anonymous',
         'X-Hasura-User-Id': user ? user.id : undefined,
+        // 'Cache-Control': 'max-age=3', // 3 seconds
       }
-
-      // TODO: 'Cache-Control': `max-age=${60 * 60}`, // 1 hour
 
       res.json(result)
       console.log({ user, result })
