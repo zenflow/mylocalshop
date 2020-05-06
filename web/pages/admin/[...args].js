@@ -1,9 +1,11 @@
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import memoizeOne from 'memoize-one'
+import { useSelector } from 'react-redux'
 import { useCurrentUser } from '../../lib/auth/useCurrentUser'
 import { resourcesMeta } from '../../resources/_meta'
 import { NotFoundErrorPage, AccessDeniedErrorPage, ErrorPage } from '../../components/errors'
+import { FullPageLoader } from '../../components/loaders'
 
 /* Select only what's necessary, since changes in the result (due to changes in
 the user record) will cause the AdminResourceView to recompute */
@@ -21,20 +23,26 @@ const AdminPage = () => {
     return <NotFoundErrorPage/>
   }
   const authorizationParams = getAuthorizationParams(currentUser)
-  const AdminResourceView = getAdminResourceView({ resource, authorizationParams, view })
-  return <AdminResourceView id={id}/>
+  const AdminResourceView = getAdminResourceView({ resource, authorizationParams, view, id })
+  return <AdminResourceView/>
 }
 
 export default AdminPage
 
 const isJsonEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 
-const getAdminResourceView = memoizeOne(({ resource, authorizationParams, view }) => {
+const getAdminResourceView = memoizeOne(({ resource, authorizationParams, view, id }) => {
   return dynamic(async () => {
+    const shouldShowLoaderSelector = view === 'create'
+      ? state => false
+      : view === 'list'
+        ? state => !state.admin.resources[resource].list.loadedOnce
+        : state => !state.admin.resources[resource].data[id]
     const viewsFactory = (await import(`../../resources/${resource}.js`)).default
     const views = viewsFactory(authorizationParams)
     const View = views[view]
-    return function AdminResourceView ({ id }) {
+    return function AdminResourceView () {
+      const shouldShowLoader = useSelector(shouldShowLoaderSelector)
       if (!View) {
         return <NotFoundErrorPage/>
       }
@@ -42,25 +50,30 @@ const getAdminResourceView = memoizeOne(({ resource, authorizationParams, view }
         return <AccessDeniedErrorPage/>
       }
       return (
-        <View
-          resource={resource}
-          basePath={`/admin/${resource}`}
-          hasList={!!views.list && views.list !== AccessDeniedErrorPage}
-          hasEdit={!!views.edit && views.edit !== AccessDeniedErrorPage}
-          hasCreate={!!views.create && views.create !== AccessDeniedErrorPage}
-          hasShow={!!views.show && views.show !== AccessDeniedErrorPage}
-          id={id}
-        />
+        <>
+          {shouldShowLoader && <FullPageLoader/>}
+          <div style={{ display: shouldShowLoader ? 'none' : 'block' }}>
+            <View
+              resource={resource}
+              basePath={`/admin/${resource}`}
+              hasList={!!views.list && views.list !== AccessDeniedErrorPage}
+              hasEdit={!!views.edit && views.edit !== AccessDeniedErrorPage}
+              hasCreate={!!views.create && views.create !== AccessDeniedErrorPage}
+              hasShow={!!views.show && views.show !== AccessDeniedErrorPage}
+              id={id}
+            />
+          </div>
+        </>
       )
     }
   }, {
     ssr: false,
-    loading ({ error, pastDelay }) {
+    loading ({ error }) {
       if (error) {
         Promise.reject(error)
         return <ErrorPage details={error.toString()}/>
       }
-      return pastDelay ? <h1>Loading...</h1> : <></>
+      return <FullPageLoader/>
     },
   })
 }, isJsonEqual)

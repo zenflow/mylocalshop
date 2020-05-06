@@ -20,6 +20,9 @@ const drawerWidth = 240
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
@@ -50,7 +53,12 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+    height: `calc(100% - ${theme.mixins.toolbar.minHeight}px)`,
+    [theme.breakpoints.up('sm')]: {
+      height: `calc(100% - ${theme.mixins.toolbar[theme.breakpoints.up('sm')].minHeight}px)`,
+    },
   },
 }))
 

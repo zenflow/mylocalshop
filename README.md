@@ -12,9 +12,7 @@ Shop local, from home
 
 ## TODO
 
-- concatenate migrations & deploy
 - admin pages:
-    - show some <Loader/> for "loading" stateS
     - refresh button
     - title in <h1> & <head>
     - render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
@@ -28,19 +26,24 @@ Shop local, from home
 
 ---
 
+- undo graphql-tag tech debt
 - nextjs issues
     - dynamic components swallow errors! It should `Promise.reject(` errrors by default
     - build matchRoute function, use it like <Link href={matchRoute(href)} as={href}><a href={href}></a></Link>
 - hasura graphql-engine issues
     - `hasura/graphql-engine:v1.2.1.cli-migrations-v2` crashes applying migrations on heroku
-    - createdBy & updatedBy should be in "Frequently used columns"    
+    - createdBy & updatedBy should be in "Frequently used columns"
+    - deploy in one service!
 - next-connect issues
     - should propagate errors so they are logged to console by default
 - handle errors in routes (server-side & client-side)
+- do styles properly (with material-ui's `makeStyles`) in all presentational components 
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
 - develop hasura-support outside of docker container, with nodemon
 - use prettier
 - use some prop-types & typescript
+- use rollbar or similar
+- i18n
 
 - Simplify deployment and improve production performance by deploying all 3 processes in same way
   - Either

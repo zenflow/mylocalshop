@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import { useCurrentUser } from '../lib/auth/useCurrentUser'
 import { useRealtimeSsrQuery } from '../lib/useRealtimeSsrQuery'
 import { LogInButton } from '../components/LogInButton'
+import { BlockLoader } from '../components/loaders'
 
 export default function IndexPage () {
   const currentUser = useCurrentUser()
@@ -48,7 +48,7 @@ function UserList () {
     throw error // TODO
   }
   if (loading && !data) {
-    return <CircularProgress/>
+    return <BlockLoader/>
   }
   return (
     <>
