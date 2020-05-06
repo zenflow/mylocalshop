@@ -12,6 +12,7 @@ import fetch from 'isomorphic-unfetch'
 import Router from 'next/router'
 import { LinkElement } from '../links'
 import { useCurrentUser } from '../../lib/auth/useCurrentUser'
+import { removeSessionCookie } from '../../lib/auth/session-cookie'
 
 export const UserMenuButton = () => {
   const currentUser = useCurrentUser()
@@ -83,6 +84,9 @@ export const UserMenuButton = () => {
 }
 
 async function logOut () {
+  fetch('/api/auth/logout') // don't await response
+  // wait for fetch request to go out before removing session cookie
+  await Promise.resolve()
+  removeSessionCookie()
   await Router.push('/')
-  await fetch('/api/auth/logout')
 }

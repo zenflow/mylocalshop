@@ -1,10 +1,9 @@
-import { getSessionCookie, removeSessionCookie } from '../../../lib/auth/session-cookie'
+import { getSessionCookie } from '../../../lib/auth/session-cookie'
 import { adminGraphql } from '../../../lib/adminGraphql'
 
 export default async (req, res) => {
   const sessionCookie = getSessionCookie(req)
   await deleteSession(sessionCookie.id)
-  removeSessionCookie(res)
   res.status(200).end()
 }
 

@@ -13,17 +13,14 @@ export function setSessionCookie (res, value) {
   res.setHeader('Set-Cookie', cookie)
 }
 
-// works on browser & server. ignores `req` on browser
-export function removeSessionCookie (res) {
+// browser-side only
+export function removeSessionCookie () {
   const cookie = serialize(COOKIE_NAME, '', {
     maxAge: -1,
     path: '/',
   })
-  if (process.browser) {
-    document.cookie += cookie
-  } else {
-    res.setHeader('Set-Cookie', cookie)
-  }
+  // if (!process.browser) { res.setHeader('Set-Cookie', cookie) }
+  document.cookie += cookie
 }
 
 // works on browser & server. ignores `req` on browser

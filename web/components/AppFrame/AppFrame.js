@@ -13,6 +13,7 @@ import { UserMenuButton } from './UserMenuButton'
 import { MainMenu } from './MainMenu'
 import { PageRefreshButton } from './PageRefreshButton'
 import { LogInButton } from '../LogInButton'
+import { ProgressBar } from './ProgressBar'
 
 const drawerWidth = 240
 
@@ -64,6 +65,7 @@ export const AppFrame = ({ children }) => {
 
   return (
     <div className={classes.root}>
+      <ProgressBar/>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton

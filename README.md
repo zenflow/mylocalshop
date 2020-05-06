@@ -12,9 +12,7 @@ Shop local, from home
 
 ## TODO
 
-- nprogress loader
-- session.useCount
-- use prettier
+- session.useCount && cache-control @ 3 min
 - use graphql normally in google-strategy.js & /api/auth/...
 
 - admin pages:
@@ -26,8 +24,6 @@ Shop local, from home
 
 - `shops` table, `user.shops` field
 
-- remove typescript but add prop types ffs
-
 ---
 
 - facebook auth provider
@@ -38,13 +34,12 @@ Shop local, from home
 - hasura graphql-engine issues
     - `hasura/graphql-engine:v1.2.1.cli-migrations-v2` crashes applying migrations on heroku
     - createdBy & updatedBy should be in "Frequently used columns"
-    - should hasura authorize every graphql `subscription`, not just the **singular** http request?
- 
-- user feedback during login/logout process (loader + notification)
-- immutable records in postgresql (for sessions resource)
+- handle errors in routes (server-side & client-side)
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
 - next-connect should propagate errors so they are logged to console by default
 - develop hasura-support outside of docker container, with nodemon
+- use prettier
+- use some prop-types & typescript
 
 - Simplify deployment and improve production performance by deploying all 3 processes in same way
   - Either
