@@ -12,9 +12,9 @@ module.exports = server => {
           mutation ($sessionId: uuid!, $now: timestamptz) {
             update_sessions_by_pk(
               pk_columns: { id: $sessionId }, 
-              _set: { lastHit: $now }
+              _set: { last_hit: $now }
             ) {
-              user { id isAdmin }
+              user { id is_admin }
             }
           }
         `, { sessionId, now })
@@ -26,7 +26,7 @@ module.exports = server => {
       }
 
       const result = {
-        'X-Hasura-Role': user ? (user.isAdmin ? 'admin' : 'user') : 'anonymous',
+        'X-Hasura-Role': user ? (user.is_admin ? 'admin' : 'user') : 'anonymous',
         'X-Hasura-User-Id': user ? user.id : undefined,
         // 'Cache-Control': 'max-age=3', // 3 seconds
       }

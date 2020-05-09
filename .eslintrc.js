@@ -23,5 +23,6 @@ module.exports = {
     'comma-dangle': ['error', 'always-multiline'],
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
+    'camelcase': 'off',
   },
 }

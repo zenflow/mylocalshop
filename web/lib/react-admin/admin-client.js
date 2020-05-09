@@ -19,10 +19,10 @@ export function getAdminClient (auth) {
   const dataProvider = convertLegacyDataProvider((type, resource, params) => {
     const resourceMeta = resourcesMeta[resource]
     if (resourceMeta.hasCreatedByField && (type === 'CREATE')) {
-      params.data.createdBy = currentUserId
+      params.data.created_by = currentUserId
     }
     if (resourceMeta.hasUpdatedByField && ['CREATE', 'UPDATE'].includes(type)) {
-      params.data.updatedBy = currentUserId
+      params.data.updated_by = currentUserId
     }
     return baseDataProvider(type, resource, params)
   })

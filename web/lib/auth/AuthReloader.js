@@ -22,10 +22,10 @@ export function AuthReloader () {
     }
     if (
       (lastCurrentUser.current && currentUser) &&
-      (lastCurrentUser.current.isAdmin !== currentUser.isAdmin)
+      (auth.session.user.is_admin !== currentUser.is_admin)
     ) {
-      console.log(`Permissions changed (isAdmin = ${currentUser.isAdmin}). Reloading auth.`)
-      const newSession = { ...auth.session, user: { ...auth.session.user, isAdmin: currentUser.isAdmin } }
+      console.log(`Permissions changed (is_admin = ${currentUser.is_admin}). Reloading auth.`)
+      const newSession = { ...auth.session, user: { ...auth.session.user, is_admin: currentUser.is_admin } }
       if (JSON.stringify(getSessionCookie()) !== JSON.stringify(newSession)) {
         setSessionCookie(newSession)
       }

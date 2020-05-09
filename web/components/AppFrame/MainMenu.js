@@ -43,7 +43,7 @@ export const MainMenu = () => {
         icon={<HelpIcon/>}
         selected={isPathEqual}
       />
-      {auth.session?.user.isAdmin && (
+      {auth.session?.user.is_admin && (
         <MyListItem
           href="/admin/users"
           label="Users"
@@ -51,7 +51,7 @@ export const MainMenu = () => {
           selected={isPathInside}
         />
       )}
-      {auth.session?.user.isAdmin && (
+      {auth.session?.user.is_admin && (
         <MyListItem
           href="/admin/sessions"
           label="Sessions"

@@ -11,7 +11,7 @@ const QUERY = `
   query ($id: uuid!) {
     sessions_by_pk(id: $id) {
       user {
-        id email firstName lastName isAdmin
+        is_admin email first_name last_name
       }
     }
   }

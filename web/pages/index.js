@@ -12,7 +12,7 @@ export default function IndexPage () {
     <>
       <h2>{
         currentUser
-          ? <>Welcome {currentUser.firstName}!</>
+          ? <>Welcome {currentUser.first_name}!</>
           : <>Please <LogInButton variant="contained"/> to continue</>
       }</h2>
       {currentUser && <UserList/>}
@@ -31,17 +31,17 @@ function UserList () {
     query: `
       ($where: users_bool_exp){
         users (where: $where) {
-          isAdmin
+          is_admin
           email
-          firstName lastName
-          createdByUser { email }
-          updatedByUser { email }
-          sessions_aggregate { aggregate { max { lastHit } } }
+          first_name last_name
+          created_by_user { email }
+          updated_by_user { email }
+          sessions_aggregate { aggregate { max { last_hit } } }
         }
       }
     `,
     variables: {
-      where: adminFieldFilter === SHOW_ALL ? {} : { isAdmin: { _eq: adminFieldFilter } },
+      where: adminFieldFilter === SHOW_ALL ? {} : { is_admin: { _eq: adminFieldFilter } },
     },
   })
   if (error) {
@@ -78,12 +78,12 @@ function UserList () {
         <tbody>
           {data.users.map(user => (
             <tr key={user.email}>
-              <td><strong>{user.isAdmin && 'admin'}</strong></td>
+              <td><strong>{user.is_admin && 'admin'}</strong></td>
               <td>{user.email}</td>
-              <td>{user.firstName} {user.lastName}</td>
-              <td>{user.createdByUser?.email}</td>
-              <td>{user.updatedByUser?.email}</td>
-              <td>{new Date(user.sessions_aggregate.aggregate.max.lastHit).toLocaleString()}</td>
+              <td>{user.first_name} {user.last_name}</td>
+              <td>{user.created_by_user?.email}</td>
+              <td>{user.updated_by_user?.email}</td>
+              <td>{new Date(user.sessions_aggregate.aggregate.max.last_hit).toLocaleString()}</td>
             </tr>
           ))}
         </tbody>

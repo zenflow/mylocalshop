@@ -4,18 +4,18 @@ import {
 import { AccessDeniedErrorPage } from '../components/errors'
 
 export default ({ session }) => {
-  const isUserAdmin = session?.user.isAdmin
+  const isUserAdmin = session?.user.is_admin
 
   const SessionList = (props) => (
     <List {...props}>
       <Datagrid>
-        <DateField source="createdAt" showTime/>
+        <DateField source="created_at" showTime/>
         <TextField source="provider" />
-        <ReferenceField label="User" source="userId" reference="users">
+        <ReferenceField label="User" source="user_id" reference="users">
           <TextField source="email"/>
         </ReferenceField>
-        <DateField source="lastHit" showTime />
-        <NumberField source="hitCount"/>
+        <DateField source="last_hit" showTime />
+        <NumberField source="hit_count"/>
       </Datagrid>
     </List>
   )
