@@ -18,7 +18,7 @@ export default nextConnect()
       const session = await authenticate('google', {
         // failureRedirect: ?, // TODO
       }, req, res)
-      setSessionCookie(res, session)
+      setSessionCookie(session, res)
       res.status(200)
       res.setHeader('Content-Type', 'text/html; charset=utf-8')
       res.send('<html><head></head><body><script type="text/javascript">window.close()</script></body></html>')

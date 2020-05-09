@@ -3,10 +3,10 @@ import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import polyglotI18nProvider from 'ra-i18n-polyglot'
 import defaultMessages from 'ra-language-english'
-import { useSessionCookie } from '../auth/session-cookie'
 import { resourcesMeta } from '../../resources/_meta'
 import { getAdminClient } from './admin-client'
 import { getHistory } from './history'
+import { useAuth } from '../auth/auth-context'
 
 const i18nProvider = polyglotI18nProvider(locale => {
   // if (locale !== 'en') { return messages[locale] }
@@ -17,8 +17,8 @@ export function ReactAdminContext ({ children }) {
   if (!process.browser) {
     return <>{children}</>
   }
-  const sessionCookie = useSessionCookie()
-  const { adminStore, dataProvider, authProvider } = getAdminClient(sessionCookie)
+  const auth = useAuth()
+  const { adminStore, dataProvider, authProvider } = getAdminClient(auth)
   return (
     <Provider store={adminStore}>
       <DataProviderContext.Provider value={dataProvider}>

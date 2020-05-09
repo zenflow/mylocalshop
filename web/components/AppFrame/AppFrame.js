@@ -9,12 +9,12 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import NoSsr from '@material-ui/core/NoSsr'
 import { makeStyles } from '@material-ui/core/styles'
-import { useCurrentUser } from '../../lib/auth/useCurrentUser'
 import { UserMenuButton } from './UserMenuButton'
 import { MainMenu } from './MainMenu'
 import { PageRefreshButton } from './PageRefreshButton'
 import { LogInButton } from '../LogInButton'
 import { ProgressBar } from './ProgressBar'
+import { useAuth } from '../../lib/auth/auth-context'
 
 const drawerWidth = 240
 
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const AppFrame = ({ children }) => {
   const classes = useStyles()
-  const currentUser = useCurrentUser()
+  const auth = useAuth()
 
   const [mobileOpen, setMobileOpen] = useState(false)
   const handleDrawerToggle = () => {
@@ -93,7 +93,7 @@ export const AppFrame = ({ children }) => {
             mylocalshop
           </Typography>
           <PageRefreshButton/>
-          {currentUser
+          {auth.session
             ? <UserMenuButton/>
             : <LogInButton color="inherit"/>
           }

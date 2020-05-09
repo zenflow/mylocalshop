@@ -1,8 +1,8 @@
 import React from 'react'
-import { useSessionCookie } from './session-cookie'
 import App from 'next/app'
 import gql from 'graphql-tag'
 import { useRealtimeSsrQuery } from '../useRealtimeSsrQuery'
+import { useAuth } from './auth-context'
 
 export const useCurrentUser = () => React.useContext(CurrentUserContext)
 export const CurrentUserContext = React.createContext()
@@ -18,14 +18,14 @@ const QUERY = `
 `
 export function withCurrentUser (AppComponent) {
   const WithCurrentUser = (appProps) => {
-    const sessionCookie = useSessionCookie()
+    const auth = useAuth()
     const { error, data } = useRealtimeSsrQuery({
       query: QUERY,
-      variables: { id: sessionCookie?.id },
-      skip: !sessionCookie,
+      variables: { id: auth.session?.id },
+      skip: !auth.session,
     })
     if (error) {
-      throw error
+      maybeThrowError(error)
     }
     const currentUser = data?.sessions_by_pk?.user // eslint-disable-line camelcase
     return (
@@ -41,20 +41,16 @@ export function withCurrentUser (AppComponent) {
   }
 
   WithCurrentUser.getInitialProps = async ctx => {
-    if (ctx.sessionCookie) {
+    if (ctx.auth.session) {
       let data
       try {
         data = (await ctx.apolloClient.query({
           query: gql`${QUERY}`,
-          variables: { id: ctx.sessionCookie.id },
+          variables: { id: ctx.auth.session.id },
           fetchPolicy: 'cache-first',
         })).data
       } catch (error) {
-        if (error.message === 'GraphQL error: Authentication hook unauthorized this request') {
-          console.log('error', error)
-        } else {
-          throw error
-        }
+        maybeThrowError(error)
       }
       const currentUser = data?.sessions_by_pk?.user // eslint-disable-line camelcase
       ctx.ctx.currentUser = ctx.currentUser = currentUser
@@ -63,4 +59,12 @@ export function withCurrentUser (AppComponent) {
   }
 
   return WithCurrentUser
+}
+
+function maybeThrowError (error) {
+  if (error.message?.includes('Authentication hook unauthorized this request')) {
+    console.log(error)
+  } else {
+    throw error
+  }
 }

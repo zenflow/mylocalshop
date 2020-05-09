@@ -3,18 +3,15 @@ import { convertLegacyDataProvider, createAdminStore } from 'react-admin'
 import { resourcesMeta } from '../../resources/_meta'
 import { getHistory } from './history'
 
-let adminClient = null
+const clients = {}
 
-export function clearAdminClient () {
-  adminClient = null
-}
-
-export function getAdminClient (sessionCookie) {
-  if (adminClient) {
-    return adminClient
+export function getAdminClient (auth) {
+  let client = clients[auth.version]
+  if (client) {
+    return client
   }
-  const sessionId = sessionCookie?.id
-  const currentUserId = sessionCookie?.userId ?? null
+  const sessionId = auth.session?.id
+  const currentUserId = auth.session?.user.id ?? null
   const baseDataProvider = hasuraDataProvider(
     process.env.HASURA_ENGINE_ENDPOINT,
     { 'Content-Type': 'application/json', ...(sessionId ? { Authorization: sessionId } : {}) },
@@ -30,9 +27,10 @@ export function getAdminClient (sessionCookie) {
     return baseDataProvider(type, resource, params)
   })
   const adminStore = createAdminStore({ authProvider, dataProvider, history: getHistory() })
-  adminClient = { adminStore, dataProvider, authProvider }
-  console.log(`created react-admin client for session ${sessionId}`)
-  return adminClient
+  client = { adminStore, dataProvider, authProvider }
+  clients[auth.version] = client
+  console.log('created react-admin client for auth', auth)
+  return client
 }
 
 const authProvider = {

@@ -8,15 +8,12 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import Typography from '@material-ui/core/Typography'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
-import fetch from 'isomorphic-unfetch'
-import Router from 'next/router'
 import { LinkElement } from '../links'
-import { useCurrentUser } from '../../lib/auth/useCurrentUser'
-import { removeSessionCookie } from '../../lib/auth/session-cookie'
+import { logOut, useAuth } from '../../lib/auth/auth-context'
 
 export const UserMenuButton = () => {
-  const currentUser = useCurrentUser()
-  if (!currentUser) {
+  const auth = useAuth()
+  if (!auth.session) {
     return null
   }
 
@@ -55,7 +52,7 @@ export const UserMenuButton = () => {
         <LinkElement
           element={MenuItem}
           component="a"
-          href={`/admin/users/${currentUser.id}`}
+          href={`/admin/users/${auth.session.user.id}`}
           onClick={closeMenu}
         >
           <ListItemIcon>
@@ -81,12 +78,4 @@ export const UserMenuButton = () => {
       </Menu>
     </>
   )
-}
-
-async function logOut () {
-  fetch('/api/auth/logout') // don't await response
-  // wait for fetch request to go out before removing session cookie
-  await Promise.resolve()
-  removeSessionCookie()
-  await Router.push('/')
 }

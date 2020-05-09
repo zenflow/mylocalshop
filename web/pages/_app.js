@@ -5,12 +5,12 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import NoSsr from '@material-ui/core/NoSsr'
 import { Notification } from 'react-admin'
 import { AppFrame } from '../components/AppFrame/AppFrame'
-import { withCurrentUser } from '../lib/auth/useCurrentUser'
+import { withCurrentUser } from '../lib/auth/current-user-context'
 import theme from '../theme'
 import { ReactAdminContext } from '../lib/react-admin/ReactAdminContext'
 import { withApollo } from '../lib/apollo/withApollo'
-import { withSessionCookie } from '../lib/auth/session-cookie'
-import { ClientReloader } from '../lib/auth/ClientReloader'
+import { withAuth } from '../lib/auth/auth-context'
+import { AuthReloader } from '../lib/auth/AuthReloader'
 
 function MyApp ({ Component, pageProps }) {
   useEffect(() => {
@@ -20,10 +20,9 @@ function MyApp ({ Component, pageProps }) {
       jssStyles.parentElement.removeChild(jssStyles)
     }
   }, [])
-
   return (
     <ReactAdminContext>
-      <ClientReloader/>
+      <AuthReloader/>
       <Head>
         <title>mylocalshop</title>
       </Head>
@@ -38,4 +37,4 @@ function MyApp ({ Component, pageProps }) {
   )
 }
 
-export default withApollo(withSessionCookie(withCurrentUser(MyApp)))
+export default withAuth(withApollo(withCurrentUser(MyApp)))

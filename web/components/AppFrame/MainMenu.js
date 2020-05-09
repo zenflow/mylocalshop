@@ -8,7 +8,7 @@ import PeopleIcon from '@material-ui/icons/People'
 import CloudCircleIcon from '@material-ui/icons/CloudCircle'
 import HelpIcon from '@material-ui/icons/Help'
 import { SimpleLink } from '../links'
-import { useCurrentUser } from '../../lib/auth/useCurrentUser'
+import { useAuth } from '../../lib/auth/auth-context'
 
 const MyListItem = ({ href, label, icon, selected }) => {
   let { asPath } = useRouter()
@@ -28,7 +28,7 @@ const isPathEqual = (asPath, href) => asPath === href
 const isPathInside = (asPath, href) => asPath === href || asPath.startsWith(`${href}/`)
 
 export const MainMenu = () => {
-  const currentUser = useCurrentUser()
+  const auth = useAuth()
   return (
     <List>
       <MyListItem
@@ -43,7 +43,7 @@ export const MainMenu = () => {
         icon={<HelpIcon/>}
         selected={isPathEqual}
       />
-      {currentUser?.isAdmin && (
+      {auth.session?.user.isAdmin && (
         <MyListItem
           href="/admin/users"
           label="Users"
@@ -51,7 +51,7 @@ export const MainMenu = () => {
           selected={isPathInside}
         />
       )}
-      {currentUser?.isAdmin && (
+      {auth.session?.user.isAdmin && (
         <MyListItem
           href="/admin/sessions"
           label="Sessions"

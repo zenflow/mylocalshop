@@ -2,28 +2,19 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import memoizeOne from 'memoize-one'
 import { useSelector } from 'react-redux'
-import { useCurrentUser } from '../../lib/auth/useCurrentUser'
 import { resourcesMeta } from '../../resources/_meta'
 import { NotFoundErrorPage, AccessDeniedErrorPage, ErrorPage } from '../../components/errors'
 import { FullPageLoader } from '../../components/loaders'
-
-/* Select only what's necessary, since changes in the result (due to changes in
-the user record) will cause the AdminResourceView to recompute */
-const getAuthorizationParams = currentUser => ({
-  isLoggedIn: !!currentUser,
-  userId: currentUser?.id,
-  isUserAdmin: currentUser?.isAdmin,
-})
+import { useAuth } from '../../lib/auth/auth-context'
 
 const AdminPage = () => {
-  const currentUser = useCurrentUser()
+  const auth = useAuth()
   const router = useRouter()
   const { resource, view, id } = getRouteParams(router.query.args)
   if (!Object.keys(resourcesMeta).includes(resource)) {
     return <NotFoundErrorPage/>
   }
-  const authorizationParams = getAuthorizationParams(currentUser)
-  const AdminResourceView = getAdminResourceView({ resource, authorizationParams, view, id })
+  const AdminResourceView = getAdminResourceView({ auth, resource, view, id })
   return <AdminResourceView/>
 }
 
@@ -31,18 +22,18 @@ export default AdminPage
 
 const isJsonEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 
-const getAdminResourceView = memoizeOne(({ resource, authorizationParams, view, id }) => {
+const getAdminResourceView = memoizeOne(({ auth, resource, view, id }) => {
   return dynamic(async () => {
-    const shouldShowLoaderSelector = view === 'create'
+    const isLoadingSelector = view === 'create'
       ? state => false
       : view === 'list'
         ? state => !state.admin.resources[resource].list.loadedOnce
         : state => !state.admin.resources[resource].data[id]
     const viewsFactory = (await import(`../../resources/${resource}.js`)).default
-    const views = viewsFactory(authorizationParams)
+    const views = viewsFactory(auth)
     const View = views[view]
     return function AdminResourceView () {
-      const shouldShowLoader = useSelector(shouldShowLoaderSelector)
+      const isLoading = useSelector(isLoadingSelector)
       if (!View) {
         return <NotFoundErrorPage/>
       }
@@ -51,8 +42,8 @@ const getAdminResourceView = memoizeOne(({ resource, authorizationParams, view, 
       }
       return (
         <>
-          {shouldShowLoader && <FullPageLoader/>}
-          <div style={{ display: shouldShowLoader ? 'none' : 'block' }}>
+          {isLoading && <FullPageLoader/>}
+          <div style={{ display: isLoading ? 'none' : 'block' }}>
             <View
               resource={resource}
               basePath={`/admin/${resource}`}

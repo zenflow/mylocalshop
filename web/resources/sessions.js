@@ -1,9 +1,11 @@
 import {
-  List, Datagrid, TextField, DateField, ReferenceField, NumberField
+  List, Datagrid, TextField, DateField, ReferenceField, NumberField,
 } from 'react-admin'
 import { AccessDeniedErrorPage } from '../components/errors'
 
-export default ({ isUserAdmin }) => {
+export default ({ session }) => {
+  const isUserAdmin = session?.user.isAdmin
+
   const SessionList = (props) => (
     <List {...props}>
       <Datagrid>

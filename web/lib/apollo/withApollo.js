@@ -3,13 +3,15 @@ import App from 'next/app'
 import Head from 'next/head'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { getApolloClient } from './apollo-client'
+import { useAuth } from '../auth/auth-context'
 
 export function withApollo (AppComponent) {
-  const WithApollo = ({ apolloClient, apolloState, ...pageProps }) => {
-    const client = apolloClient || getApolloClient(apolloState)
+  const WithApollo = ({ apolloClient, apolloState, ...props }) => {
+    const auth = useAuth()
+    const client = apolloClient || getApolloClient(apolloState, auth)
     return (
       <ApolloProvider client={client}>
-        <AppComponent {...pageProps} />
+        <AppComponent {...props} />
       </ApolloProvider>
     )
   }
@@ -19,27 +21,23 @@ export function withApollo (AppComponent) {
     WithApollo.displayName = `withApollo(${displayName})`
   }
 
-  WithApollo.getInitialProps = async appContext => {
-    const pageContext = appContext.ctx
+  WithApollo.getInitialProps = async ctx => {
+    const apolloClient = getApolloClient({}, ctx.auth)
+    ctx.ctx.apolloClient = ctx.apolloClient = apolloClient
 
-    const apolloClient = getApolloClient({}, pageContext.req)
-    appContext.apolloClient = apolloClient
-    pageContext.apolloClient = apolloClient
+    const getInitialProps = AppComponent.getInitialProps || App.getInitialProps
+    const pageProps = await getInitialProps(ctx)
 
-    const pageProps = AppComponent.getInitialProps
-      ? await AppComponent.getInitialProps(appContext)
-      : await App.getInitialProps(appContext)
-
-    if (appContext.res?.finished) {
+    if (ctx.res?.finished) {
       return pageProps
     }
 
     let apolloState
     if (!process.browser) {
-      const { AppTree } = appContext
+      const { AppTree } = ctx
       try {
         const { getDataFromTree } = await import('@apollo/react-ssr')
-        const props = { ...pageProps, apolloClient }
+        const props = { ...pageProps, apolloClient, auth: ctx.auth }
         await getDataFromTree(<AppTree {...props} />)
       } catch (error) {
         console.error('Error while running `getDataFromTree`', error)
@@ -49,11 +47,7 @@ export function withApollo (AppComponent) {
       apolloState = apolloClient.cache.extract()
     }
 
-    return {
-      ...pageProps,
-      apolloClient,
-      apolloState,
-    }
+    return { ...pageProps, apolloClient, apolloState }
   }
 
   return WithApollo

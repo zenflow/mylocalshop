@@ -7,8 +7,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import ErrorIcon from '@material-ui/icons/Report'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { useTranslate } from 'react-admin'
-import { useCurrentUser } from '../lib/auth/useCurrentUser'
 import { LogInButton } from './LogInButton'
+import { useAuth } from '../lib/auth/auth-context'
 
 const useStyles = makeStyles(
   theme => ({
@@ -87,11 +87,11 @@ export const NotFoundErrorPage = () => {
 }
 
 export const AccessDeniedErrorPage = () => {
-  const currentUser = useCurrentUser()
+  const auth = useAuth()
   return (
     <ErrorPage
       title="403 Access Denied"
-      buttons={!currentUser && (
+      buttons={!auth.session && (
         <LogInButton color="primary" variant="contained"/>
       )}
     />

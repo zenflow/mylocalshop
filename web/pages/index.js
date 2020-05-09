@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
-import { useCurrentUser } from '../lib/auth/useCurrentUser'
+import { useCurrentUser } from '../lib/auth/current-user-context'
 import { useRealtimeSsrQuery } from '../lib/useRealtimeSsrQuery'
 import { LogInButton } from '../components/LogInButton'
 import { BlockLoader } from '../components/loaders'
