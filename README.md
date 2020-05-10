@@ -34,7 +34,10 @@ Shop local, from home
 - next-connect issues
     - should propagate errors so they are logged to console by default
 - handle errors in routes (server-side & client-side)
-- do styles properly (with material-ui's `makeStyles`) in all presentational components 
+- do styles properly (with material-ui's `makeStyles`) in all presentational components
+    - copy react-admin layout (navbar/sidebar/content)
+    - center things vertically when page is relatively empty
+    - make navbar and sidemenu get out of the way on **landscape mode** on small mobile screens 
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
 - develop hasura-support outside of docker container, with nodemon
 - use prettier

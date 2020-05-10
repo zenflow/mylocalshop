@@ -20,7 +20,7 @@ const AdminPage = () => {
 
 export default AdminPage
 
-const isJsonEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b)
+export const isJsonEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 
 const getAdminResourceView = memoizeOne(({ auth, resource, view, id }) => {
   return dynamic(async () => {

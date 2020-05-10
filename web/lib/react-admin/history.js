@@ -1,4 +1,5 @@
 import Router from 'next/router'
+// import { createHashHistory } from 'history'
 import { matchRoute } from '../../matchRoute'
 
 let history
@@ -7,6 +8,7 @@ export function getHistory () {
   if (history) {
     return history
   }
+  // return history = createHashHistory() // uncomment this if you want to use pages/dev/default-admin-ui
   const listeners = new Set()
   history = {
     length: 1,
