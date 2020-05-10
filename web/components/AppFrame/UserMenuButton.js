@@ -12,8 +12,8 @@ import { LinkElement } from '../links'
 import { logOut, useAuth } from '../../lib/auth/auth-context'
 
 export const UserMenuButton = () => {
-  const auth = useAuth()
-  if (!auth.session) {
+  const { isLoggedIn, userId } = useAuth()
+  if (!isLoggedIn) {
     return null
   }
 
@@ -52,7 +52,7 @@ export const UserMenuButton = () => {
         <LinkElement
           element={MenuItem}
           component="a"
-          href={`/admin/users/${auth.session.user.id}`}
+          href={`/admin/users/${userId}`}
           onClick={closeMenu}
         >
           <ListItemIcon>

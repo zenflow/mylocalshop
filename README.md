@@ -14,19 +14,16 @@ Shop local, from home
 
 - admin pages:
     - refresh button
-    - title in <h1> & <head>
+    - title in h1 and head
     - render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
     - integrate apollo client /w subscriptions
-- use graphql normally in google-strategy.js & /api/auth/...
-
 - facebook auth provider
-- delete old sessions when when user logs in
-
 - `shops` table, `user.shops` field
 
 ---
 
 - undo graphql-tag tech debt
+- delete old sessions when user logs in
 - nextjs issues
     - dynamic components swallow errors! It should `Promise.reject(` errrors by default
     - build matchRoute function, use it like <Link href={matchRoute(href)} as={href}><a href={href}></a></Link>
@@ -42,6 +39,7 @@ Shop local, from home
 - develop hasura-support outside of docker container, with nodemon
 - use prettier
 - use some prop-types & typescript
+- cypress tests
 - use rollbar (or similar) & google analytics 
 - i18n
 

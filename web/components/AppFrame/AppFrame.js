@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const AppFrame = ({ children }) => {
   const classes = useStyles()
-  const auth = useAuth()
+  const { isLoggedIn } = useAuth()
 
   const [mobileOpen, setMobileOpen] = useState(false)
   const handleDrawerToggle = () => {
@@ -93,7 +93,7 @@ export const AppFrame = ({ children }) => {
             mylocalshop
           </Typography>
           <PageRefreshButton/>
-          {auth.session
+          {isLoggedIn
             ? <UserMenuButton/>
             : <LogInButton color="inherit"/>
           }

@@ -87,11 +87,11 @@ export const NotFoundErrorPage = () => {
 }
 
 export const AccessDeniedErrorPage = () => {
-  const auth = useAuth()
+  const { isLoggedIn } = useAuth()
   return (
     <ErrorPage
       title="403 Access Denied"
-      buttons={!auth.session && (
+      buttons={!isLoggedIn && (
         <LogInButton color="primary" variant="contained"/>
       )}
     />

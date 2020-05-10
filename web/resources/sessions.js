@@ -3,9 +3,7 @@ import {
 } from 'react-admin'
 import { AccessDeniedErrorPage } from '../components/errors'
 
-export default ({ session }) => {
-  const isUserAdmin = session?.user.is_admin
-
+export default ({ isUserAdmin }) => {
   const SessionList = (props) => (
     <List {...props}>
       <Datagrid>

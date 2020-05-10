@@ -28,7 +28,7 @@ const isPathEqual = (asPath, href) => asPath === href
 const isPathInside = (asPath, href) => asPath === href || asPath.startsWith(`${href}/`)
 
 export const MainMenu = () => {
-  const auth = useAuth()
+  const { isUserAdmin } = useAuth()
   return (
     <List>
       <MyListItem
@@ -43,7 +43,7 @@ export const MainMenu = () => {
         icon={<HelpIcon/>}
         selected={isPathEqual}
       />
-      {auth.session?.user.is_admin && (
+      {isUserAdmin && (
         <MyListItem
           href="/admin/users"
           label="Users"
@@ -51,7 +51,7 @@ export const MainMenu = () => {
           selected={isPathInside}
         />
       )}
-      {auth.session?.user.is_admin && (
+      {isUserAdmin && (
         <MyListItem
           href="/admin/sessions"
           label="Sessions"

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { useCurrentUser } from './current-user-context'
 import { getSessionCookie, removeSessionCookie, setSessionCookie } from './session-cookie'
 import { reloadAuth, useAuth } from './auth-context'
@@ -8,12 +8,11 @@ export function AuthReloader () {
     return null
   }
 
-  const auth = useAuth()
+  const { isLoggedIn, userRole, sessionCookie, sessionId } = useAuth()
   const currentUser = useCurrentUser()
-  const lastCurrentUser = useRef(currentUser)
 
   useEffect(() => {
-    if (auth.session && !currentUser) {
+    if (isLoggedIn && !currentUser) {
       console.log('Session removed from database. Reloading auth.')
       if (getSessionCookie()) {
         removeSessionCookie()
@@ -21,29 +20,28 @@ export function AuthReloader () {
       reloadAuth()
     }
     if (
-      (lastCurrentUser.current && currentUser) &&
-      (auth.session.user.is_admin !== currentUser.is_admin)
+      (isLoggedIn && currentUser) &&
+      (userRole !== currentUser.role)
     ) {
-      console.log(`Permissions changed (is_admin = ${currentUser.is_admin}). Reloading auth.`)
-      const newSession = { ...auth.session, user: { ...auth.session.user, is_admin: currentUser.is_admin } }
-      if (JSON.stringify(getSessionCookie()) !== JSON.stringify(newSession)) {
-        setSessionCookie(newSession)
+      console.log(`Role changed from ${userRole} to ${currentUser.role}. Reloading auth.`)
+      const newSessionCookie = { ...sessionCookie, user: { ...sessionCookie.user, role: currentUser.role } }
+      if (JSON.stringify(getSessionCookie()) !== JSON.stringify(newSessionCookie)) {
+        setSessionCookie(newSessionCookie)
       }
       reloadAuth()
     }
-    lastCurrentUser.current = currentUser
   })
 
   useEffect(() => {
     const focusHandler = () => {
-      if (getSessionCookie()?.id !== auth.session?.id) {
+      if (getSessionCookie()?.id !== sessionId) {
         console.log('Session ID changed while focus was blurred. Reloading auth.')
         reloadAuth()
       }
     }
     window.addEventListener('focus', focusHandler)
     return () => window.removeEventListener('focus', focusHandler)
-  }, [auth.session?.id])
+  }, [sessionId])
 
   return null
 }

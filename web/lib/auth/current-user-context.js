@@ -11,18 +11,18 @@ const QUERY = `
   query ($id: uuid!) {
     sessions_by_pk(id: $id) {
       user {
-        is_admin email first_name last_name
+        id role first_name
       }
     }
   }
 `
 export function withCurrentUser (AppComponent) {
   const WithCurrentUser = (appProps) => {
-    const auth = useAuth()
+    const { isLoggedIn, sessionId } = useAuth()
     const { error, data } = useRealtimeSsrQuery({
       query: QUERY,
-      variables: { id: auth.session?.id },
-      skip: !auth.session,
+      variables: { id: sessionId },
+      skip: !isLoggedIn,
     })
     if (error) {
       maybeThrowError(error)
@@ -41,12 +41,12 @@ export function withCurrentUser (AppComponent) {
   }
 
   WithCurrentUser.getInitialProps = async ctx => {
-    if (ctx.auth.session) {
+    if (ctx.auth.isLoggedIn) {
       let data
       try {
         data = (await ctx.apolloClient.query({
           query: gql`${QUERY}`,
-          variables: { id: ctx.auth.session.id },
+          variables: { id: ctx.auth.sessionId },
           fetchPolicy: 'cache-first',
         })).data
       } catch (error) {

@@ -14,7 +14,7 @@ module.exports = server => {
               pk_columns: { id: $sessionId }, 
               _set: { last_hit: $now }
             ) {
-              user { id is_admin }
+              user { id role }
             }
           }
         `, { sessionId, now })
@@ -26,7 +26,7 @@ module.exports = server => {
       }
 
       const result = {
-        'X-Hasura-Role': user ? (user.is_admin ? 'admin' : 'user') : 'anonymous',
+        'X-Hasura-Role': user ? user.role : 'anonymous',
         'X-Hasura-User-Id': user ? user.id : undefined,
         // 'Cache-Control': 'max-age=3', // 3 seconds
       }

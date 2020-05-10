@@ -30,7 +30,7 @@ export const googleStrategy = new GoogleStrategy(
         ...userDataFromGoogle,
         is_admin: userDataFromGoogle.email === 'zenflow87@gmail.com',
       }
-      userId = (await insertUser(userData, 'id')).id
+      userId = await insertUser(userData)
     }
 
     const sessionData = {
@@ -38,9 +38,7 @@ export const googleStrategy = new GoogleStrategy(
       token: accessToken,
       user_id: userId,
     }
-    const session = await insertSession(sessionData, 'id user { id is_admin }')
-
-    return session
+    return await insertSession(sessionData)
   }),
 )
 
@@ -56,26 +54,27 @@ async function queryUserIdFromGoogleId (googleId) {
   return data.users[0]?.id
 }
 
-async function insertUser (userData, userQuery) {
+async function insertUser (userData) {
   const query = `
     mutation ($userData: users_insert_input!) {
       insert_users (objects: [$userData]) {
         returning {
-          ${userQuery.trim()}
+          id
         }
       }
     }
   `
   const { data } = await adminGraphql(query, { userData })
-  return data.insert_users.returning[0]
+  return data.insert_users.returning[0].id
 }
 
-async function insertSession (sessionData, sessionQuery) {
+async function insertSession (sessionData) {
   const query = `
     mutation ($sessionData: sessions_insert_input!) {
       insert_sessions (objects: [$sessionData]) {
         returning {
-          ${sessionQuery.trim()}
+          id
+          user { id role }
         }
       }
     }

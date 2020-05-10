@@ -36,6 +36,21 @@
         table:
           schema: public
           name: sessions
+  computed_fields:
+  - name: full_name
+    definition:
+      function:
+        schema: public
+        name: get_user_full_name
+      table_argument: null
+    comment: ""
+  - name: role
+    definition:
+      function:
+        schema: public
+        name: get_user_role
+      table_argument: null
+    comment: ""
   select_permissions:
   - role: user
     permission:
@@ -53,6 +68,9 @@
       - is_admin
       - picture
       - locale
+      computed_fields:
+      - full_name
+      - role
       filter: {}
       allow_aggregations: true
   update_permissions:

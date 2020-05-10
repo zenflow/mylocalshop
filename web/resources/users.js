@@ -5,9 +5,7 @@ import {
 } from 'react-admin'
 import { AccessDeniedErrorPage } from '../components/errors'
 
-export default ({ session }) => {
-  const isUserAdmin = session?.user.is_admin
-
+export default ({ isLoggedIn, isUserAdmin }) => {
   const UserList = props => (
     <List {...props}>
       <Datagrid rowClick="edit">
@@ -68,7 +66,7 @@ export default ({ session }) => {
 
   return {
     list: isUserAdmin ? UserList : AccessDeniedErrorPage,
-    edit: session ? UserEdit : AccessDeniedErrorPage,
+    edit: isLoggedIn ? UserEdit : AccessDeniedErrorPage,
     create: isUserAdmin ? UserCreate : AccessDeniedErrorPage,
   }
 }

@@ -33,7 +33,7 @@ function UserList () {
         users (where: $where) {
           is_admin
           email
-          first_name last_name
+          full_name
           created_by_user { email }
           updated_by_user { email }
           sessions_aggregate { aggregate { max { last_hit } } }
@@ -80,7 +80,7 @@ function UserList () {
             <tr key={user.email}>
               <td><strong>{user.is_admin && 'admin'}</strong></td>
               <td>{user.email}</td>
-              <td>{user.first_name} {user.last_name}</td>
+              <td>{user.full_name}</td>
               <td>{user.created_by_user?.email}</td>
               <td>{user.updated_by_user?.email}</td>
               <td>{new Date(user.sessions_aggregate.aggregate.max.last_hit).toLocaleString()}</td>

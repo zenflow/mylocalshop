@@ -10,19 +10,17 @@ export function getAdminClient (auth) {
   if (client) {
     return client
   }
-  const sessionId = auth.session?.id
-  const currentUserId = auth.session?.user.id ?? null
   const baseDataProvider = hasuraDataProvider(
     process.env.HASURA_ENGINE_ENDPOINT,
-    { 'Content-Type': 'application/json', ...(sessionId ? { Authorization: sessionId } : {}) },
+    { 'Content-Type': 'application/json', ...(auth.sessionId ? { Authorization: auth.sessionId } : {}) },
   )
   const dataProvider = convertLegacyDataProvider((type, resource, params) => {
     const resourceMeta = resourcesMeta[resource]
     if (resourceMeta.hasCreatedByField && (type === 'CREATE')) {
-      params.data.created_by = currentUserId
+      params.data.created_by = auth.userId ?? null
     }
     if (resourceMeta.hasUpdatedByField && ['CREATE', 'UPDATE'].includes(type)) {
-      params.data.updated_by = currentUserId
+      params.data.updated_by = auth.userId ?? null
     }
     return baseDataProvider(type, resource, params)
   })
