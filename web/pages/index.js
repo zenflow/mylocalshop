@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
+import gql from 'graphql-tag'
 import { useCurrentUser } from '../lib/auth/current-user-context'
 import { useRealtimeSsrQuery } from '../lib/useRealtimeSsrQuery'
 import { LogInButton } from '../components/LogInButton'
@@ -27,21 +28,23 @@ export default function IndexPage () {
 
 const SHOW_ALL = 'SHOW_ALL'
 
+const query = gql`
+  query ($where: users_bool_exp){
+    users (where: $where) {
+      is_admin
+      email
+      full_name
+      created_by_user { email }
+      updated_by_user { email }
+      sessions_aggregate { aggregate { max { last_hit } } }
+    }
+  }
+`
+
 function UserList () {
-  const [adminFieldFilter, setadminFieldFilter] = useState(SHOW_ALL)
+  const [adminFieldFilter, setAdminFieldFilter] = useState(SHOW_ALL)
   const { loading, error, data } = useRealtimeSsrQuery({
-    query: `
-      ($where: users_bool_exp){
-        users (where: $where) {
-          is_admin
-          email
-          full_name
-          created_by_user { email }
-          updated_by_user { email }
-          sessions_aggregate { aggregate { max { last_hit } } }
-        }
-      }
-    `,
+    query,
     variables: {
       where: adminFieldFilter === SHOW_ALL ? {} : { is_admin: { _eq: adminFieldFilter } },
     },
@@ -58,7 +61,7 @@ function UserList () {
         <strong>Filter: </strong>
         <Select
           value={adminFieldFilter}
-          onChange={event => setadminFieldFilter(event.target.value)}
+          onChange={event => setAdminFieldFilter(event.target.value)}
         >
           <MenuItem value={SHOW_ALL}><em>Show All</em></MenuItem>
           <MenuItem value={true}>Only Admin</MenuItem>

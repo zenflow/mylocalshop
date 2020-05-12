@@ -7,7 +7,7 @@ import { useAuth } from './auth-context'
 export const useCurrentUser = () => React.useContext(CurrentUserContext)
 export const CurrentUserContext = React.createContext()
 
-const QUERY = `
+const query = gql`
   query ($id: uuid!) {
     sessions_by_pk(id: $id) {
       user {
@@ -16,11 +16,12 @@ const QUERY = `
     }
   }
 `
+
 export function withCurrentUser (AppComponent) {
   const WithCurrentUser = (appProps) => {
     const { isLoggedIn, sessionId } = useAuth()
     const { error, data } = useRealtimeSsrQuery({
-      query: QUERY,
+      query,
       variables: { id: sessionId },
       skip: !isLoggedIn,
     })
@@ -45,7 +46,7 @@ export function withCurrentUser (AppComponent) {
       let data
       try {
         data = (await ctx.apolloClient.query({
-          query: gql`${QUERY}`,
+          query,
           variables: { id: ctx.auth.sessionId },
           fetchPolicy: 'cache-first',
         })).data

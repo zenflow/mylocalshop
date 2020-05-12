@@ -14,7 +14,6 @@ Shop local, from home
 
 - `shops` table, `user.shops` field
 
-- undo graphql-tag tech debt
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
 - facebook auth provider
 - integrate apollo client subscriptions /w admin pages
