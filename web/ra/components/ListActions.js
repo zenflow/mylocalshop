@@ -15,7 +15,6 @@ export const ListActions = ({
   currentSort,
   permanentFilter,
   maxResults,
-  ...rest
 }) => {
   return (
     <ActionsToolbar resource={resource}>

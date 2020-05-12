@@ -12,7 +12,6 @@ Shop local, from home
 
 ## TODO
 
-- follow https://marmelab.com/react-admin/CreateEdit.html#altering-the-form-values-before-submitting
 - undo graphql-tag tech debt
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
 - facebook auth provider

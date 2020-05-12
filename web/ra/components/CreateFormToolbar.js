@@ -1,23 +1,25 @@
 import { useCallback } from 'react'
-import { DeleteButton, SaveButton, Toolbar } from 'react-admin'
+import { SaveButton, Toolbar } from 'react-admin'
 import { useForm } from 'react-final-form'
 import { useAuth } from '../../lib/auth/auth-context'
 import { resourcesMeta } from '../resourcesMeta'
 
-export function EditFormToolbar ({ hasDelete, ...props }) {
+export function CreateFormToolbar (props) {
   return (
     <Toolbar {...props} style={{ flex: 1, display: 'flex', justifyContent: 'space-between' }}>
-      <EditFormSaveButton {...props}/>
-      {hasDelete && <DeleteButton label="Delete"/>}
+      <CreateFormSaveButton {...props}/>
     </Toolbar>
   )
 }
 
-function EditFormSaveButton (props) {
+function CreateFormSaveButton (props) {
   const form = useForm()
   const { userId } = useAuth()
   const handleSubmitWithRedirect = useCallback(
     redirect => {
+      if (resourcesMeta[props.resource].hasCreatedByField) {
+        form.change('created_by', userId)
+      }
       if (resourcesMeta[props.resource].hasUpdatedByField) {
         form.change('updated_by', userId)
       }
@@ -29,8 +31,6 @@ function EditFormSaveButton (props) {
     <SaveButton
       label="Save"
       submitOnEnter
-      redirect={false}
-      disabled={props.pristine}
       handleSubmitWithRedirect={handleSubmitWithRedirect}
     />
   )

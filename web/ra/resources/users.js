@@ -1,13 +1,14 @@
 import {
   List, Datagrid, TextField, BooleanField, DateField, ReferenceField,
-  Edit, SimpleForm, TextInput, BooleanInput,
-  Create,
+  Edit, Create, SimpleForm, TextInput, BooleanInput,
+  required, email,
 } from 'react-admin'
 import { AccessDeniedErrorPage } from '../../components/errors'
 import { ListActions } from '../components/ListActions'
 import { EditFormToolbar } from '../components/EditFormToolbar'
 import { EditActions } from '../components/EditActions'
 import { CreateActions } from '../components/CreateActions'
+import { CreateFormToolbar } from '../components/CreateFormToolbar'
 
 export default ({ isLoggedIn, isUserAdmin }) => {
   const UserList = props => (
@@ -33,8 +34,8 @@ export default ({ isLoggedIn, isUserAdmin }) => {
     <Edit {...props} actions={<EditActions/>} title="Edit User">
       <SimpleForm toolbar={<EditFormToolbar hasDelete={isUserAdmin}/>}>
         <TextField source="email" disabled />
-        <TextInput source="first_name" />
-        <TextInput source="last_name" />
+        <TextInput source="first_name" validate={required()} />
+        <TextInput source="last_name" validate={required()} />
         <BooleanInput source="is_admin" disabled={!isUserAdmin} />
         <DateField source="created_at" showTime/>
         <ReferenceField source="created_by" reference="users" link={isUserAdmin}>
@@ -50,10 +51,10 @@ export default ({ isLoggedIn, isUserAdmin }) => {
 
   const UserCreate = props => (
     <Create {...props} actions={<CreateActions/>}>
-      <SimpleForm>
-        <TextInput source="email" />
-        <TextInput source="first_name" />
-        <TextInput source="last_name" />
+      <SimpleForm toolbar={<CreateFormToolbar/>} initialValues={{ is_admin: false }}>
+        <TextInput source="email" validate={[required(), email()]} />
+        <TextInput source="first_name" validate={required()} />
+        <TextInput source="last_name" validate={required()} />
         <BooleanInput source="is_admin" />
       </SimpleForm>
     </Create>
