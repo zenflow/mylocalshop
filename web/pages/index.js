@@ -5,11 +5,13 @@ import { useCurrentUser } from '../lib/auth/current-user-context'
 import { useRealtimeSsrQuery } from '../lib/useRealtimeSsrQuery'
 import { LogInButton } from '../components/LogInButton'
 import { BlockLoader } from '../components/loaders'
+import { PageHeading } from '../components/PageHeading'
 
 export default function IndexPage () {
   const currentUser = useCurrentUser()
   return (
     <>
+      <PageHeading title="Home"/>
       <h2>{
         currentUser
           ? <>Welcome {currentUser.first_name}!</>

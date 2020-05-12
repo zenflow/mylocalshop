@@ -1,7 +1,9 @@
+import { PageHeading } from '../components/PageHeading'
+
 export default function AnotherPublicPage () {
   return (
     <>
-      <h2>Another public page...</h2>
+      <PageHeading title="Another public page"/>
       {Array.from({ length: 50 }).map((_, index) => (
         <p key={index}>
           {Array.from({ length: 10 }).map((_, index) => (

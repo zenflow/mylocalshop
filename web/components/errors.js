@@ -9,6 +9,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { useTranslate } from 'react-admin'
 import { LogInButton } from './LogInButton'
 import { useAuth } from '../lib/auth/auth-context'
+import { DocumentTitle } from './DocumentTitle'
 
 const useStyles = makeStyles(
   theme => ({
@@ -51,11 +52,13 @@ const useStyles = makeStyles(
 export const ErrorPage = ({ title = null, details = null, buttons = null }) => {
   const classes = useStyles()
   const translate = useTranslate()
+  title = title || translate('ra.page.error')
   return (
     <div className={classnames(classes.container)}>
+      <DocumentTitle>{title}</DocumentTitle>
       <h1 className={classes.title} role="alert">
         <ErrorIcon className={classes.icon}/>
-        {title || translate('ra.page.error')}
+        {title}
       </h1>
       {details && (
         <ExpansionPanel className={classes.panel}>

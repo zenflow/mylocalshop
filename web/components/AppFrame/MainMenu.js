@@ -11,9 +11,9 @@ import { SimpleLink } from '../links'
 import { useAuth } from '../../lib/auth/auth-context'
 
 const MyListItem = ({ href, label, icon, selected }) => {
-  let { asPath } = useRouter()
-  asPath = asPath.split('#')[0]
-  selected = typeof selected === 'function' ? selected(asPath, href) : selected
+  const router = useRouter()
+  const currentPath = router.asPath.split('#')[0].split('?')[0]
+  selected = typeof selected === 'function' ? selected(currentPath, href) : selected
   return (
     <SimpleLink href={href}>
       <ListItem button component="a" href={href} selected={selected}>
@@ -24,8 +24,8 @@ const MyListItem = ({ href, label, icon, selected }) => {
   )
 }
 
-const isPathEqual = (asPath, href) => asPath === href
-const isPathInside = (asPath, href) => asPath === href || asPath.startsWith(`${href}/`)
+const isPathEqual = (path, href) => path === href
+const isPathInside = (path, href) => path === href || path.startsWith(`${href}/`)
 
 export const MainMenu = () => {
   const { isUserAdmin } = useAuth()

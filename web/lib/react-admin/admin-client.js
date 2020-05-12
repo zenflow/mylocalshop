@@ -1,6 +1,6 @@
 import hasuraDataProvider from '@zen_flow/ra-data-hasura'
 import { convertLegacyDataProvider, createAdminStore } from 'react-admin'
-import { resourcesMeta } from '../../resources/_meta'
+import { resourcesMeta } from '../../ra/resourcesMeta'
 import { getHistory } from './history'
 
 const clients = {}

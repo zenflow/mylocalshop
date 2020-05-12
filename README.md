@@ -12,17 +12,18 @@ Shop local, from home
 
 ## TODO
 
-- admin pages:
-    - refresh button
-    - title in h1 and head
-    - render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
-    - integrate apollo client /w subscriptions
+- follow https://marmelab.com/react-admin/CreateEdit.html#altering-the-form-values-before-submitting
+- undo graphql-tag tech debt
+- fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
 - facebook auth provider
+- integrate apollo client subscriptions /w admin pages
 - `shops` table, `user.shops` field
 
 ---
 
-- undo graphql-tag tech debt
+- compute `siteMap` tree structure (with `title` & `icon` on leafs) from `auth`, & render MainMenu & PageHeading (& sitemap.xml?) based on it
+- render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
+- show ProgressBar when react-admin is loading/refreshing?
 - delete old sessions when user logs in
 - nextjs issues
     - dynamic components swallow errors! It should `Promise.reject(` errrors by default
@@ -34,17 +35,18 @@ Shop local, from home
 - next-connect issues
     - should propagate errors so they are logged to console by default
 - handle errors in routes (server-side & client-side)
-- do styles properly (with material-ui's `makeStyles`) in all presentational components
-    - copy react-admin layout (navbar/sidebar/content)
-    - center things vertically when page is relatively empty
-    - make navbar and sidemenu get out of the way on **landscape mode** on small mobile screens 
-- fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
+- styles
+    - center things vertically when page is relatively empty (i.e. error pages)
+    - do them all properly, with material-ui's `makeStyles`
+    - mobile-friendliness
 - develop hasura-support outside of docker container, with nodemon
 - use prettier
 - use some prop-types & typescript
 - cypress tests
 - use rollbar (or similar) & google analytics 
 - i18n
+- abstraction (package) "next-react-admin"?
+    - use provided interface for permissions
 
 - Simplify deployment and improve production performance by deploying all 3 processes in same way
   - Either

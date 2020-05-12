@@ -10,11 +10,11 @@ import memoizeOne from 'memoize-one'
 import fromEntries from 'fromentries'
 import { isJsonEqual } from '../admin/[...args]'
 import { useAuth } from '../../lib/auth/auth-context'
-import { resourcesMeta } from '../../resources/_meta'
+import { resourcesMeta } from '../../ra/resourcesMeta'
 
 const resourceViewFactories = fromEntries(
   Object.keys(resourcesMeta)
-    .map(name => [name, require(`../../resources/${name}`).default]),
+    .map(name => [name, require(`../../ra/resources/${name}`).default]),
 )
 
 const getResourceViews = memoizeOne(

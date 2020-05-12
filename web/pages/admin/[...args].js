@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import memoizeOne from 'memoize-one'
 import { useSelector } from 'react-redux'
-import { resourcesMeta } from '../../resources/_meta'
+import { resourcesMeta } from '../../ra/resourcesMeta'
 import { NotFoundErrorPage, AccessDeniedErrorPage, ErrorPage } from '../../components/errors'
 import { FullPageLoader } from '../../components/loaders'
 import { useAuth } from '../../lib/auth/auth-context'
@@ -29,7 +29,7 @@ const getAdminResourceView = memoizeOne(({ auth, resource, view, id }) => {
       : view === 'list'
         ? state => !state.admin.resources[resource].list.loadedOnce
         : state => !state.admin.resources[resource].data[id]
-    const viewsFactory = (await import(`../../resources/${resource}.js`)).default
+    const viewsFactory = (await import(`../../ra/resources/${resource}.js`)).default
     const views = viewsFactory(auth)
     const View = views[view]
     return function AdminResourceView () {

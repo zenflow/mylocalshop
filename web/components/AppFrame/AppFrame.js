@@ -11,7 +11,6 @@ import NoSsr from '@material-ui/core/NoSsr'
 import { makeStyles } from '@material-ui/core/styles'
 import { UserMenuButton } from './UserMenuButton'
 import { MainMenu } from './MainMenu'
-import { PageRefreshButton } from './PageRefreshButton'
 import { LogInButton } from '../LogInButton'
 import { ProgressBar } from './ProgressBar'
 import { useAuth } from '../../lib/auth/auth-context'
@@ -26,21 +25,21 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   drawer: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: drawerWidth,
       flexShrink: 0,
     },
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       // width: `calc(100% - ${drawerWidth}px)`,
       // marginLeft: drawerWidth,
     },
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'none',
     },
   },
@@ -92,7 +91,6 @@ export const AppFrame = ({ children }) => {
           <Typography variant="h5" noWrap className={classes.title}>
             mylocalshop
           </Typography>
-          <PageRefreshButton/>
           {isLoggedIn
             ? <UserMenuButton/>
             : <LogInButton color="inherit"/>
@@ -101,7 +99,7 @@ export const AppFrame = ({ children }) => {
       </AppBar>
       <nav className={classes.drawer} aria-label="main menu">
         <NoSsr>{/* No ssr for the mobile menu, to avoid duplicate links & bad SEO */null}
-          <Hidden smUp implementation="css">
+          <Hidden mdUp implementation="css">
             <Drawer
               variant="temporary"
               anchor="left"
@@ -119,7 +117,7 @@ export const AppFrame = ({ children }) => {
             </Drawer>
           </Hidden>
         </NoSsr>
-        <Hidden xsDown implementation="css">
+        <Hidden smDown implementation="css">
           <Drawer
             classes={{ paper: classes.drawerPaper }}
             variant="permanent"
