@@ -29,7 +29,7 @@ Shop local, from home
     - createdBy & updatedBy should be in "Frequently used columns"
     - deploy in one service!
 - next-connect issues
-    - should propagate errors so they are logged to console by default
+    - on errors, in addition to sending error message in http response, should propagate error so they are logged to console by default
 - react-admin issues
     - need to manually pass hasCreate to `actions` prop of `<Edit>`, need to (invent &) manually pass hasDelete everywhere 
     - render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
@@ -42,8 +42,11 @@ Shop local, from home
 - use prettier
 - use some prop-types & typescript
 - cypress tests
-- use rollbar (or similar) & google analytics 
+- use rollbar (or similar) 
+- use google analytics
+    - https://nextjs.org/docs/advanced-features/measuring-performance#sending-results-to-analytics 
 - i18n
+
 
 - Simplify deployment and improve production performance by deploying all 3 processes in same way
   - Either

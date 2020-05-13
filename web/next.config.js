@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 const {
   HASURA_ENGINE_ENDPOINT,
 } = process.env
