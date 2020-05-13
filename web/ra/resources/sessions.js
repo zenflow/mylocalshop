@@ -2,11 +2,11 @@ import {
   List, Datagrid, TextField, DateField, ReferenceField, NumberField,
 } from 'react-admin'
 import { AccessDeniedErrorPage } from '../../components/errors'
-import { ListActions } from '../components/ListActions'
+import { ListActionsToolbar } from '../components/ListActionsToolbar'
 
 export default ({ isUserAdmin }) => {
   const SessionList = (props) => (
-    <List {...props} actions={<ListActions/>}>
+    <List {...props} actions={<ListActionsToolbar/>}>
       <Datagrid>
         <DateField source="created_at" showTime/>
         <TextField source="provider" />

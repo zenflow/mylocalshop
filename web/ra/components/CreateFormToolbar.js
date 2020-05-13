@@ -1,14 +1,15 @@
 import { useCallback } from 'react'
-import { SaveButton, Toolbar } from 'react-admin'
+import { SaveButton } from 'react-admin'
 import { useForm } from 'react-final-form'
 import { useAuth } from '../../lib/auth/auth-context'
 import { resourcesMeta } from '../resourcesMeta'
+import { BaseFormToolbar } from './BaseFormToolbar'
 
 export function CreateFormToolbar (props) {
   return (
-    <Toolbar {...props} style={{ flex: 1, display: 'flex', justifyContent: 'space-between' }}>
+    <BaseFormToolbar {...props}>
       <CreateFormSaveButton {...props}/>
-    </Toolbar>
+    </BaseFormToolbar>
   )
 }
 

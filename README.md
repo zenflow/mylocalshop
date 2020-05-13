@@ -12,16 +12,14 @@ Shop local, from home
 
 ## TODO
 
+- `shops` table, `user.shops` field
+
 - undo graphql-tag tech debt
 - fix identical files `hasura-support/lib/adminGraphql` & `web/lib/adminGraphql`
 - facebook auth provider
 - integrate apollo client subscriptions /w admin pages
-- `shops` table, `user.shops` field
-
----
-
+- use react-admin's provided interface for permissions
 - compute `siteMap` tree structure (with `title` & `icon` on leafs) from `auth`, & render MainMenu & PageHeading (& sitemap.xml?) based on it
-- render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
 - show ProgressBar when react-admin is loading/refreshing?
 - delete old sessions when user logs in
 - nextjs issues
@@ -33,6 +31,9 @@ Shop local, from home
     - deploy in one service!
 - next-connect issues
     - should propagate errors so they are logged to console by default
+- react-admin issues
+    - need to manually pass hasCreate to `actions` prop of `<Edit>`, need to (invent &) manually pass hasDelete everywhere 
+    - render resource views using `session` **and `data`** (example: 'user' role is denied access to edit users **except their own user**)
 - handle errors in routes (server-side & client-side)
 - styles
     - center things vertically when page is relatively empty (i.e. error pages)
@@ -44,8 +45,6 @@ Shop local, from home
 - cypress tests
 - use rollbar (or similar) & google analytics 
 - i18n
-- abstraction (package) "next-react-admin"?
-    - use provided interface for permissions
 
 - Simplify deployment and improve production performance by deploying all 3 processes in same way
   - Either

@@ -4,7 +4,7 @@ import { PageHeading } from '../../components/PageHeading'
 
 const capitalize = str => `${str[0].toUpperCase()}${str.slice(1)}`
 
-export function ActionsToolbar ({ resource, children }) {
+export function BaseActionsToolbar ({ resource, children }) {
   const title = useReactAdminTitle()
   const router = useRouter()
   const currentPath = router.asPath.split('#')[0].split('?')[0]

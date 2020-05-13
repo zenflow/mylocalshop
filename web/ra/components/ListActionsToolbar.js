@@ -1,8 +1,8 @@
 import React, { cloneElement } from 'react'
 import { CreateButton, ExportButton, RefreshButton } from 'react-admin'
-import { ActionsToolbar } from './ActionsToolbar'
+import { BaseActionsToolbar } from './BaseActionsToolbar'
 
-export const ListActions = ({
+export const ListActionsToolbar = ({
   resource,
   filters,
   showFilter,
@@ -17,7 +17,7 @@ export const ListActions = ({
   maxResults,
 }) => {
   return (
-    <ActionsToolbar resource={resource}>
+    <BaseActionsToolbar resource={resource}>
       {filters && cloneElement(filters, {
         resource,
         showFilter,
@@ -35,6 +35,6 @@ export const ListActions = ({
         maxResults={maxResults}
       />}
       <RefreshButton/>
-    </ActionsToolbar>
+    </BaseActionsToolbar>
   )
 }

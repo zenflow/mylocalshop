@@ -4,15 +4,15 @@ import {
   required, email,
 } from 'react-admin'
 import { AccessDeniedErrorPage } from '../../components/errors'
-import { ListActions } from '../components/ListActions'
+import { ListActionsToolbar } from '../components/ListActionsToolbar'
 import { EditFormToolbar } from '../components/EditFormToolbar'
-import { EditActions } from '../components/EditActions'
-import { CreateActions } from '../components/CreateActions'
+import { EditActionsToolbar } from '../components/EditActionsToolbar'
+import { CreateActionsToolbar } from '../components/CreateActionsToolbar'
 import { CreateFormToolbar } from '../components/CreateFormToolbar'
 
 export default ({ isLoggedIn, isUserAdmin }) => {
   const UserList = props => (
-    <List {...props} actions={<ListActions/>}>
+    <List {...props} actions={<ListActionsToolbar/>}>
       <Datagrid rowClick="edit">
         <TextField source="email" />
         <TextField source="first_name" />
@@ -31,7 +31,7 @@ export default ({ isLoggedIn, isUserAdmin }) => {
   )
 
   const UserEdit = props => (
-    <Edit {...props} actions={<EditActions/>} title="Edit User">
+    <Edit {...props} actions={<EditActionsToolbar/>} title="Edit User">
       <SimpleForm toolbar={<EditFormToolbar hasDelete={isUserAdmin}/>}>
         <TextField source="email" disabled />
         <TextInput source="first_name" validate={required()} />
@@ -50,7 +50,7 @@ export default ({ isLoggedIn, isUserAdmin }) => {
   )
 
   const UserCreate = props => (
-    <Create {...props} actions={<CreateActions/>}>
+    <Create {...props} actions={<CreateActionsToolbar/>}>
       <SimpleForm toolbar={<CreateFormToolbar/>} initialValues={{ is_admin: false }}>
         <TextInput source="email" validate={[required(), email()]} />
         <TextInput source="first_name" validate={required()} />
@@ -61,8 +61,8 @@ export default ({ isLoggedIn, isUserAdmin }) => {
   )
 
   return {
+    create: isUserAdmin ? UserCreate : AccessDeniedErrorPage,
     list: isUserAdmin ? UserList : AccessDeniedErrorPage,
     edit: isLoggedIn ? UserEdit : AccessDeniedErrorPage,
-    create: isUserAdmin ? UserCreate : AccessDeniedErrorPage,
   }
 }
