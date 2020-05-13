@@ -4,6 +4,7 @@ import { BaseActionsToolbar } from './BaseActionsToolbar'
 
 export const ListActionsToolbar = ({
   resource,
+  hasList,
   filters,
   showFilter,
   displayedFilters,
@@ -17,7 +18,7 @@ export const ListActionsToolbar = ({
   maxResults,
 }) => {
   return (
-    <BaseActionsToolbar resource={resource}>
+    <BaseActionsToolbar {...{ resource, hasList }}>
       {filters && cloneElement(filters, {
         resource,
         showFilter,

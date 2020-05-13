@@ -1,27 +1,29 @@
 import { useState } from 'react'
+import Typography from '@material-ui/core/Typography'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import gql from 'graphql-tag'
 import { useCurrentUser } from '../lib/auth/current-user-context'
+import { DocumentTitle } from '../components/DocumentTitle'
+import { BreadcrumbTitle } from '../components/BreadcrumbTitle'
 import { useRealtimeSsrQuery } from '../lib/useRealtimeSsrQuery'
 import { LogInButton } from '../components/LogInButton'
 import { BlockLoader } from '../components/loaders'
-import { PageHeading } from '../components/PageHeading'
+
+const title = 'Home'
 
 export default function IndexPage () {
   const currentUser = useCurrentUser()
   return (
     <>
-      <PageHeading title="Home"/>
-      <h2>{
+      <DocumentTitle title={title}/>
+      <BreadcrumbTitle title={title}/>
+      <Typography variant="h5" align="center">{
         currentUser
           ? <>Welcome {currentUser.first_name}!</>
           : <>Please <LogInButton variant="contained"/> to continue</>
-      }</h2>
+      }</Typography>
       {currentUser && <UserList/>}
-      <style jsx>{`
-        h2 { text-align: center; }
-      `}</style>
     </>
   )
 }

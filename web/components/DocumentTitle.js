@@ -1,9 +1,9 @@
 import Head from 'next/head'
 
-export const DocumentTitle = ({ children }) => {
+export const DocumentTitle = ({ title }) => {
   return (
     <Head>
-      <title>{children} | mylocalstore</title>
+      <title>{title} | mylocalstore</title>
     </Head>
   )
 }

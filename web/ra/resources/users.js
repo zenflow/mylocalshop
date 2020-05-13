@@ -10,7 +10,7 @@ import { EditActionsToolbar } from '../components/EditActionsToolbar'
 import { CreateActionsToolbar } from '../components/CreateActionsToolbar'
 import { CreateFormToolbar } from '../components/CreateFormToolbar'
 
-export default ({ isLoggedIn, isUserAdmin }) => {
+export default ({ isLoggedIn, isUserAdmin, userId }) => {
   const UserList = props => (
     <List {...props} actions={<ListActionsToolbar/>}>
       <Datagrid rowClick="edit">
@@ -30,8 +30,11 @@ export default ({ isLoggedIn, isUserAdmin }) => {
     </List>
   )
 
+  const UserTitle = ({ record }) => record.id === userId
+    ? 'My Profile'
+    : 'Edit User' // `Edit User ${record.full_name}` // TODO
   const UserEdit = props => (
-    <Edit {...props} actions={<EditActionsToolbar/>} title="Edit User">
+    <Edit {...props} actions={<EditActionsToolbar/>} title={<UserTitle/>}>
       <SimpleForm toolbar={<EditFormToolbar hasDelete={isUserAdmin}/>}>
         <TextField source="email" disabled />
         <TextInput source="first_name" validate={required()} />

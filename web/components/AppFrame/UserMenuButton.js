@@ -23,7 +23,7 @@ export const UserMenuButton = () => {
 
   return (
     <>
-      <Tooltip title="Account">
+      <Tooltip title="User Account">
         <IconButton
           aria-label="account of current user"
           aria-controls="menu-appbar"
@@ -59,7 +59,7 @@ export const UserMenuButton = () => {
             <AccountBoxIcon fontSize="small"/>
           </ListItemIcon>
           <Typography variant="inherit">
-            Profile
+            My Profile
           </Typography>
         </LinkElement>
         <MenuItem
