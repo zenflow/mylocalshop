@@ -3,13 +3,7 @@
   "scripts": {
     "myhasura": "hasura --skip-update-check",
     "dev-console": "yarn myhasura console --endpoint http://docker-machine:8080 --admin-secret admin_secret",
-    "dev-migrate-apply": "yarn myhasura migrate apply --endpoint http://docker-machine:8080 --admin-secret admin_secret",
-    "dev-metadata-apply": "yarn myhasura metadata apply --endpoint http://docker-machine:8080 --admin-secret admin_secret",
-    "dev-apply": "yarn dev-migrate-apply && yarn dev-metadata-apply",
-    "prod-console": "yarn myhasura console --endpoint https://mylocalshop-hasura-engine.herokuapp.com --admin-secret SECRET",
-    "prod-migrate-apply": "yarn myhasura migrate apply --endpoint https://mylocalshop-hasura-engine.herokuapp.com --admin-secret SECRET",
-    "prod-metadata-apply": "yarn myhasura metadata apply --endpoint https://mylocalshop-hasura-engine.herokuapp.com --admin-secret SECRET",
-    "prod-apply": "yarn prod-migrate-apply && yarn prod-metadata-apply"
+    "prod-console": "yarn myhasura console --endpoint https://mylocalshop-hasura-engine.herokuapp.com --admin-secret SECRET"
   },
   "devDependencies": {
     "hasura-cli": "^1.2.0"

@@ -25,7 +25,6 @@ Shop local, from home
     - dynamic components swallow errors! It should `Promise.reject(` errrors by default
     - build matchRoute function, use it like <Link href={matchRoute(href)} as={href}><a href={href}></a></Link>
 - hasura graphql-engine issues
-    - `hasura/graphql-engine:v1.2.1.cli-migrations-v2` crashes applying migrations on heroku
     - createdBy & updatedBy should be in "Frequently used columns"
     - deploy in one service!
 - next-connect issues
